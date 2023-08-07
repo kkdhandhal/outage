@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   late TextEditingController _searchController;
   String selectedFeeder = "";
   int selectedFeederCode = 0;
-
+  int fdr_sdn_code = 382127;
   @override
   void initState() {
     super.initState();
@@ -55,11 +55,11 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(
-                        top: 10, left: 8, bottom: 5, right: 8),
+                    padding:
+                        EdgeInsets.only(top: 10, left: 8, bottom: 5, right: 8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
                           "Mr Krushna Dhandhal",
                           style: TextStyle(
@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                           height: 4,
                         ),
                         Text(
-                          "JP, Surendranagar Circle",
+                          "JP, Surendranagar Circle $fdr_sdn_code",
                           style: TextStyle(
                               color: Color.fromARGB(255, 119, 186, 241),
                               fontSize: 12,
@@ -97,6 +97,8 @@ class _HomePageState extends State<HomePage> {
               padding:
                   const EdgeInsets.only(left: 15, top: 1, bottom: 1, right: 15),
               child: DropDown(
+                adm_sdn_code: fdr_sdn_code,
+
                 // suggList: suggList, //suggList,
                 OnSelect: ((fdrtxt, fdrcode) {
                   selectedFeeder = fdrtxt;
@@ -113,7 +115,7 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: Container(
                 padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(32),

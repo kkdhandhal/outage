@@ -17,11 +17,12 @@ class Deboucer {
 }
 
 class DropDown extends StatefulWidget {
-  // final List<String> suggList;
+  int adm_sdn_code;
   Function(String text, int value) OnSelect;
   DropDown({
     super.key,
     // required this.suggList,
+    required this.adm_sdn_code,
     required this.OnSelect,
   });
 
@@ -88,7 +89,7 @@ class _dropdownState extends State<DropDown> {
     return OverlayEntry(
       builder: (context) => Positioned(
         width: size.width,
-        height: MediaQuery.of(context).size.height * 0.70,
+        //height: MediaQuery.of(context).size.height * 0.70,
         left: offset.dx,
         top: offset.dy + size.height + 0.5,
         child: CompositedTransformFollower(
@@ -110,7 +111,8 @@ class _dropdownState extends State<DropDown> {
               padding:
                   const EdgeInsets.only(left: 10, top: 1, bottom: 1, right: 10),
               child: FutureBuilder(
-                future: API.fetchFeederData(_txtcontroller.text),
+                future: API.fetchFeederData(
+                    _txtcontroller.text, widget.adm_sdn_code),
                 builder: (context, sugglist) {
                   if (sugglist.hasData) {
                     _suggList = sugglist.data!;
@@ -141,8 +143,14 @@ class _dropdownState extends State<DropDown> {
                       },
                     );
                   } else {
-                    return const CircularProgressIndicator(
-                      color: Colors.white,
+                    return const Center(
+                      child: SizedBox(
+                        width: 150,
+                        height: 150,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      ),
                     );
                   }
                 },
