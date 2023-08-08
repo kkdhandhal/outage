@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:outage/pages/Initdata.dart';
-
-import './pages/Home.dart';
+import 'package:outage/pages/login.dart';
+import 'package:outage/utils/constants.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -13,8 +12,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-        debugShowCheckedModeBanner: false, home: Initdata() //HomePage(),
-        );
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        scaffoldBackgroundColor: kBackgraoundColor,
+        textTheme: Theme.of(context).textTheme.apply(bodyColor: kPrimaryColor),
+      ),
+      home: const Login(), //HomePage(),
+    );
   }
 }

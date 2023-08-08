@@ -6,31 +6,28 @@ import 'package:realm/realm.dart';
 import '../model/feeder.dart';
 
 class API {
-  static Future<List<rlmfeeder>> rlm_fetchFeederData(
-      String srch, int adm_sdn_code) async {
-    final realm = Realm(Configuration.local([rlmfeeder.schema]));
-    var rlmResult =
-        realm.query("fdr_name contains $srch AND fdr_adm_sdn=$adm_sdn_code");
-    List<rlmfeeder> fdr = rlmResult as List<rlmfeeder>;
-    print("searchable fdr:$fdr");
-    return fdr;
+  static Future<RealmResults<rlmfeeder>> rlm_fetchFeederData(
+      String srch, int admSdnCode, Realm realm) async {
+    if (srch.length > 0) {
+      //final realm = Realm(Configuration.local([rlmfeeder.schema]));
+      print("realm variable generated");
+      // var rlmResult = realm.query<rlmfeeder>(
+      //     "fdr_name contains $srch AND fdr_loccode==$admSdnCode");
+      print("fdr_name CONTAINS $srch");
 
-    // var url;
-    // if (srch.length > 0) {
-    //   url = Uri.parse(
-    //       'http://10.35.152.22:3000/api/feeder/list/$adm_sdn_code/search/$srch');
-    // } else {
-    //   url = Uri.parse('http://10.35.152.22:3000/api/feeder/list/$adm_sdn_code');
-    // }
-
-    //var body = json.encode({"fdr_string": srch});
-    // final response = await http.get(url);
-    // if (response.statusCode == 200) {
-    //   List jsonResponse = json.decode(response.body);
-    //   return jsonResponse.map((feeder) => Feeder.fromJson(feeder)).toList();
-    // } else {
-    //   throw Exception('Unexpected error occured!');
-    // }
+      var rlmResult =
+          realm.query<rlmfeeder>("fdr_name CONTAINS[c] \$0", [srch]);
+      print("realm result $rlmResult");
+      return rlmResult;
+    } else {
+      final realm = Realm(Configuration.local([rlmfeeder.schema]));
+      print("realm variable generated");
+      // var rlmResult = realm.query<rlmfeeder>(
+      //     "fdr_name contains $srch AND fdr_loccode==$admSdnCode");
+      final rlmResult = realm.all<rlmfeeder>();
+      print("realm result $rlmResult");
+      return rlmResult;
+    }
   }
 
   static Future<List<Feeder>> fetchFeederData(
@@ -62,7 +59,8 @@ class API {
     //   url = Uri.parse('http://10.35.152.22:3000/api/feeder/list/$adm_sdn_code');
     // }
     var url =
-        Uri.parse('http://10.35.152.22:3000/api/feeder/list/$adm_sdn_code');
+        Uri.parse('http://192.168.0.101:3000/api/feeder/list/$adm_sdn_code');
+    //Uri.parse('http://10.35.152.22:3000/api/feeder/list/$adm_sdn_code');
     //var body = json.encode({"fdr_string": srch});
     final response = await http.get(url);
     if (response.statusCode == 200) {

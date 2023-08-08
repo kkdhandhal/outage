@@ -3,6 +3,7 @@ import 'package:outage/model/rlmfeeder.dart';
 //import 'package:realm/realm.dart';
 import 'package:flutter/material.dart';
 import 'package:outage/api/api.dart';
+import 'package:realm/realm.dart';
 //import 'package:outage/model/feeder.dart';
 
 class Deboucer {
@@ -19,6 +20,7 @@ class Deboucer {
 
 class DropDownRLM extends StatefulWidget {
   int adm_sdn_code;
+
   Function(String text, int value) OnSelect;
   DropDownRLM({
     super.key,
@@ -34,8 +36,8 @@ class DropDownRLM extends StatefulWidget {
 class _dropdownrlmState extends State<DropDownRLM> {
   final FocusNode _focusnode = FocusNode();
   late List<rlmfeeder> _mastsuggList;
-  late List<rlmfeeder> _suggList;
-
+  late RealmResults<rlmfeeder> _suggList;
+  final realm = Realm(Configuration.local([rlmfeeder.schema]));
   String selectedString = "";
   int selectedValue = 0;
   late Function onChange;
@@ -47,28 +49,8 @@ class _dropdownrlmState extends State<DropDownRLM> {
   @override
   void initState() {
     super.initState();
-
-    //WsuggList = widget.suggList;
-    // API.fetchFeederData("").then((value) => setState(() {
-    //       _mastsuggList = value;
-    //       _suggList = value;
-    //     }));
-    // _mastsuggList = ['FULZAR','DIIDOD','aaaaaa','bbbb','eeed','rtre']];
-    // _suggList = value;
-
-    //onChange = widget.onChange;
     _focusnode.addListener(() {
       if (_focusnode.hasFocus) {
-        // API.fetchFeederData("").then((value) => setState(() {
-        //       _mastsuggList = value;
-        //       // _suggList = value;
-        //       _suggList = _mastsuggList
-        //           .where((element) => element.fdr_name
-        //               .toLowerCase()
-        //               .contains(_txtcontroller.text.toLowerCase()))
-        //           .toList();
-        //     }));
-
         _overlayEntry = _createOverlayEntry();
 
         Overlay.of(context).insert(_overlayEntry);
@@ -82,12 +64,18 @@ class _dropdownrlmState extends State<DropDownRLM> {
     });
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    realm.close();
+  }
+
   OverlayEntry _createOverlayEntry() {
     RenderBox renderBox = context.findRenderObject() as RenderBox;
     var size = renderBox.size;
     var offset = renderBox.localToGlobal(Offset.zero);
 
-    //print(widget.suggList);
     return OverlayEntry(
       builder: (context) => Positioned(
         width: size.width,
@@ -102,10 +90,6 @@ class _dropdownrlmState extends State<DropDownRLM> {
             borderRadius: BorderRadius.circular(12),
             elevation: 5.5,
             child: Container(
-              // height: MediaQuery.of(context).size.height * 0.70,
-              // constraints: const BoxConstraints(
-              //     minWidth: MediaQuery.of(context).size.height * 0.70,
-              //     maxWidth: size.width),
               decoration: BoxDecoration(
                 color: Colors.blue[600],
                 borderRadius: BorderRadius.circular(12),
@@ -114,7 +98,7 @@ class _dropdownrlmState extends State<DropDownRLM> {
                   const EdgeInsets.only(left: 10, top: 1, bottom: 1, right: 10),
               child: FutureBuilder(
                 future: API.rlm_fetchFeederData(
-                    _txtcontroller.text, widget.adm_sdn_code),
+                    _txtcontroller.text, widget.adm_sdn_code, realm),
                 builder: (context, sugglist) {
                   if (sugglist.hasData) {
                     _suggList = sugglist.data!;

@@ -48,20 +48,19 @@ class _InitdataState extends State<Initdata> {
             print("row inserted: $curInsert");
           });
           realm.close();
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => HomePage()));
         }
       },
     );
-
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => HomePage()));
   }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(Duration(seconds: 3), () => insertFeeder());
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   Future.delayed(Duration(seconds: 3), () => insertFeeder());
+    // });
   }
 
   @override
@@ -69,43 +68,68 @@ class _InitdataState extends State<Initdata> {
     return Scaffold(
       backgroundColor: Colors.blue[800],
       body: Center(
-        child: Text(
-          "Total Feeder $curInsert inserted ",
-          style: const TextStyle(color: Colors.white),
+        child: FutureBuilder(
+          future: API.getSDNFeeders(fdr_sdn_code),
+          builder: (context, snapshot) {
+            //print("Data is $snapshot");
+            if (snapshot.hasData) {
+              var count = 0;
+
+              List<Feeder> _suggList = snapshot.data!;
+              var totfdr = _suggList.length;
+              final realm = Realm(Configuration.local([rlmfeeder.schema]));
+              var trx = realm.beginWrite();
+              realm.deleteAll<rlmfeeder>();
+              trx.commit();
+              _suggList.forEach((e) {
+                final fdr = rlmfeeder(e.fdr_code, e.fdr_adm_sdn, e.fdr_loccode,
+                    e.fdr_type, e.fdr_name, e.fdr_category);
+                //RealmResults<rlmfeeder> fdrall = realm.all();
+
+                realm.write(() => realm.add(fdr));
+                count++;
+              });
+              // _suggList.forEach((e) {
+              // var fdr = rlmfeeder(e.fdr_code, e.fdr_adm_sdn, e.fdr_loccode,
+              //     e.fdr_type, e.fdr_name, e.fdr_category);
+              // realm.write(() {
+              //   realm.add(fdr);
+              // })
+
+              realm.close();
+              Future.delayed(Duration.zero, () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomePage()));
+              });
+
+              // Navigator.of(context)
+              //     .push(MaterialPageRoute(builder: (context) => HomePage()));
+              //return Text("Total Feeder $count inserted ");
+            }
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: 200,
+                  width: 500,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: const [
+                        CircularProgressIndicator(),
+                        Text("Preparing to insert"),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
-    //     child: FutureBuilder(
-    //   future: API.getSDNFeeders(fdr_sdn_code),
-    //   builder: (context, snapshot) {
-    //     if (snapshot.hasData) {
-    //       var count = 0;
-
-    //       List<Feeder> _suggList = snapshot.data!;
-    //       var totfdr = _suggList.length;
-    //       final realm = Realm(Configuration.local([rlmfeeder.schema]));
-
-    //       _suggList.forEach((e) {
-    //         final fdr = rlmfeeder(e.fdr_code, e.fdr_adm_sdn, e.fdr_loccode,
-    //             e.fdr_type, e.fdr_name, e.fdr_category);
-    //         //RealmResults<rlmfeeder> fdrall = realm.all();
-    //         realm.deleteAll();
-    //         realm.write(() => realm.add(fdr));
-    //         count++;
-    //       });
-    //       // _suggList.forEach((e) {
-    //       // var fdr = rlmfeeder(e.fdr_code, e.fdr_adm_sdn, e.fdr_loccode,
-    //       //     e.fdr_type, e.fdr_name, e.fdr_category);
-    //       // realm.write(() {
-    //       //   realm.add(fdr);
-    //       // })
-    //       realm.close();
-    //       return Text("Total Feeder $count inserted ");
-    //     } else {
-    //       return const Text("Preparing to insert");
-    //     }
-    //   },
-    // )),
-    //);
   }
 }
