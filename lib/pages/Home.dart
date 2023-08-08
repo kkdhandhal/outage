@@ -1,9 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:outage/component/dropdown.dart';
 
-import '../model/feeder.dart';
+import 'package:outage/model/rlmfeeder.dart';
+import 'package:realm/realm.dart';
+import 'package:outage/model/feeder.dart';
+//import 'package:outage/model/rlmfeeder.g.dart';
+
+import '../api/api.dart';
+import '../component/dropdown_rlm.dart';
 import 'Tabview.dart';
 
 //import 'package:searchfield/searchfield.dart';
@@ -20,6 +25,7 @@ class _HomePageState extends State<HomePage> {
   String selectedFeeder = "";
   int selectedFeederCode = 0;
   int fdr_sdn_code = 382127;
+
   @override
   void initState() {
     super.initState();
@@ -27,9 +33,24 @@ class _HomePageState extends State<HomePage> {
     _searchController = TextEditingController();
   }
 
+  // void importFeeder() async {
+  //   final realm = Realm(Configuration.local([rlmfeeder.schema]));
+  //   API.getSDNFeeders(fdr_sdn_code).then((value) => {
+  //         value.forEach((e) {
+  //           var fdr = rlmfeeder(e.fdr_code, e.fdr_adm_sdn, e.fdr_loccode,
+  //               e.fdr_type, e.fdr_name, e.fdr_category);
+  //           realm.write(() {
+  //             realm.add(fdr);
+  //           });
+  //         })
+  //       });
+  //   realm.close();
+  // }
+
   @override
   void dispose() {
     // TODO: implement dispose
+    //importFeeder();
     _searchController.dispose();
 
     super.dispose();
@@ -96,7 +117,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding:
                   const EdgeInsets.only(left: 15, top: 1, bottom: 1, right: 15),
-              child: DropDown(
+              child: DropDownRLM(
                 adm_sdn_code: fdr_sdn_code,
 
                 // suggList: suggList, //suggList,

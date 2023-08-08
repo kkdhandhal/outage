@@ -1,7 +1,3 @@
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
-
 class Feeder {
   final int fdr_loccode;
   final int fdr_adm_sdn;
