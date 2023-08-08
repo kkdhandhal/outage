@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   late TextEditingController _searchController;
   String selectedFeeder = "";
   int selectedFeederCode = 0;
-  int fdr_sdn_code = 382127;
+  int fdr_sdn_code = 382134;
 
   @override
   void initState() {

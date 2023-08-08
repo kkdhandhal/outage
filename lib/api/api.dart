@@ -12,6 +12,7 @@ class API {
     var rlmResult =
         realm.query("fdr_name contains $srch AND fdr_adm_sdn=$adm_sdn_code");
     List<rlmfeeder> fdr = rlmResult as List<rlmfeeder>;
+    print("searchable fdr:$fdr");
     return fdr;
 
     // var url;
