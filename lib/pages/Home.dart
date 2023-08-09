@@ -9,12 +9,14 @@ import 'package:outage/model/feeder.dart';
 
 import '../api/api.dart';
 import '../component/dropdown_rlm.dart';
+import '../model/user.dart';
 import 'Tabview.dart';
 
 //import 'package:searchfield/searchfield.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  Users usr;
+  HomePage({super.key, required this.usr});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -24,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   late TextEditingController _searchController;
   String selectedFeeder = "";
   int selectedFeederCode = 0;
+  Feeder _selFdr = Feeder.initFeeder();
   int fdr_sdn_code = 382134;
 
   @override
@@ -82,18 +85,18 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Mr Krushna Dhandhal",
-                          style: TextStyle(
+                          "${widget.usr.usr_nameinit} ${widget.usr.usr_firstname} ${widget.usr.usr_lastname}",
+                          style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16,
                               fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 4,
                         ),
                         Text(
-                          "JP, Surendranagar Circle $fdr_sdn_code",
-                          style: TextStyle(
+                          "JP, Surendranagar Circle ${widget.usr.usr_sdnloc}",
+                          style: const TextStyle(
                               color: Color.fromARGB(255, 119, 186, 241),
                               fontSize: 12,
                               fontWeight: FontWeight.normal),
@@ -118,13 +121,15 @@ class _HomePageState extends State<HomePage> {
               padding:
                   const EdgeInsets.only(left: 15, top: 1, bottom: 1, right: 15),
               child: DropDownRLM(
-                adm_sdn_code: fdr_sdn_code,
+                adm_sdn_code: widget.usr.usr_sdnloc,
 
                 // suggList: suggList, //suggList,
-                OnSelect: ((fdrtxt, fdrcode) {
-                  selectedFeeder = fdrtxt;
-                  selectedFeederCode = fdrcode;
-                  setState(() {});
+                OnSelect: ((fdr) {
+                  // selectedFeeder = fdrtxt;
+                  // selectedFeederCode = fdrcode;
+                  setState(() {
+                    _selFdr = fdr;
+                  });
                   //print(Selected_value);
                 }),
               ),
@@ -132,17 +137,17 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 10,
             ),
-            Text('Selected Feeder  is : $selectedFeeder - $selectedFeederCode'),
             Expanded(
               child: Container(
-                padding: EdgeInsets.all(12),
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(32),
-                        topRight: Radius.circular(32))),
-                child: Tabview(),
-              ),
+                  padding: EdgeInsets.all(12),
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(32),
+                          topRight: Radius.circular(32))),
+                  child: Tabview(
+                    feeder: _selFdr,
+                  )),
             ),
           ],
         ),

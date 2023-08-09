@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:outage/model/rlmfeeder.dart';
 import 'package:realm/realm.dart';
 import '../model/feeder.dart';
+import 'package:outage/utils/constants.dart';
 
 class API {
   static Future<RealmResults<rlmfeeder>> rlm_fetchFeederData(
@@ -35,9 +36,9 @@ class API {
     var url;
     if (srch.length > 0) {
       url = Uri.parse(
-          'http://10.35.152.22:3000/api/feeder/list/$adm_sdn_code/search/$srch');
+          'http://$officeIP:3000/api/feeder/list/$adm_sdn_code/search/$srch');
     } else {
-      url = Uri.parse('http://10.35.152.22:3000/api/feeder/list/$adm_sdn_code');
+      url = Uri.parse('http://$officeIP:3000/api/feeder/list/$adm_sdn_code');
     }
 
     //var body = json.encode({"fdr_string": srch});
@@ -58,10 +59,10 @@ class API {
     // } else {
     //   url = Uri.parse('http://10.35.152.22:3000/api/feeder/list/$adm_sdn_code');
     // }
-    var url =
-        Uri.parse('http://192.168.0.101:3000/api/feeder/list/$adm_sdn_code');
+    var url = Uri.parse('http://$officeIP:3000/api/feeder/list/$adm_sdn_code');
     //Uri.parse('http://10.35.152.22:3000/api/feeder/list/$adm_sdn_code');
     //var body = json.encode({"fdr_string": srch});
+    print(url);
     final response = await http.get(url);
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);

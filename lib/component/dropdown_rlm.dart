@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:outage/model/feeder.dart';
 import 'package:outage/model/rlmfeeder.dart';
 //import 'package:realm/realm.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class Deboucer {
 class DropDownRLM extends StatefulWidget {
   int adm_sdn_code;
 
-  Function(String text, int value) OnSelect;
+  Function(Feeder fdr) OnSelect;
   DropDownRLM({
     super.key,
     // required this.suggList,
@@ -120,9 +121,15 @@ class _dropdownrlmState extends State<DropDownRLM> {
                               selectedValue = _suggList[index].fdr_code;
                             });
                             _txtcontroller.text = selectedString;
-                            widget.OnSelect(_suggList[index].fdr_name,
-                                _suggList[index].fdr_code);
-
+                            // widget.OnSelect(_suggList[index].fdr_name,
+                            //     _suggList[index].fdr_code);
+                            widget.OnSelect(Feeder(
+                                fdr_loccode: _suggList[index].fdr_code,
+                                fdr_adm_sdn: _suggList[index].fdr_adm_sdn,
+                                fdr_code: _suggList[index].fdr_code,
+                                fdr_type: _suggList[index].fdr_type,
+                                fdr_name: _suggList[index].fdr_name,
+                                fdr_category: _suggList[index].fdr_category));
                             _focusnode.unfocus();
                           },
                         );

@@ -15,6 +15,16 @@ class Feeder {
     required this.fdr_category,
   });
 
+  factory Feeder.initFeeder() {
+    return Feeder(
+        fdr_loccode: 0,
+        fdr_adm_sdn: 0,
+        fdr_code: 0,
+        fdr_type: "",
+        fdr_name: "",
+        fdr_category: "");
+  }
+
   factory Feeder.fromJson(Map<String, dynamic> json) {
     return Feeder(
         fdr_loccode: json['fdr_loccode'],

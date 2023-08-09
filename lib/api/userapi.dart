@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:http/http.dart' as http;
 import 'package:outage/model/rlmfeeder.dart';
@@ -7,6 +8,7 @@ import '../model/user.dart';
 
 class UserAPI {
   static Future<Users> checkLogin(Login lgn) async {
+    print("login detail " + lgn.toJson().toString());
     Users user = Users(
         usr_id: 0,
         usr_nameinit: "",
@@ -23,17 +25,19 @@ class UserAPI {
 
     final resp = await http.post(
       url,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(lgn),
+      // headers: {
+      //   'Content-Type': 'application/json',
+      // },
+      body: lgn.toJson(),
     );
 
     if (resp.statusCode == 200) {
-      user = json.decode(resp.body);
-      return user; //Users.fromJson(user);
+      print(resp.body);
+      Users user1 = Users.fromJson(json.decode(resp.body));
+      print(user1);
+      return user1; //Users.fromJson(user);
+    } else {
+      return user;
     }
-
-    return user;
   }
 }

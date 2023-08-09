@@ -8,6 +8,10 @@ class Login {
     required this.usr_name,
     required this.usr_pass,
   });
+
+  Map<String, dynamic> toJson() {
+    return ({'usr_name': usr_name, 'usr_pass': usr_pass});
+  }
 }
 
 class Users extends Login {

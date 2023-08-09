@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:outage/model/feeder.dart';
+
+import 'esdscreen.dart';
 
 class Tabview extends StatefulWidget {
-  const Tabview({Key? key}) : super(key: key);
+  Feeder feeder;
+  Tabview({Key? key, required this.feeder}) : super(key: key);
 
   @override
   _TabviewState createState() => _TabviewState();
@@ -26,8 +30,22 @@ class _TabviewState extends State<Tabview> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Container(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Container(
+            height: 60,
+            padding: EdgeInsets.all(8),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: Text('Feeder  Name: ${widget.feeder.fdr_name}'),
+                ),
+                Text('Feeder Code :  ${widget.feeder.fdr_code}'),
+              ],
+            ),
+          ),
           TabBar(
             controller: _tabbarController,
             indicatorSize: TabBarIndicatorSize.tab,
@@ -35,13 +53,13 @@ class _TabviewState extends State<Tabview> with TickerProviderStateMixin {
             labelColor: Colors.red,
             tabs: const <Widget>[
               Tab(
+                text: "ESD",
+              ),
+              Tab(
                 text: "TT",
               ),
               Tab(
                 text: "SF",
-              ),
-              Tab(
-                text: "ESD",
               ),
               Tab(
                 text: "PSD",
@@ -54,7 +72,7 @@ class _TabviewState extends State<Tabview> with TickerProviderStateMixin {
           Flexible(
             child: TabBarView(
               children: <Widget>[
-                Text("TT"),
+                Esdscreen(),
                 Text("TT2"),
                 Text("TT3"),
                 Text("TT4"),
