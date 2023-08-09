@@ -1,10 +1,27 @@
-import 'dart:ui';
+
 
 import 'package:flutter/material.dart';
+import 'package:outage/api/userapi.dart';
+import 'package:outage/pages/Home.dart';
+import 'package:realm/realm.dart';
+
+import '../model/user.dart';
 
 class CenterWidget extends StatelessWidget {
   final Size size;
   const CenterWidget({Key? key, required this.size}) : super(key: key);
+
+  void checkLogin() async {
+      Login lgn =Login(usr_name: "kkdhandhal", usr_pass: "12345678")
+      Users user = await UserAPI.checkLogin(lgn);
+
+      if(user.usr_id==0){
+          
+      }
+      else{
+         
+      }
+  }
 
   @override
   Widget build(BuildContext context) {
