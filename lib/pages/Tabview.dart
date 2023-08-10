@@ -35,14 +35,31 @@ class _TabviewState extends State<Tabview> with TickerProviderStateMixin {
           Container(
             height: 60,
             padding: EdgeInsets.all(8),
-            child: Row(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Expanded(
-                  child: Text('Feeder  Name: ${widget.feeder.fdr_name}'),
+                Row(
+                  children: [
+                    // SizedBox(
+                    //   width: 200,
+                    //   child: Text('Name: ${widget.feeder.fdr_name}'),
+                    // ),
+                    Expanded(
+                      child: Text('Code :  ${widget.feeder.fdr_code}'),
+                    ),
+                    Expanded(
+                      child: Text('Category :  ${widget.feeder.fdr_category}'),
+                    ),
+                  ],
                 ),
-                Text('Feeder Code :  ${widget.feeder.fdr_code}'),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text('Consumers :  ${widget.feeder.fdr_code}'),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

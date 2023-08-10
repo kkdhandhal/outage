@@ -21,6 +21,9 @@ class _EsdscreenState extends State<Esdscreen> {
   TextEditingController _endtime = TextEditingController();
 
   TextEditingController _reasonController = TextEditingController();
+  TextEditingController _actiontknController = TextEditingController();
+  TextEditingController _lcbyController = TextEditingController();
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -305,7 +308,7 @@ class _EsdscreenState extends State<Esdscreen> {
                 width: MediaQuery.of(context).size.width * 0.90,
                 child: TextField(
                     controller:
-                        _reasonController, //editing controller of this TextField
+                        _actiontknController, //editing controller of this TextField
                     decoration: const InputDecoration(
                         icon: Icon(Icons.edit_document), //icon of text field
                         labelText: "Action Taken" //label text of field
@@ -317,7 +320,7 @@ class _EsdscreenState extends State<Esdscreen> {
                 width: MediaQuery.of(context).size.width * 0.90,
                 child: TextField(
                     controller:
-                        _reasonController, //editing controller of this TextField
+                        _lcbyController, //editing controller of this TextField
                     decoration: const InputDecoration(
                         icon: Icon(Icons.edit_document), //icon of text field
                         labelText: "LC Taken By " //label text of field

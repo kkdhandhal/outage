@@ -97,56 +97,64 @@ class _dropdownrlmState extends State<DropDownRLM> {
               ),
               padding:
                   const EdgeInsets.only(left: 10, top: 1, bottom: 1, right: 10),
-              child: FutureBuilder(
-                future: API.rlm_fetchFeederData(
-                    _txtcontroller.text, widget.adm_sdn_code, realm),
-                builder: (context, sugglist) {
-                  if (sugglist.hasData) {
-                    _suggList = sugglist.data!;
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      itemCount: _suggList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          title: Text(
-                            "${_suggList[index].fdr_name} - ${_suggList[index].fdr_code}",
-                            style: const TextStyle(
-                              color: Colors.white,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  // minHeight: 5.0,
+                  //minWidth: 5.0,
+                  maxHeight: MediaQuery.of(context).size.height * 0.70,
+                  //maxWidth: 30.0,
+                ),
+                child: FutureBuilder(
+                  future: API.rlm_fetchFeederData(
+                      _txtcontroller.text, widget.adm_sdn_code, realm),
+                  builder: (context, sugglist) {
+                    if (sugglist.hasData) {
+                      _suggList = sugglist.data!;
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: _suggList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ListTile(
+                            title: Text(
+                              "${_suggList[index].fdr_name} - ${_suggList[index].fdr_code}",
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
                             ),
+                            onTap: () {
+                              setState(() {
+                                selectedString = _suggList[index].fdr_name;
+                                selectedValue = _suggList[index].fdr_code;
+                              });
+                              _txtcontroller.text = selectedString;
+                              // widget.OnSelect(_suggList[index].fdr_name,
+                              //     _suggList[index].fdr_code);
+                              widget.OnSelect(Feeder(
+                                  fdr_loccode: _suggList[index].fdr_code,
+                                  fdr_adm_sdn: _suggList[index].fdr_adm_sdn,
+                                  fdr_code: _suggList[index].fdr_code,
+                                  fdr_type: _suggList[index].fdr_type,
+                                  fdr_name: _suggList[index].fdr_name,
+                                  fdr_category: _suggList[index].fdr_category));
+                              _focusnode.unfocus();
+                            },
+                          );
+                        },
+                      );
+                    } else {
+                      return const Center(
+                        child: SizedBox(
+                          width: 150,
+                          height: 150,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
                           ),
-                          onTap: () {
-                            setState(() {
-                              selectedString = _suggList[index].fdr_name;
-                              selectedValue = _suggList[index].fdr_code;
-                            });
-                            _txtcontroller.text = selectedString;
-                            // widget.OnSelect(_suggList[index].fdr_name,
-                            //     _suggList[index].fdr_code);
-                            widget.OnSelect(Feeder(
-                                fdr_loccode: _suggList[index].fdr_code,
-                                fdr_adm_sdn: _suggList[index].fdr_adm_sdn,
-                                fdr_code: _suggList[index].fdr_code,
-                                fdr_type: _suggList[index].fdr_type,
-                                fdr_name: _suggList[index].fdr_name,
-                                fdr_category: _suggList[index].fdr_category));
-                            _focusnode.unfocus();
-                          },
-                        );
-                      },
-                    );
-                  } else {
-                    return const Center(
-                      child: SizedBox(
-                        width: 150,
-                        height: 150,
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
                         ),
-                      ),
-                    );
-                  }
-                },
+                      );
+                    }
+                  },
+                ),
               ),
               // ListView.builder(
               //   shrinkWrap: true,
