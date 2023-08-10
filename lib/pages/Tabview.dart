@@ -15,7 +15,7 @@ class _TabviewState extends State<Tabview> with TickerProviderStateMixin {
   late final TabController _tabbarController;
   @override
   void initState() {
-    _tabbarController = TabController(length: 5, vsync: this);
+    _tabbarController = TabController(length: 1, vsync: this);
     super.initState();
   }
 
@@ -55,28 +55,28 @@ class _TabviewState extends State<Tabview> with TickerProviderStateMixin {
               Tab(
                 text: "ESD",
               ),
-              Tab(
-                text: "TT",
-              ),
-              Tab(
-                text: "SF",
-              ),
-              Tab(
-                text: "PSD",
-              ),
-              Tab(
-                text: "LSD",
-              ),
+              // Tab(
+              //   text: "TT",
+              // ),
+              // Tab(
+              //   text: "SF",
+              // ),
+              // Tab(
+              //   text: "PSD",
+              // ),
+              // Tab(
+              //   text: "LSD",
+              // ),
             ],
           ),
           Flexible(
             child: TabBarView(
               children: <Widget>[
                 Esdscreen(),
-                Text("TT2"),
-                Text("TT3"),
-                Text("TT4"),
-                Text("TT5"),
+                // Text("TT2"),
+                // Text("TT3"),
+                // Text("TT4"),
+                // Text("TT5"),
               ],
               controller: _tabbarController,
             ),

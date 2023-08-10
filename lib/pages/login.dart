@@ -11,6 +11,14 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   //final TextEditingController _username = TextEditingController();
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    //importFeeder();
+
+    super.dispose();
+  }
+
   Widget topWidget(double screenwidth) {
     return Transform.rotate(
       angle: -35 * math.pi / 180,

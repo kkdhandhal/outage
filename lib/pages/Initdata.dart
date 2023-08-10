@@ -66,6 +66,14 @@ class _InitdataState extends State<Initdata> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    //importFeeder();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[800],

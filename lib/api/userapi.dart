@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:outage/model/rlmfeeder.dart';
 import 'package:realm/realm.dart';
 import '../model/user.dart';
+import 'package:outage/utils/constants.dart';
 
 class UserAPI {
   static Future<Users> checkLogin(Login lgn) async {
@@ -21,7 +22,7 @@ class UserAPI {
         usr_name: "",
         usr_pass: "");
 
-    var url = Uri.parse('http://10.35.152.22:3000/api/user/login');
+    var url = Uri.parse('http://$officeIP:3000/api/user/login');
 
     final resp = await http.post(
       url,
