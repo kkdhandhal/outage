@@ -1,5 +1,5 @@
 class ESD {
-  final int esd_id;
+  // final int esd_id;
   final int esd_fdr_code;
   final DateTime esd_st_date;
   final String esd_st_time;
@@ -24,7 +24,7 @@ class ESD {
   //   esd_lc_by: req.body.esd_lc_by
 
   ESD({
-    required this.esd_id,
+    // required this.esd_id,
     required this.esd_fdr_code,
     required this.esd_st_date,
     required this.esd_st_time,
@@ -46,10 +46,24 @@ class ESD {
   //       fdr_name: "",
   //       fdr_category: "");
   // }
+  Map<String, dynamic> toJson() {
+    return ({
+      'esd_fdr_code': esd_fdr_code,
+      'esd_st_date': esd_st_date.toIso8601String(),
+      'esd_st_time': esd_st_time,
+      'esd_end_date': esd_end_date.toIso8601String(),
+      'esd_end_time': esd_end_time,
+      'esd_duration': esd_duration,
+      'esd_cons_affected': esd_cons_affected,
+      'esd_reason': esd_reason,
+      'esd_action': esd_action,
+      'esd_lc_by': esd_lc_by,
+    });
+  }
 
   factory ESD.fromJson(Map<String, dynamic> json) {
     return ESD(
-        esd_id: json['esd_id'],
+        //esd_id: json['esd_id'],
         esd_fdr_code: json['esd_fdr_code'],
         esd_st_date: json['esd_st_date'],
         esd_st_time: json['esd_st_time'],

@@ -12,4 +12,5 @@ class _rlmfeeder {
   late final String fdr_type;
   late final String fdr_name;
   late final String fdr_category;
+  late final int fdr_cons;
 }

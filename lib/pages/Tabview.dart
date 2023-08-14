@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:outage/model/feeder.dart';
+import 'package:outage/model/user.dart';
+import 'package:outage/pages/ESD/esdtabview.dart';
 
 import 'esdscreen.dart';
 
 class Tabview extends StatefulWidget {
   Feeder feeder;
-  Tabview({Key? key, required this.feeder}) : super(key: key);
+  Users usr;
+  Tabview({Key? key, required this.feeder, required this.usr})
+      : super(key: key);
 
   @override
   _TabviewState createState() => _TabviewState();
@@ -28,7 +32,7 @@ class _TabviewState extends State<Tabview> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -89,7 +93,8 @@ class _TabviewState extends State<Tabview> with TickerProviderStateMixin {
           Flexible(
             child: TabBarView(
               children: <Widget>[
-                Esdscreen(),
+                EsdTabView(usr: widget.usr, feeder: widget.feeder)
+                //Esdscreen(),
                 // Text("TT2"),
                 // Text("TT3"),
                 // Text("TT4"),

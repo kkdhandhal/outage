@@ -21,7 +21,8 @@ class API {
       print("realm result $rlmResult");
       return rlmResult;
     } else {
-      final realm = Realm(Configuration.local([rlmfeeder.schema]));
+      final realm = Realm(Configuration.local([rlmfeeder.schema],
+          schemaVersion: realmSchemaVersion));
       print("realm variable generated");
       // var rlmResult = realm.query<rlmfeeder>(
       //     "fdr_name contains $srch AND fdr_loccode==$admSdnCode");

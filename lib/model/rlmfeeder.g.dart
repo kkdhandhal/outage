@@ -15,6 +15,7 @@ class rlmfeeder extends _rlmfeeder
     String fdr_type,
     String fdr_name,
     String fdr_category,
+    int fdr_cons,
   ) {
     RealmObjectBase.set(this, 'fdr_code', fdr_code);
     RealmObjectBase.set(this, 'fdr_loccode', fdr_loccode);
@@ -22,6 +23,7 @@ class rlmfeeder extends _rlmfeeder
     RealmObjectBase.set(this, 'fdr_type', fdr_type);
     RealmObjectBase.set(this, 'fdr_name', fdr_name);
     RealmObjectBase.set(this, 'fdr_category', fdr_category);
+    RealmObjectBase.set(this, 'fdr_cons', fdr_cons);
   }
 
   rlmfeeder._();
@@ -60,6 +62,11 @@ class rlmfeeder extends _rlmfeeder
   set fdr_category(String value) => throw RealmUnsupportedSetError();
 
   @override
+  int get fdr_cons => RealmObjectBase.get<int>(this, 'fdr_cons') as int;
+  @override
+  set fdr_cons(int value) => throw RealmUnsupportedSetError();
+
+  @override
   Stream<RealmObjectChanges<rlmfeeder>> get changes =>
       RealmObjectBase.getChanges<rlmfeeder>(this);
 
@@ -77,6 +84,7 @@ class rlmfeeder extends _rlmfeeder
       SchemaProperty('fdr_type', RealmPropertyType.string),
       SchemaProperty('fdr_name', RealmPropertyType.string),
       SchemaProperty('fdr_category', RealmPropertyType.string),
+      SchemaProperty('fdr_cons', RealmPropertyType.int),
     ]);
   }
 }

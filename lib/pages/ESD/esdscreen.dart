@@ -2,25 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:outage/api/intruptionapi.dart';
-import 'package:outage/model/error.dart';
+import 'package:outage/model/api_gen_res.dart';
+
 import 'package:outage/model/intruption/esd_model.dart';
 import 'package:outage/pages/ESD/esdtabview.dart';
+import 'package:outage/pages/Home.dart';
 import 'package:realm/realm.dart';
 
 import '../../model/feeder.dart';
 import '../../model/user.dart';
 
-class Esdscreen extends StatefulWidget {
+class EsdScreen extends StatefulWidget {
   final Users usr;
   final Feeder fdr;
-  const Esdscreen({Key? key, required this.usr, required this.fdr})
+  const EsdScreen({Key? key, required this.usr, required this.fdr})
       : super(key: key);
 
   @override
   _EsdscreenState createState() => _EsdscreenState();
 }
 
-class _EsdscreenState extends State<Esdscreen> {
+class _EsdscreenState extends State<EsdScreen> {
   DateTime _selectedStartDate = DateTime.now();
   TimeOfDay _selectedStartTime = TimeOfDay.now();
   DateTime? _selectedEndDate;
@@ -35,7 +37,7 @@ class _EsdscreenState extends State<Esdscreen> {
   TextEditingController _actiontknController = TextEditingController();
   TextEditingController _lcbyController = TextEditingController();
 
-  APIError? result;
+  //APIError? result;
   Future<void> _showDialog(
       BuildContext context, final String dbmsg, int dbcode) {
     return showDialog(
@@ -58,7 +60,7 @@ class _EsdscreenState extends State<Esdscreen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                EsdTabView(fdr: widget.fdr, usr: widget.usr)),
+                                HomePage(fdr: widget.fdr, usr: widget.usr)),
                         (route) => false);
                   }
                 },
@@ -548,10 +550,11 @@ class _EsdscreenState extends State<Esdscreen> {
                                 ESD esd = ESD(
                                     //esd_id: 0,
                                     esd_fdr_code: widget.fdr.fdr_code,
-                                    esd_st_date:
-                                        DateTime.parse(_startdate.text),
+                                    esd_st_date: DateFormat("dd-MM-yyyy")
+                                        .parse(_startdate.text),
                                     esd_st_time: _starttime.text,
-                                    esd_end_date: DateTime.parse(_enddate.text),
+                                    esd_end_date: DateFormat("dd-MM-yyyy")
+                                        .parse(_enddate.text),
                                     esd_end_time: _endtime.text,
                                     esd_duration: duration,
                                     esd_cons_affected: widget.fdr.fdr_cons,
@@ -559,15 +562,11 @@ class _EsdscreenState extends State<Esdscreen> {
                                     esd_action: _actiontknController.text,
                                     esd_lc_by: _lcbyController.text);
 
-                                APIError result =
-                                    await IntruptionAPI.entryESD(esd)
-                                        as APIError;
-
-                                // if (result.db_code == 1) {
-                                //   Navigator.pop(context);
-                                // } else {
-                                //   _showDialog(context);
-                                // }
+                                CircularProgressIndicator(
+                                    backgroundColor: Colors.blue.shade800,
+                                    color: Colors.white);
+                                APIResult result =
+                                    await IntruptionAPI.entryESD(esd);
                                 _showDialog(context, result.db_msg,
                                     result.db_code as int);
                               },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:outage/model/user.dart';
 import 'package:outage/pages/Home.dart';
+import 'package:outage/utils/constants.dart';
 import 'package:realm/realm.dart';
 import '../api/api.dart';
 import '../model/feeder.dart';
@@ -85,14 +86,15 @@ class _InitdataState extends State<Initdata> {
             if (snapshot.hasData) {
               List<Feeder> _suggList = snapshot.data!;
               //var totfdr = _suggList.length;
-              final realm = Realm(Configuration.local([rlmfeeder.schema]));
+              final realm = Realm(Configuration.local([rlmfeeder.schema],
+                  schemaVersion: realmSchemaVersion));
               var trx = realm.beginWrite();
               realm.deleteAll<rlmfeeder>();
               trx.commit();
               var count = 0;
               _suggList.forEach((e) {
                 final fdr = rlmfeeder(e.fdr_code, e.fdr_adm_sdn, e.fdr_loccode,
-                    e.fdr_type, e.fdr_name, e.fdr_category);
+                    e.fdr_type, e.fdr_name, e.fdr_category, e.fdr_cons);
                 //RealmResults<rlmfeeder> fdrall = realm.all();
 
                 realm.write(() => realm.add(fdr));

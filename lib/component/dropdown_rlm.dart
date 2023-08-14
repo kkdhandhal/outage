@@ -4,6 +4,7 @@ import 'package:outage/model/rlmfeeder.dart';
 //import 'package:realm/realm.dart';
 import 'package:flutter/material.dart';
 import 'package:outage/api/api.dart';
+import 'package:outage/utils/constants.dart';
 import 'package:realm/realm.dart';
 //import 'package:outage/model/feeder.dart';
 
@@ -21,12 +22,14 @@ class Deboucer {
 
 class DropDownRLM extends StatefulWidget {
   int adm_sdn_code;
+  String? feeder_name;
 
   Function(Feeder fdr) OnSelect;
   DropDownRLM({
     super.key,
     // required this.suggList,
     required this.adm_sdn_code,
+    this.feeder_name,
     required this.OnSelect,
   });
 
@@ -38,8 +41,10 @@ class _dropdownrlmState extends State<DropDownRLM> {
   final FocusNode _focusnode = FocusNode();
   late List<rlmfeeder> _mastsuggList;
   late RealmResults<rlmfeeder> _suggList;
-  final realm = Realm(Configuration.local([rlmfeeder.schema]));
+  final realm = Realm(Configuration.local([rlmfeeder.schema],
+      schemaVersion: realmSchemaVersion));
   String selectedString = "";
+
   int selectedValue = 0;
   late Function onChange;
   late OverlayEntry _overlayEntry;
@@ -50,6 +55,8 @@ class _dropdownrlmState extends State<DropDownRLM> {
   @override
   void initState() {
     super.initState();
+    selectedString = widget.feeder_name!.isNotEmpty ? widget.feeder_name! : "";
+    _txtcontroller.text = selectedString;
     _focusnode.addListener(() {
       if (_focusnode.hasFocus) {
         _overlayEntry = _createOverlayEntry();
@@ -134,6 +141,7 @@ class _dropdownrlmState extends State<DropDownRLM> {
                                   fdr_loccode: _suggList[index].fdr_code,
                                   fdr_adm_sdn: _suggList[index].fdr_adm_sdn,
                                   fdr_code: _suggList[index].fdr_code,
+                                  fdr_cons: _suggList[index].fdr_cons,
                                   fdr_type: _suggList[index].fdr_type,
                                   fdr_name: _suggList[index].fdr_name,
                                   fdr_category: _suggList[index].fdr_category));
