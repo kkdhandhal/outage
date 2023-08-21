@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:outage/model/feeder.dart';
+import 'package:outage/model/intruption/esd_model.dart';
 import 'package:outage/model/user.dart';
 import 'package:outage/pages/ESD/esdscreen.dart';
-import 'package:outage/pages/esdscreen.dart';
+//import 'package:outage/pages/esdscreen.dart';
+import 'package:outage/api/intruptions/esdapi.dart';
 
 class EsdTabView extends StatefulWidget {
-  Users usr;
-  Feeder feeder;
-  EsdTabView({
+  final Users usr;
+  final Feeder feeder;
+  const EsdTabView({
     Key? key,
     required this.usr,
     required this.feeder,
@@ -50,23 +52,46 @@ class _EsdtabviewState extends State<EsdTabView> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Expanded(
-            child: ListView(
-              scrollDirection: Axis.vertical,
-              children: [
-                ListTile(
-                  title: Text("entry1"),
-                ),
-                ListTile(
-                  title: Text("entry1"),
-                ),
-                ListTile(
-                  title: Text("entry1"),
-                ),
-                ListTile(
-                  title: Text("entry1"),
-                ),
-              ],
-            ),
+            child: FutureBuilder<List<ESD>>(
+                future: ESDAPI.fetchESD(widget.feeder.fdr_code),
+                builder: (BuildContext context, snapshot) {
+                  if (snapshot.hasData) {
+                    List<ESD> _tmpEsd = snapshot.data!;
+                    return ListView.builder(
+                        itemCount: _tmpEsd.length,
+                        itemBuilder: (BuildContext context, index) {
+                          return ListTile(
+                            title: Row(
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        "${_tmpEsd[index].esd_st_date.day}/${_tmpEsd[index].esd_st_date.month}/${_tmpEsd[index].esd_st_date.year}  -  ${_tmpEsd[index].esd_st_time}"),
+                                    Text(
+                                        "${_tmpEsd[index].esd_end_date.day}/${_tmpEsd[index].esd_end_date.month}/${_tmpEsd[index].esd_end_date.year} -  ${_tmpEsd[index].esd_end_time}"),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Column(
+                                  children: [
+                                    Text("Duration"),
+                                    Text(_tmpEsd[index].esd_duration.toString())
+                                  ],
+                                )
+                              ],
+                            ),
+                          );
+                        });
+                  } else {
+                    // return Text(
+                    //     "No ESD found for ${widget.feeder.fdr_name} during this month.");
+                    print(snapshot.error.toString());
+                    return Text(snapshot.error.toString());
+                  }
+                }),
           ),
           FloatingActionButton.extended(
             onPressed: () {

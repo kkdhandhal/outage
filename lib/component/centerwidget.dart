@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:outage/api/userapi.dart';
 import 'package:outage/pages/Home.dart';
-import 'package:outage/pages/Initdata.dart';
+import 'package:outage/pages/Initdata_realm.dart';
+import 'package:outage/pages/Initdata_sqlite.dart';
 import 'package:realm/realm.dart';
 
 import '../model/user.dart';
@@ -28,7 +29,7 @@ class _CenterWidgetState extends State<CenterWidget> {
         msg = "Login successful";
       });
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => Initdata(
+          builder: (context) => InitdataSQLite(
                 usr: user,
               )));
     } else {

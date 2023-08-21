@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
-import 'package:outage/api/intruptionapi.dart';
+import 'package:outage/api/intruptions/esdapi.dart';
 import 'package:outage/model/api_gen_res.dart';
 
 import 'package:outage/model/intruption/esd_model.dart';
@@ -95,7 +95,9 @@ class _EsdscreenState extends State<EsdScreen> {
         _selectedStartTime.minute,
       );
 
-      int tmp_duration = _enddate.difference(_stdate).inHours;
+      int tmp_duration = _enddate.difference(_stdate).inMinutes;
+      print(
+          "Start Date:$_stdate \n End Date:$_enddate \n duration:$tmp_duration\n");
       setState(() {
         duration = tmp_duration;
       });
@@ -267,7 +269,7 @@ class _EsdscreenState extends State<EsdScreen> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      "ESD Duration: $duration hrs",
+                                      "ESD Duration: $duration min",
                                       style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 15,
@@ -565,8 +567,7 @@ class _EsdscreenState extends State<EsdScreen> {
                                 CircularProgressIndicator(
                                     backgroundColor: Colors.blue.shade800,
                                     color: Colors.white);
-                                APIResult result =
-                                    await IntruptionAPI.entryESD(esd);
+                                APIResult result = await ESDAPI.entryESD(esd);
                                 _showDialog(context, result.db_msg,
                                     result.db_code as int);
                               },

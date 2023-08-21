@@ -28,6 +28,18 @@ class Feeder {
         fdr_category: "");
   }
 
+  Map<String, dynamic> toJson() {
+    return ({
+      'fdr_loccode': fdr_loccode,
+      'fdr_adm_sdn': fdr_adm_sdn,
+      'fdr_code': fdr_code,
+      'fdr_type': fdr_type,
+      'fdr_name': fdr_name,
+      'fdr_category': fdr_category,
+      'fdr_cons': fdr_cons,
+    });
+  }
+
   factory Feeder.fromJson(Map<String, dynamic> json) {
     return Feeder(
         fdr_loccode: json['fdr_loccode'],

@@ -1,23 +1,24 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+//import 'dart:convert';
+//import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
-import 'package:outage/model/rlmfeeder.dart';
+//import 'package:outage/model/rlmfeeder.dart';
 import 'package:outage/pages/ESD/esdtabview.dart';
-import 'package:realm/realm.dart';
+//import 'package:realm/realm.dart';
 import 'package:outage/model/feeder.dart';
 //import 'package:outage/model/rlmfeeder.g.dart';
 
-import '../api/api.dart';
+//import '../api/api.dart';
 import '../component/dropdown_rlm.dart';
 import '../model/user.dart';
-import 'Tabview.dart';
+//import 'Tabview.dart';
 
 //import 'package:searchfield/searchfield.dart';
 
 class HomePage extends StatefulWidget {
-  Users usr;
-  Feeder? fdr;
+  final Users usr;
+  final Feeder? fdr;
+  //final List<Feeder> fdr_list;
   HomePage({super.key, required this.usr, this.fdr});
 
   @override
@@ -43,26 +44,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     _searchController = TextEditingController();
   }
 
-  // void importFeeder() async {
-  //   final realm = Realm(Configuration.local([rlmfeeder.schema]));
-  //   API.getSDNFeeders(fdr_sdn_code).then((value) => {
-  //         value.forEach((e) {
-  //           var fdr = rlmfeeder(e.fdr_code, e.fdr_adm_sdn, e.fdr_loccode,
-  //               e.fdr_type, e.fdr_name, e.fdr_category);
-  //           realm.write(() {
-  //             realm.add(fdr);
-  //           });
-  //         })
-  //       });
-  //   realm.close();
-  // }
-
   @override
   void dispose() {
     // TODO: implement dispose
     //importFeeder();
     _searchController.dispose();
-
     super.dispose();
   }
 
@@ -72,11 +58,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     // TODO: implement build
     return Scaffold(
       backgroundColor: Colors.blue[800],
-      // appBar: AppBar(
-      //   title: const Text("IT Application"),
-      //   backgroundColor: Colors.deepPurple,
-      //   elevation: 0,
-      // ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

@@ -3,11 +3,9 @@ import 'package:outage/model/feeder.dart';
 import 'package:outage/model/user.dart';
 import 'package:outage/pages/ESD/esdtabview.dart';
 
-import 'esdscreen.dart';
-
 class Tabview extends StatefulWidget {
-  Feeder feeder;
-  Users usr;
+  final Feeder feeder;
+  final Users usr;
   Tabview({Key? key, required this.feeder, required this.usr})
       : super(key: key);
 
@@ -38,7 +36,7 @@ class _TabviewState extends State<Tabview> with TickerProviderStateMixin {
         children: [
           Container(
             height: 60,
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

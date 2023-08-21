@@ -1,5 +1,8 @@
+import 'package:intl/intl.dart';
+
 class ESD {
-  // final int esd_id;
+  //String esd_id = "";
+
   final int esd_fdr_code;
   final DateTime esd_st_date;
   final String esd_st_time;
@@ -24,7 +27,7 @@ class ESD {
   //   esd_lc_by: req.body.esd_lc_by
 
   ESD({
-    // required this.esd_id,
+    //required this.esd_id,
     required this.esd_fdr_code,
     required this.esd_st_date,
     required this.esd_st_time,
@@ -63,11 +66,12 @@ class ESD {
 
   factory ESD.fromJson(Map<String, dynamic> json) {
     return ESD(
-        //esd_id: json['esd_id'],
+        //esd_id: json['_id'],
         esd_fdr_code: json['esd_fdr_code'],
-        esd_st_date: json['esd_st_date'],
+        esd_st_date: DateFormat('yyyy-MM-dd').parse(json['esd_st_date']),
         esd_st_time: json['esd_st_time'],
-        esd_end_date: json['esd_end_date'],
+        esd_end_date: DateFormat('yyyy-MM-dd')
+            .parse(json['esd_end_date']), //DateTime(json['esd_end_date']),
         esd_end_time: json['esd_end_time'],
         esd_duration: json['esd_duration'],
         esd_cons_affected: json['esd_cons_affected'],

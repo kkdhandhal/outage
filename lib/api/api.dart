@@ -15,9 +15,8 @@ class API {
       // var rlmResult = realm.query<rlmfeeder>(
       //     "fdr_name contains $srch AND fdr_loccode==$admSdnCode");
       print("fdr_name CONTAINS $srch");
-
-      var rlmResult =
-          realm.query<rlmfeeder>("fdr_name CONTAINS[c] \$0", [srch]);
+      var rlmResult = realm.query<rlmfeeder>(
+          "fdr_name CONTAINS[c] \$0 OR fdr_code == \$0", [srch]);
       print("realm result $rlmResult");
       return rlmResult;
     } else {

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:outage/api/sqlitedb.dart';
 import 'package:outage/model/feeder.dart';
 import 'package:outage/model/rlmfeeder.dart';
 //import 'package:realm/realm.dart';
@@ -40,7 +41,8 @@ class DropDownRLM extends StatefulWidget {
 class _dropdownrlmState extends State<DropDownRLM> {
   final FocusNode _focusnode = FocusNode();
   late List<rlmfeeder> _mastsuggList;
-  late RealmResults<rlmfeeder> _suggList;
+  //late RealmResults<rlmfeeder> _suggList;
+  late List<Feeder> _suggList;
   final realm = Realm(Configuration.local([rlmfeeder.schema],
       schemaVersion: realmSchemaVersion));
   String selectedString = "";
@@ -112,8 +114,9 @@ class _dropdownrlmState extends State<DropDownRLM> {
                   //maxWidth: 30.0,
                 ),
                 child: FutureBuilder(
-                  future: API.rlm_fetchFeederData(
-                      _txtcontroller.text, widget.adm_sdn_code, realm),
+                  future: OutageDbHelper.getFeeders(_txtcontroller.text,
+                      widget.adm_sdn_code), //API.rlm_fetchFeederData(
+                  //_txtcontroller.text, widget.adm_sdn_code, realm),
                   builder: (context, sugglist) {
                     if (sugglist.hasData) {
                       _suggList = sugglist.data!;
@@ -205,12 +208,29 @@ class _dropdownrlmState extends State<DropDownRLM> {
           controller: _txtcontroller,
           focusNode: _focusnode,
           style: const TextStyle(color: Colors.white),
-          decoration: const InputDecoration(
-            icon: Icon(
+          decoration: InputDecoration(
+            icon: const Icon(
               Icons.search,
               color: Colors.white,
             ),
             border: InputBorder.none,
+            suffixIcon: IconButton(
+              icon: const Icon(
+                Icons.clear,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                setState(() {
+                  selectedString = "";
+                  selectedValue = 0;
+                });
+                _txtcontroller.text = selectedString;
+                // widget.OnSelect(_suggList[index].fdr_name,
+                //     _suggList[index].fdr_code);
+                widget.OnSelect(Feeder.initFeeder());
+                _focusnode.unfocus();
+              },
+            ),
           ),
           cursorColor: Colors.white,
           onChanged: (value) {
