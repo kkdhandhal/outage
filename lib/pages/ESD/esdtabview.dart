@@ -43,6 +43,49 @@ Future<void> _showInfoDialog(
 }
 
 class _EsdtabviewState extends State<EsdTabView> {
+  Widget getData() {
+    return FutureBuilder<List<ESD>>(
+        future: ESDAPI.fetchESD(widget.feeder.fdr_code),
+        builder: (BuildContext context, snapshot) {
+          if (snapshot.hasData) {
+            List<ESD> _tmpEsd = snapshot.data!;
+            return ListView.builder(
+                itemCount: _tmpEsd.length,
+                itemBuilder: (BuildContext context, index) {
+                  return ListTile(
+                    title: Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                                "${_tmpEsd[index].esd_st_date.day}/${_tmpEsd[index].esd_st_date.month}/${_tmpEsd[index].esd_st_date.year}  -  ${_tmpEsd[index].esd_st_time}"),
+                            Text(
+                                "${_tmpEsd[index].esd_end_date.day}/${_tmpEsd[index].esd_end_date.month}/${_tmpEsd[index].esd_end_date.year} -  ${_tmpEsd[index].esd_end_time}"),
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Column(
+                          children: [
+                            const Text("Duration"),
+                            Text(_tmpEsd[index].esd_duration.toString())
+                          ],
+                        )
+                      ],
+                    ),
+                  );
+                });
+          } else {
+            // return Text(
+            //     "No ESD found for ${widget.feeder.fdr_name} during this month.");
+            print(snapshot.error.toString());
+            return Text(snapshot.error.toString());
+          }
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -52,46 +95,9 @@ class _EsdtabviewState extends State<EsdTabView> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Expanded(
-            child: FutureBuilder<List<ESD>>(
-                future: ESDAPI.fetchESD(widget.feeder.fdr_code),
-                builder: (BuildContext context, snapshot) {
-                  if (snapshot.hasData) {
-                    List<ESD> _tmpEsd = snapshot.data!;
-                    return ListView.builder(
-                        itemCount: _tmpEsd.length,
-                        itemBuilder: (BuildContext context, index) {
-                          return ListTile(
-                            title: Row(
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                        "${_tmpEsd[index].esd_st_date.day}/${_tmpEsd[index].esd_st_date.month}/${_tmpEsd[index].esd_st_date.year}  -  ${_tmpEsd[index].esd_st_time}"),
-                                    Text(
-                                        "${_tmpEsd[index].esd_end_date.day}/${_tmpEsd[index].esd_end_date.month}/${_tmpEsd[index].esd_end_date.year} -  ${_tmpEsd[index].esd_end_time}"),
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Column(
-                                  children: [
-                                    Text("Duration"),
-                                    Text(_tmpEsd[index].esd_duration.toString())
-                                  ],
-                                )
-                              ],
-                            ),
-                          );
-                        });
-                  } else {
-                    // return Text(
-                    //     "No ESD found for ${widget.feeder.fdr_name} during this month.");
-                    print(snapshot.error.toString());
-                    return Text(snapshot.error.toString());
-                  }
-                }),
+            child: widget.feeder.fdr_code > 0
+                ? getData()
+                : const Text("No Data Found"),
           ),
           FloatingActionButton.extended(
             onPressed: () {
