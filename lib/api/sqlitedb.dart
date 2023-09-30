@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:outage/model/feeder.dart';
 import 'package:path/path.dart';
@@ -37,10 +36,14 @@ class OutageDbHelper {
     return id;
   }
 
-  static Future<List<Feeder>> getFeeders(String srch, int admSdnCode) async {
-    print("getFeeders list");
+  static Future<List<Feeder>> getFeeders(String srch, String admSdnCode) async {
+    if (kDebugMode) {
+      print("getFeeders list");
+    }
     final db = await OutageDbHelper.getDB();
-    print("getFeeders list 123");
+    if (kDebugMode) {
+      print("getFeeders list 123");
+    }
     //var res =
     //  await db.rawQuery("select * from feeders where fdr_name like %$srch%");
     List<Map<String, Object?>> res;
@@ -50,7 +53,9 @@ class OutageDbHelper {
       res = await db.rawQuery(
           "select * from feeders where fdr_name like '%$srch%' or fdr_code like '%$srch%'");
     }
-    print(res);
+    if (kDebugMode) {
+      print(res);
+    }
     //res = jsonEncode(res);
     final List<Feeder> fdrList = res.map((e) => Feeder.fromJson(e)).toList();
     print(fdrList);

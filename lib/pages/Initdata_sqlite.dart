@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:outage/api/sqlitedb.dart';
-import 'package:outage/model/user.dart';
+import 'package:outage/model/login/user.dart';
 import 'package:outage/pages/Home.dart';
 import '../api/api.dart';
 import '../model/feeder.dart';
@@ -37,7 +37,7 @@ class _InitdataState extends State<InitdataSQLite> {
       backgroundColor: Colors.blue[800],
       body: Center(
         child: FutureBuilder(
-          future: API.getSDNFeeders(widget.usr.usr_sdnloc),
+          future: API.getSDNFeeders(widget.usr.usr_loccode),
           builder: (context, snapshot) {
             //print("Data is $snapshot");
             if (snapshot.hasData) {
@@ -95,7 +95,7 @@ class _InitdataState extends State<InitdataSQLite> {
                       children: [
                         CircularProgressIndicator(),
                         Text(
-                          "Preparing to insert for Subdivision ${widget.usr.usr_sdnloc}",
+                          "Preparing to insert for Subdivision ${widget.usr.usr_loccode}",
                         ),
                       ],
                     ),

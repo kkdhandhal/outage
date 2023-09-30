@@ -37,10 +37,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^4.0.4
   http: ^0.13.6
-  realm: ^1.2.0
+  # realm: ^1.2.0
   intl: ^0.18.1
   sqflite: ^2.3.0
   path: ^1.8.3
+  shared_preferences: ^2.2.0
+  device_info_plus: ^9.0.3
 
 dev_dependencies:
   flutter_test:

@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'package:outage/api/sqlitedb.dart';
 import 'package:outage/model/feeder.dart';
-import 'package:outage/model/rlmfeeder.dart';
+//import 'package:outage/model/rlmfeeder.dart';
 //import 'package:realm/realm.dart';
 import 'package:flutter/material.dart';
-import 'package:outage/api/api.dart';
-import 'package:outage/utils/constants.dart';
-import 'package:realm/realm.dart';
+//import 'package:outage/api/api.dart';
+//import 'package:outage/utils/constants.dart';
+// import 'package:realm/realm.dart';
+//import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:outage/model/feeder.dart';
 
 class Deboucer {
@@ -22,11 +23,11 @@ class Deboucer {
 }
 
 class DropDownRLM extends StatefulWidget {
-  int adm_sdn_code;
-  String? feeder_name;
+  final String adm_sdn_code;
+  final String? feeder_name;
 
-  Function(Feeder fdr) OnSelect;
-  DropDownRLM({
+  final Function(Feeder fdr) OnSelect;
+  const DropDownRLM({
     super.key,
     // required this.suggList,
     required this.adm_sdn_code,
@@ -40,11 +41,11 @@ class DropDownRLM extends StatefulWidget {
 
 class _dropdownrlmState extends State<DropDownRLM> {
   final FocusNode _focusnode = FocusNode();
-  late List<rlmfeeder> _mastsuggList;
+  // late List<rlmfeeder> _mastsuggList;
   //late RealmResults<rlmfeeder> _suggList;
   late List<Feeder> _suggList;
-  final realm = Realm(Configuration.local([rlmfeeder.schema],
-      schemaVersion: realmSchemaVersion));
+  // final realm = Realm(Configuration.local([rlmfeeder.schema],
+  //     schemaVersion: realmSchemaVersion));
   String selectedString = "";
 
   int selectedValue = 0;
@@ -67,7 +68,7 @@ class _dropdownrlmState extends State<DropDownRLM> {
         // }
       } else {
         if (_overlayEntry.mounted) {
-          _overlayEntry?.remove();
+          _overlayEntry.remove();
           _txtcontroller.text = selectedString;
         }
       }
@@ -78,7 +79,7 @@ class _dropdownrlmState extends State<DropDownRLM> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    realm.close();
+    // realm.close();
   }
 
   OverlayEntry _createOverlayEntry() {
@@ -249,7 +250,7 @@ class _dropdownrlmState extends State<DropDownRLM> {
             // suggList = API.fetchFeederData(_txtcontroller.text.toLowerCase());
             _debouncer.run(() {});
             if (_overlayEntry.mounted) {
-              _overlayEntry?.remove();
+              _overlayEntry.remove();
               //_overlayEntry = _createOverlayEntry();
               Overlay.of(context).insert(_overlayEntry);
             }

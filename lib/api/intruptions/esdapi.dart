@@ -1,17 +1,15 @@
 import 'dart:convert';
-import 'dart:math';
-
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:outage/model/api_gen_res.dart';
 import 'package:outage/model/intruption/esd_model.dart';
-import 'package:outage/model/rlmfeeder.dart';
-import 'package:realm/realm.dart';
-import '../../model/user.dart';
 import 'package:outage/utils/constants.dart';
 
 class ESDAPI {
   static Future<APIResult> entryESD(ESD esd) async {
-    print("ESD detail :  ${esd.toJson()}");
+    if (kDebugMode) {
+      print("ESD detail :  ${esd.toJson()}");
+    }
 
     var url = Uri.parse('http://$officeIP:3000/api/intruption/esd/create');
     print("URL: $url");

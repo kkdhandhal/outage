@@ -1,5 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+// import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:outage/api/intruptions/esdapi.dart';
 import 'package:outage/model/api_gen_res.dart';
@@ -7,10 +8,10 @@ import 'package:outage/model/api_gen_res.dart';
 import 'package:outage/model/intruption/esd_model.dart';
 import 'package:outage/pages/ESD/esdtabview.dart';
 import 'package:outage/pages/Home.dart';
-import 'package:realm/realm.dart';
+// import 'package:realm/realm.dart';
 
 import '../../model/feeder.dart';
-import '../../model/user.dart';
+import '../../model/login/user.dart';
 
 class EsdScreen extends StatefulWidget {
   final Users usr;
@@ -44,7 +45,9 @@ class _EsdscreenState extends State<EsdScreen> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Information - $dbcode"),
+            title: dbcode < 0
+                ? Text("Error - $dbcode")
+                : Text("Information - $dbcode"),
             content: Text(dbmsg),
             actions: [
               TextButton(
@@ -53,7 +56,7 @@ class _EsdscreenState extends State<EsdScreen> {
                 ),
                 child: const Text('OK'),
                 onPressed: () {
-                  if (dbcode == -1) {
+                  if (dbcode == -1 || dbcode == -2 || dbcode == -3) {
                     Navigator.of(context).pop();
                   } else {
                     Navigator.pushAndRemoveUntil(
@@ -157,7 +160,8 @@ class _EsdscreenState extends State<EsdScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "${widget.usr.usr_nameinit} ${widget.usr.usr_firstname} ${widget.usr.usr_lastname}",
+                          "${widget.usr.usr_name} ",
+                          //"${widget.usr.usr_nameinit} ${widget.usr.usr_firstname} ${widget.usr.usr_lastname}",
                           style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -167,7 +171,7 @@ class _EsdscreenState extends State<EsdScreen> {
                           height: 4,
                         ),
                         Text(
-                          "JP, Surendranagar Circle ${widget.usr.usr_sdnloc}",
+                          "JP, Surendranagar Circle ${widget.usr.usr_loccode}",
                           style: const TextStyle(
                               color: Color.fromARGB(255, 119, 186, 241),
                               fontSize: 12,
@@ -345,7 +349,9 @@ class _EsdscreenState extends State<EsdScreen> {
                                           _durationCalculate();
                                         });
                                       } else {
-                                        print("Date is not selected");
+                                        if (kDebugMode) {
+                                          print("Date is not selected");
+                                        }
                                       }
                                     }),
                               ),
@@ -547,29 +553,47 @@ class _EsdscreenState extends State<EsdScreen> {
                             width: MediaQuery.of(context).size.width * 0.90,
                             padding: const EdgeInsets.only(left: 20, top: 30),
                             child: ElevatedButton(
-                              child: Text("Submit"),
+                              child: const Text("Submit"),
                               onPressed: () async {
-                                ESD esd = ESD(
-                                    //esd_id: 0,
-                                    esd_fdr_code: widget.fdr.fdr_code,
-                                    esd_st_date: DateFormat("dd-MM-yyyy")
-                                        .parse(_startdate.text),
-                                    esd_st_time: _starttime.text,
-                                    esd_end_date: DateFormat("dd-MM-yyyy")
-                                        .parse(_enddate.text),
-                                    esd_end_time: _endtime.text,
-                                    esd_duration: duration,
-                                    esd_cons_affected: widget.fdr.fdr_cons,
-                                    esd_reason: _reasonController.text,
-                                    esd_action: _actiontknController.text,
-                                    esd_lc_by: _lcbyController.text);
+                                if (_startdate.text.isEmpty ||
+                                    _enddate.text.isEmpty ||
+                                    _starttime.text.isEmpty ||
+                                    _endtime.text.isEmpty ||
+                                    _reasonController.text.isEmpty ||
+                                    _actiontknController.text.isEmpty ||
+                                    _lcbyController.text.isEmpty) {
+                                  _showDialog(
+                                      context, "All data are required", -2);
+                                } else if (duration <= 0) {
+                                  _showDialog(
+                                      context,
+                                      "End date and End Time must grater than Start date and Start time",
+                                      -3);
+                                } else {
+                                  ESD esd = ESD(
+                                      //esd_id: 0,
+                                      esd_fdr_code: widget.fdr.fdr_code,
+                                      esd_st_date: DateFormat("dd-MM-yyyy")
+                                          .parse(_startdate.text),
+                                      esd_st_time: _starttime.text,
+                                      esd_end_date: DateFormat("dd-MM-yyyy")
+                                          .parse(_enddate.text),
+                                      esd_end_time: _endtime.text,
+                                      esd_duration: duration,
+                                      esd_cons_affected: widget.fdr.fdr_cons,
+                                      esd_reason: _reasonController.text,
+                                      esd_action: _actiontknController.text,
+                                      esd_lc_by: _lcbyController.text,
+                                      esd_cre_date: DateTime.now(),
+                                      created_by: widget.usr.usr_name);
 
-                                CircularProgressIndicator(
-                                    backgroundColor: Colors.blue.shade800,
-                                    color: Colors.white);
-                                APIResult result = await ESDAPI.entryESD(esd);
-                                _showDialog(context, result.db_msg,
-                                    result.db_code as int);
+                                  CircularProgressIndicator(
+                                      backgroundColor: Colors.blue.shade800,
+                                      color: Colors.white);
+                                  APIResult result = await ESDAPI.entryESD(esd);
+                                  _showDialog(context, result.db_msg,
+                                      result.db_code as int);
+                                }
                               },
                             ),
                           ),

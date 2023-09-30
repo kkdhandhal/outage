@@ -1,7 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:outage/model/feeder.dart';
 import 'package:outage/model/intruption/esd_model.dart';
-import 'package:outage/model/user.dart';
+import 'package:outage/model/login/user.dart';
 import 'package:outage/pages/ESD/esdscreen.dart';
 //import 'package:outage/pages/esdscreen.dart';
 import 'package:outage/api/intruptions/esdapi.dart';
@@ -43,45 +44,127 @@ Future<void> _showInfoDialog(
 }
 
 class _EsdtabviewState extends State<EsdTabView> {
+  //late Feeder _sel_feeder = Feeder.initFeeder();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Widget getData() {
+    if (kDebugMode) {
+      print('Selected feeder code is ${widget.feeder.fdr_code.toString()}');
+    }
     return FutureBuilder<List<ESD>>(
         future: ESDAPI.fetchESD(widget.feeder.fdr_code),
         builder: (BuildContext context, snapshot) {
-          if (snapshot.hasData) {
-            List<ESD> _tmpEsd = snapshot.data!;
-            return ListView.builder(
-                itemCount: _tmpEsd.length,
-                itemBuilder: (BuildContext context, index) {
-                  return ListTile(
-                    title: Row(
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: 200,
+                  width: 500,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12)),
+                  child: const Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                                "${_tmpEsd[index].esd_st_date.day}/${_tmpEsd[index].esd_st_date.month}/${_tmpEsd[index].esd_st_date.year}  -  ${_tmpEsd[index].esd_st_time}"),
-                            Text(
-                                "${_tmpEsd[index].esd_end_date.day}/${_tmpEsd[index].esd_end_date.month}/${_tmpEsd[index].esd_end_date.year} -  ${_tmpEsd[index].esd_end_time}"),
-                          ],
+                        CircularProgressIndicator(),
+                        Text(
+                          "Preparing to fetch ESD data for current month",
                         ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Column(
-                          children: [
-                            const Text("Duration"),
-                            Text(_tmpEsd[index].esd_duration.toString())
-                          ],
-                        )
                       ],
                     ),
-                  );
-                });
+                  ),
+                ),
+              ),
+            );
           } else {
-            // return Text(
-            //     "No ESD found for ${widget.feeder.fdr_name} during this month.");
-            print(snapshot.error.toString());
-            return Text(snapshot.error.toString());
+            if (snapshot.hasData) {
+              List<ESD> tmpEsd = snapshot.data!;
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: widget.feeder.fdr_code > 0
+                        ? Text(
+                            "Total ${tmpEsd.length} ESD entry in current month")
+                        : const Text(""),
+                  ),
+                  Expanded(
+                    child: ListView.separated(
+                        itemCount: tmpEsd.length,
+                        separatorBuilder: ((context, index) {
+                          return const Divider(
+                            height: 3.0,
+                          );
+                        }),
+                        itemBuilder: (BuildContext context, index) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: Colors.blue.shade400,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: ListTile(
+                              leading: const Icon(Icons.receipt_long,
+                                  color: Colors.white),
+                              title: Row(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "${tmpEsd[index].esd_st_date.day}/${tmpEsd[index].esd_st_date.month}/${tmpEsd[index].esd_st_date.year}  -  ${tmpEsd[index].esd_st_time}",
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Text(
+                                        "${tmpEsd[index].esd_end_date.day}/${tmpEsd[index].esd_end_date.month}/${tmpEsd[index].esd_end_date.year} -  ${tmpEsd[index].esd_end_time}",
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Column(
+                                    children: [
+                                      const Text(
+                                        "Duration",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Text(
+                                        tmpEsd[index].esd_duration.toString(),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
+                ],
+              );
+            } else {
+              // return Text(
+              //     "No ESD found for ${widget.feeder.fdr_name} during this month.");
+
+              print(snapshot.error.toString());
+              return Text(snapshot.error.toString());
+            }
           }
         });
   }
@@ -89,31 +172,37 @@ class _EsdtabviewState extends State<EsdTabView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.white),
+      padding: EdgeInsets.all(12),
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(32), topRight: Radius.circular(32))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Expanded(
             child: widget.feeder.fdr_code > 0
                 ? getData()
-                : const Text("No Data Found"),
+                : const Center(child: Text("Please select Feeder First")),
           ),
-          FloatingActionButton.extended(
-            onPressed: () {
-              if (widget.feeder.fdr_code <= 0)
-                _showInfoDialog(context, "Please select Feeder First", 101);
-              else {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            EsdScreen(fdr: widget.feeder, usr: widget.usr)));
-              }
-            },
-            label: Text("ADD Entry"),
-            icon: Icon(Icons.add),
-          )
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FloatingActionButton.extended(
+              onPressed: () {
+                if (widget.feeder.fdr_code <= 0) {
+                  _showInfoDialog(context, "Please select Feeder First", 101);
+                } else {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              EsdScreen(fdr: widget.feeder, usr: widget.usr)));
+                }
+              },
+              label: Text("ADD Entry"),
+              icon: Icon(Icons.add),
+            ),
+          ),
         ],
       ),
     );

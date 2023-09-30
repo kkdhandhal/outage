@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:outage/pages/login.dart';
+import 'package:outage/pages/LOGIN/login.dart';
 import 'package:outage/utils/constants.dart';
 
 void main() async {
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: kBackgraoundColor,
         textTheme: Theme.of(context).textTheme.apply(bodyColor: kPrimaryColor),
       ),
-      home: const Login(), //HomePage(),
+      home: const LoginScreen(), //HomePage(),
     );
   }
 }

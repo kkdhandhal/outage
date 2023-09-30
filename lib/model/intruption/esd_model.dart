@@ -13,6 +13,8 @@ class ESD {
   final String esd_reason;
   final String esd_action;
   final String esd_lc_by;
+  final DateTime esd_cre_date;
+  final String created_by;
 
   //  esd_id: req.body.esd_id,
   //   esd_fdr_code: req.body.esd_fdr_code,
@@ -38,6 +40,8 @@ class ESD {
     required this.esd_reason,
     required this.esd_action,
     required this.esd_lc_by,
+    required this.esd_cre_date,
+    required this.created_by,
   });
 
   // factory Feeder.initFeeder() {
@@ -61,6 +65,8 @@ class ESD {
       'esd_reason': esd_reason,
       'esd_action': esd_action,
       'esd_lc_by': esd_lc_by,
+      'esd_cre_date': esd_cre_date.toIso8601String(),
+      'created_by': created_by,
     });
   }
 
@@ -77,6 +83,8 @@ class ESD {
         esd_cons_affected: json['esd_cons_affected'],
         esd_reason: json['esd_reason'],
         esd_action: json['esd_action'],
-        esd_lc_by: json['esd_lc_by']);
+        esd_lc_by: json['esd_lc_by'],
+        esd_cre_date: DateFormat('yyyy-MM-dd').parse(json['esd_cre_date']),
+        created_by: json['created_by']);
   }
 }

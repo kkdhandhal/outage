@@ -1,38 +1,11 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
-import 'package:outage/model/rlmfeeder.dart';
-import 'package:realm/realm.dart';
-import '../model/feeder.dart';
+import 'package:outage/model/feeder.dart';
 import 'package:outage/utils/constants.dart';
 
 class API {
-  static Future<RealmResults<rlmfeeder>> rlm_fetchFeederData(
-      String srch, int admSdnCode, Realm realm) async {
-    if (srch.length > 0) {
-      //final realm = Realm(Configuration.local([rlmfeeder.schema]));
-      print("realm variable generated");
-      // var rlmResult = realm.query<rlmfeeder>(
-      //     "fdr_name contains $srch AND fdr_loccode==$admSdnCode");
-      print("fdr_name CONTAINS $srch");
-      var rlmResult = realm.query<rlmfeeder>(
-          "fdr_name CONTAINS[c] \$0 OR fdr_code == \$0", [srch]);
-      print("realm result $rlmResult");
-      return rlmResult;
-    } else {
-      final realm = Realm(Configuration.local([rlmfeeder.schema],
-          schemaVersion: realmSchemaVersion));
-      print("realm variable generated");
-      // var rlmResult = realm.query<rlmfeeder>(
-      //     "fdr_name contains $srch AND fdr_loccode==$admSdnCode");
-      final rlmResult = realm.all<rlmfeeder>();
-      print("realm result $rlmResult");
-      return rlmResult;
-    }
-  }
-
   static Future<List<Feeder>> fetchFeederData(
-      String srch, int adm_sdn_code) async {
+      String srch, String adm_sdn_code) async {
     var url;
     if (srch.length > 0) {
       url = Uri.parse(
@@ -51,7 +24,7 @@ class API {
     }
   }
 
-  static Future<List<Feeder>> getSDNFeeders(int adm_sdn_code) async {
+  static Future<List<Feeder>> getSDNFeeders(String adm_sdn_code) async {
     // var url;
     // if (srch.length > 0) {
     //   url = Uri.parse(

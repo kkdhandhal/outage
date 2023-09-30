@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:outage/model/feeder.dart';
-import 'package:outage/model/user.dart';
+import 'package:outage/model/login/user.dart';
 import 'package:outage/pages/ESD/esdtabview.dart';
 
 class Tabview extends StatefulWidget {
