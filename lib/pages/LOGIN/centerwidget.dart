@@ -107,7 +107,11 @@ class _CenterWidgetState extends State<CenterWidget> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const OTPScreen(),
+                builder: (context) => OTPScreen(
+                  imei: _deviceData['id'],
+                  userCode: lgnReq.usrCode,
+                  stsMsg: log_resp.Status_message,
+                ),
               ),
             );
           }
