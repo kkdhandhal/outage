@@ -18,7 +18,7 @@ String otpValidateurl =
     "http://$officeIP:$port/PGVCLITAPPAPI/PGVCLITAPPAPI/ValidateOTP/OTP/";
 String fetchESDurl =
     "http://117.205.3.45:8083/PGVCLITAPPAPI/ESD/fetchESD/FetchESD/";
-String getFeeders_url =
+String getFeedersurl =
     "http://117.205.3.45:8083/PGVCLITAPPAPI/ESD/getFeeders/Feeders/";
 String saveESD = "http://117.205.3.45:8083/PGVCLITAPPAPI/ESD/saveESD/SaveESD/";
 

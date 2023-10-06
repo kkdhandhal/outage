@@ -37,48 +37,47 @@ class _InitdataState extends State<InitdataSQLite> {
       backgroundColor: Colors.blue[800],
       body: Center(
         child: FutureBuilder(
-          future: API.getSDNFeeders(widget.usr.usr_id),
+          future: FeederAPI.getSDNFeeders(widget.usr.usr_id),
           builder: (context, snapshot) {
             //print("Data is $snapshot");
+            int errCode = 0;
+            String stsMsg = "";
             if (snapshot.hasData) {
               List<Feeder> _suggList = snapshot.data!;
-              var count = 0;
-              _suggList.forEach((e) {
-                // final fdr = rlmfeeder(e.fdr_code, e.fdr_adm_sdn, e.fdr_loccode,
-                //     e.fdr_type, e.fdr_name, e.fdr_category, e.fdr_cons);
+              if (_suggList[0].fdr_code < 10) {
+                errCode = _suggList[0].fdr_code;
+                stsMsg = _suggList[0].fdr_name;
+              } else {
+                errCode = 0;
+                stsMsg = "";
 
-                final fdr = Feeder(
-                    // fdr_loccode: e.fdr_loccode,
-                    // fdr_adm_sdn: e.fdr_adm_sdn,
-                    fdr_code: e.fdr_code,
-                    // fdr_type: e.fdr_type,
-                    fdr_name: e.fdr_name,
-                    fdr_category: e.fdr_category,
-                    fdr_cons: e.fdr_cons);
-                //RealmResults<rlmfeeder> fdrall = realm.all();
-                OutageDbHelper.insertFeeder(fdr);
-                count++;
-                print("Row inserted: $count");
-              });
-              // _suggList.forEach((e) {
-              // var fdr = rlmfeeder(e.fdr_code, e.fdr_adm_sdn, e.fdr_loccode,
-              //     e.fdr_type, e.fdr_name, e.fdr_category);
-              // realm.write(() {
-              //   realm.add(fdr);
-              // })
+                var count = 0;
+                _suggList.forEach((e) {
+                  // final fdr = rlmfeeder(e.fdr_code, e.fdr_adm_sdn, e.fdr_loccode,
+                  //     e.fdr_type, e.fdr_name, e.fdr_category, e.fdr_cons);
 
-              Future.delayed(Duration.zero, () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HomePage(
-                              usr: widget.usr,
-                            )));
-              });
-
-              // Navigator.of(context)
-              //     .push(MaterialPageRoute(builder: (context) => HomePage()));
-              //return Text("Total Feeder $count inserted ");
+                  final fdr = Feeder(
+                      // fdr_loccode: e.fdr_loccode,
+                      // fdr_adm_sdn: e.fdr_adm_sdn,
+                      fdr_code: e.fdr_code,
+                      // fdr_type: e.fdr_type,
+                      fdr_name: e.fdr_name,
+                      fdr_category: e.fdr_category,
+                      fdr_cons: e.fdr_cons);
+                  //RealmResults<rlmfeeder> fdrall = realm.all();
+                  OutageDbHelper.insertFeeder(fdr);
+                  count++;
+                  print("Row inserted: $count");
+                });
+                Future.delayed(Duration.zero, () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HomePage(
+                                usr: widget.usr,
+                              )));
+                });
+              }
             }
             return Center(
               child: Padding(
@@ -93,10 +92,19 @@ class _InitdataState extends State<InitdataSQLite> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        CircularProgressIndicator(),
-                        Text(
-                          "Preparing to insert for Subdivision ${widget.usr.usr_loccode}",
-                        ),
+                        if (errCode == 0) ...[
+                          const CircularProgressIndicator(),
+                          Text(
+                            "Preparing to insert for Subdivision ${widget.usr.usr_loccode}",
+                          ),
+                        ] else ...[
+                          Text(
+                            "Error Code is : $errCode",
+                          ),
+                          Text(
+                            "Message is : $stsMsg",
+                          ),
+                        ]
                       ],
                     ),
                   ),

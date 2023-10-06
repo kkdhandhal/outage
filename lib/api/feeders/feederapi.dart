@@ -7,8 +7,8 @@ import 'package:outage/utils/constants.dart';
 
 class FeederAPI {
   static Future<List<Feeder>> getSDNFeeders(String userCode) async {
-    String bodyStr = '{"APIKEY":$getFeeders_APIKEY,"USRCODE":"$userCode"}';
-    var url = Uri.parse(getFeeders_url);
+    String bodyStr = '[{"APIKEY":"$getFeeders_APIKEY","USRCODE":"$userCode"}]';
+    var url = Uri.parse(getFeedersurl);
     //Uri.parse('http://10.35.152.22:3000/api/feeder/list/$adm_sdn_code');
     //var body = json.encode({"fdr_string": srch});
     print(url);
@@ -18,7 +18,11 @@ class FeederAPI {
       };
       final response = await http.post(url, headers: userHeader, body: bodyStr);
       if (response.statusCode == 200) {
-        List jsonResponse = json.decode(response.body);
+        String jsonResponce = response.body.replaceAll("\\", "");
+
+        jsonResponce = jsonResponce.replaceAll("\"[", "[");
+        jsonResponce = jsonResponce.replaceAll("]\"", "]");
+        List jsonResponse = json.decode(jsonResponce);
         return jsonResponse.map((feeder) => Feeder.fromJson(feeder)).toList();
       } else {
         List<Feeder> fdrErr = [

@@ -13,17 +13,25 @@ class OutageDbHelper {
       onCreate: (db, version) {
         return db.execute(
           """CREATE TABLE feeders(
-                fdr_code INTEGER PRIMARY KEY,
-                fdr_loccode INTEGER,
-                fdr_adm_sdn INTEGER,
-                fdr_type  TEXT,
-                fdr_name  TEXT,
-                fdr_category  TEXT,
+                FeederCode INTEGER PRIMARY KEY,
+                FeederName  TEXT,
+                FeederCategory  TEXT,
                 fdr_cons INTEGER) 
             """,
         );
+        // return db.execute(
+        //   """CREATE TABLE feeders(
+        //         FeederCode INTEGER PRIMARY KEY,
+        //         // fdr_loccode INTEGER,
+        //         // fdr_adm_sdn INTEGER,
+        //         fdr_type  TEXT,
+        //         FeederName  TEXT,
+        //         FeederCategory  TEXT,
+        //         fdr_cons INTEGER)
+        //     """,
+        // );
       },
-      version: 1,
+      version: 2,
     );
   }
 
