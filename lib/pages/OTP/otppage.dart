@@ -2,16 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:outage/model/login/user.dart';
+import 'package:outage/pages/Initdata_sqlite.dart';
 
 class OTPScreen extends StatefulWidget {
   const OTPScreen({
     super.key,
     required this.imei,
-    required this.userCode,
+    required this.usr,
     required this.stsMsg,
   });
   final String imei;
-  final String userCode;
+  final Users usr;
   final String stsMsg;
 
   @override
@@ -144,14 +146,13 @@ class _OTPScreenState extends State<OTPScreen> {
                                 left: 80, right: 80, top: 15, bottom: 15),
                           ),
                           onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: const Text("Verification Code"),
-                                  content: Text('Code entered is $otpVal'),
-                                );
-                              },
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => InitdataSQLite(
+                                  usr: widget.usr,
+                                ),
+                              ),
                             );
                           },
                           child: const Text(

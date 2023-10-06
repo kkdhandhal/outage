@@ -142,11 +142,11 @@ class _dropdownrlmState extends State<DropDownRLM> {
                               // widget.OnSelect(_suggList[index].fdr_name,
                               //     _suggList[index].fdr_code);
                               widget.OnSelect(Feeder(
-                                  fdr_loccode: _suggList[index].fdr_code,
-                                  fdr_adm_sdn: _suggList[index].fdr_adm_sdn,
+                                  // fdr_loccode: _suggList[index].fdr_code,
+                                  // fdr_adm_sdn: _suggList[index].fdr_adm_sdn,
                                   fdr_code: _suggList[index].fdr_code,
                                   fdr_cons: _suggList[index].fdr_cons,
-                                  fdr_type: _suggList[index].fdr_type,
+                                  // fdr_type: _suggList[index].fdr_type,
                                   fdr_name: _suggList[index].fdr_name,
                                   fdr_category: _suggList[index].fdr_category));
                               _focusnode.unfocus();

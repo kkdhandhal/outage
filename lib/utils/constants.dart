@@ -10,13 +10,20 @@ const port = "8083";
 
 const realmSchemaVersion = 2;
 const dbname = "outage";
-const application_no = 1;
+const application_no = 6;
 // http://117.205.3.45:8083/PGVCLITAPPAPI/PGVCLITAPPAPI/ValidateLogin/Login/
 String loginValidateurl =
     "http://117.205.3.45:8083/PGVCLITAPPAPI/PGVCLITAPPAPI/ValidateLogin/Login/";
-// "http://$officeIP:$port/PGVCLITAPPAPI/PGVCLITAPPAPI/ValidateLogin/Login/";
-
 String otpValidateurl =
     "http://$officeIP:$port/PGVCLITAPPAPI/PGVCLITAPPAPI/ValidateOTP/OTP/";
+String fetchESDurl =
+    "http://117.205.3.45:8083/PGVCLITAPPAPI/ESD/fetchESD/FetchESD/";
+String getFeeders_url =
+    "http://117.205.3.45:8083/PGVCLITAPPAPI/ESD/getFeeders/Feeders/";
+String saveESD = "http://117.205.3.45:8083/PGVCLITAPPAPI/ESD/saveESD/SaveESD/";
+
+const getFeeders_APIKEY = "pgvclit002001apigetfdrs--";
+const fetchESD_APIKEY = "pgvclit002003apifetchESD-";
 const loginOTP_APIKEY = "pgvclit001002apiloginotp-";
 const loginVAL_APIKEY = "pgvclit001001apiloginval-";
+const saveESD_APIKEY = "pgvclit002002apisaveESD-";

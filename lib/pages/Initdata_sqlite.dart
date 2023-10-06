@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:outage/api/sqlitedb.dart';
 import 'package:outage/model/login/user.dart';
 import 'package:outage/pages/Home.dart';
-import '../api/api.dart';
-import '../model/feeder.dart';
+import 'package:outage/api/feeders/feederapi.dart';
+import 'package:outage/model/feeder.dart';
 
 class InitdataSQLite extends StatefulWidget {
   final Users usr;
@@ -37,7 +37,7 @@ class _InitdataState extends State<InitdataSQLite> {
       backgroundColor: Colors.blue[800],
       body: Center(
         child: FutureBuilder(
-          future: API.getSDNFeeders(widget.usr.usr_loccode),
+          future: API.getSDNFeeders(widget.usr.usr_id),
           builder: (context, snapshot) {
             //print("Data is $snapshot");
             if (snapshot.hasData) {
@@ -48,10 +48,10 @@ class _InitdataState extends State<InitdataSQLite> {
                 //     e.fdr_type, e.fdr_name, e.fdr_category, e.fdr_cons);
 
                 final fdr = Feeder(
-                    fdr_loccode: e.fdr_loccode,
-                    fdr_adm_sdn: e.fdr_adm_sdn,
+                    // fdr_loccode: e.fdr_loccode,
+                    // fdr_adm_sdn: e.fdr_adm_sdn,
                     fdr_code: e.fdr_code,
-                    fdr_type: e.fdr_type,
+                    // fdr_type: e.fdr_type,
                     fdr_name: e.fdr_name,
                     fdr_category: e.fdr_category,
                     fdr_cons: e.fdr_cons);

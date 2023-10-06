@@ -109,7 +109,7 @@ class _CenterWidgetState extends State<CenterWidget> {
               MaterialPageRoute(
                 builder: (context) => OTPScreen(
                   imei: _deviceData['id'],
-                  userCode: lgnReq.usrCode,
+                  usr: usr,
                   stsMsg: log_resp.Status_message,
                 ),
               ),
