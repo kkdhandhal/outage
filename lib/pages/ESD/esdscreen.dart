@@ -225,7 +225,7 @@ class _EsdscreenState extends State<EsdScreen> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      "Feeder Name: ${widget.fdr.fdr_name}",
+                                      "Feeder Name: ${widget.fdr.FeederName}",
                                       style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 15,
@@ -244,7 +244,7 @@ class _EsdscreenState extends State<EsdScreen> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      "Feeder Code: ${widget.fdr.fdr_code}",
+                                      "Feeder Code: ${widget.fdr.FeederCode}",
                                       style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 15,
@@ -254,7 +254,7 @@ class _EsdscreenState extends State<EsdScreen> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "Category: ${widget.fdr.fdr_category}",
+                                      "Category: ${widget.fdr.FeederCategory}",
                                       style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 15,
@@ -572,20 +572,29 @@ class _EsdscreenState extends State<EsdScreen> {
                                 } else {
                                   ESD esd = ESD(
                                       //esd_id: 0,
-                                      esd_fdr_code: widget.fdr.fdr_code,
-                                      esd_st_date: DateFormat("dd-MM-yyyy")
+                                      API_KEY: "",
+                                      USRCODE: widget.usr.usr_id,
+                                      entry_type: 'ESD',
+                                      FEEDERCD: widget.fdr.FeederCode,
+                                      FEEDERCATEGORY: widget.fdr.FeederCategory,
+                                      FEEDERNM: widget.fdr.FeederName,
+                                      ESDDATE: DateFormat("dd-MM-yyyy")
                                           .parse(_startdate.text),
-                                      esd_st_time: _starttime.text,
-                                      esd_end_date: DateFormat("dd-MM-yyyy")
+                                      ESDENDDATE: DateFormat("dd-MM-yyyy")
                                           .parse(_enddate.text),
-                                      esd_end_time: _endtime.text,
-                                      esd_duration: duration,
-                                      esd_cons_affected: widget.fdr.fdr_cons,
-                                      esd_reason: _reasonController.text,
-                                      esd_action: _actiontknController.text,
-                                      esd_lc_by: _lcbyController.text,
-                                      esd_cre_date: DateTime.now(),
-                                      created_by: widget.usr.usr_name);
+                                      ESDFROMHH: _starttime.text,
+                                      ESDFROMMM: _starttime.text,
+                                      ESDTOHH: _endtime.text,
+                                      ESDTOMM: _endtime.text,
+                                      ESDDURATIONHH: duration,
+                                      ESDDURATIONMM: duration,
+                                      // esd_cons_affected: widget.fdr.fdr_cons,
+                                      ESDREASON: _reasonController.text,
+                                      ESDCORRECTACTION:
+                                          _actiontknController.text,
+                                      ESDLCTAKENBY: _lcbyController.text,
+                                      ENTRYDATE: DateTime.now(),
+                                      IPIMEI: widget.usr.usr_name);
 
                                   CircularProgressIndicator(
                                       backgroundColor: Colors.blue.shade800,

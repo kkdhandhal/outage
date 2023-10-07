@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     super.initState();
 
     // _tabbarController = TabController(length: 1, vsync: this);
-    if (widget.fdr?.fdr_code != null) {
+    if (widget.fdr?.FeederCode != null) {
       _selFdr = widget.fdr!;
     }
     _searchController = TextEditingController();

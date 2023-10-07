@@ -48,17 +48,18 @@ class _TabviewState extends State<Tabview> with TickerProviderStateMixin {
                     //   child: Text('Name: ${widget.feeder.fdr_name}'),
                     // ),
                     Expanded(
-                      child: Text('Code :  ${widget.feeder.fdr_code}'),
+                      child: Text('Code :  ${widget.feeder.FeederCode}'),
                     ),
                     Expanded(
-                      child: Text('Category :  ${widget.feeder.fdr_category}'),
+                      child:
+                          Text('Category :  ${widget.feeder.FeederCategory}'),
                     ),
                   ],
                 ),
                 Row(
                   children: [
                     Expanded(
-                      child: Text('Consumers :  ${widget.feeder.fdr_code}'),
+                      child: Text('Consumers :  ${widget.feeder.FeederCode}'),
                     ),
                   ],
                 ),

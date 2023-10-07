@@ -27,9 +27,9 @@ class FeederAPI {
       } else {
         List<Feeder> fdrErr = [
           Feeder(
-              fdr_code: response.statusCode,
-              fdr_name: response.statusCode.toString(),
-              fdr_category: "",
+              FeederCode: response.statusCode,
+              FeederName: response.statusCode.toString(),
+              FeederCategory: "",
               fdr_cons: 0)
         ];
         return fdrErr;
@@ -37,7 +37,10 @@ class FeederAPI {
     } catch (e) {
       List<Feeder> fdrErr = [
         Feeder(
-            fdr_code: -2, fdr_name: e.toString(), fdr_category: "", fdr_cons: 0)
+            FeederCode: -2,
+            FeederName: e.toString(),
+            FeederCategory: "",
+            fdr_cons: 0)
       ];
       return fdrErr;
     }

@@ -128,15 +128,15 @@ class _dropdownrlmState extends State<DropDownRLM> {
                         itemBuilder: (BuildContext context, int index) {
                           return ListTile(
                             title: Text(
-                              "${_suggList[index].fdr_name} - ${_suggList[index].fdr_code}",
+                              "${_suggList[index].FeederName} - ${_suggList[index].FeederCode}",
                               style: const TextStyle(
                                 color: Colors.white,
                               ),
                             ),
                             onTap: () {
                               setState(() {
-                                selectedString = _suggList[index].fdr_name;
-                                selectedValue = _suggList[index].fdr_code;
+                                selectedString = _suggList[index].FeederName;
+                                selectedValue = _suggList[index].FeederCode;
                               });
                               _txtcontroller.text = selectedString;
                               // widget.OnSelect(_suggList[index].fdr_name,
@@ -144,11 +144,12 @@ class _dropdownrlmState extends State<DropDownRLM> {
                               widget.OnSelect(Feeder(
                                   // fdr_loccode: _suggList[index].fdr_code,
                                   // fdr_adm_sdn: _suggList[index].fdr_adm_sdn,
-                                  fdr_code: _suggList[index].fdr_code,
+                                  FeederCode: _suggList[index].FeederCode,
                                   fdr_cons: _suggList[index].fdr_cons,
                                   // fdr_type: _suggList[index].fdr_type,
-                                  fdr_name: _suggList[index].fdr_name,
-                                  fdr_category: _suggList[index].fdr_category));
+                                  FeederName: _suggList[index].FeederName,
+                                  FeederCategory:
+                                      _suggList[index].FeederCategory));
                               _focusnode.unfocus();
                             },
                           );

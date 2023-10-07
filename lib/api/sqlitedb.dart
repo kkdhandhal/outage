@@ -9,7 +9,7 @@ class OutageDbHelper {
     WidgetsFlutterBinding.ensureInitialized();
 
     return sqlite.openDatabase(
-      join(await sqlite.getDatabasesPath(), 'outage.db'),
+      join(await sqlite.getDatabasesPath(), 'outage1.db'),
       onCreate: (db, version) {
         return db.execute(
           """CREATE TABLE feeders(
@@ -59,7 +59,7 @@ class OutageDbHelper {
       res = await db.query('feeders');
     } else {
       res = await db.rawQuery(
-          "select * from feeders where fdr_name like '%$srch%' or fdr_code like '%$srch%'");
+          "select * from feeders where FeederName like '%$srch%' or FeederCode like '%$srch%'");
     }
     if (kDebugMode) {
       print(res);

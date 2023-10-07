@@ -44,9 +44,9 @@ class _InitdataState extends State<InitdataSQLite> {
             String stsMsg = "";
             if (snapshot.hasData) {
               List<Feeder> _suggList = snapshot.data!;
-              if (_suggList[0].fdr_code < 10) {
-                errCode = _suggList[0].fdr_code;
-                stsMsg = _suggList[0].fdr_name;
+              if (_suggList[0].FeederCode < 10) {
+                errCode = _suggList[0].FeederCode;
+                stsMsg = _suggList[0].FeederName;
               } else {
                 errCode = 0;
                 stsMsg = "";
@@ -59,10 +59,10 @@ class _InitdataState extends State<InitdataSQLite> {
                   final fdr = Feeder(
                       // fdr_loccode: e.fdr_loccode,
                       // fdr_adm_sdn: e.fdr_adm_sdn,
-                      fdr_code: e.fdr_code,
+                      FeederCode: e.FeederCode,
                       // fdr_type: e.fdr_type,
-                      fdr_name: e.fdr_name,
-                      fdr_category: e.fdr_category,
+                      FeederName: e.FeederName,
+                      FeederCategory: e.FeederCategory,
                       fdr_cons: e.fdr_cons);
                   //RealmResults<rlmfeeder> fdrall = realm.all();
                   OutageDbHelper.insertFeeder(fdr);

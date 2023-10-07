@@ -1,20 +1,79 @@
 import 'package:intl/intl.dart';
+import 'package:outage/utils/constants.dart';
+
+class ESDList {
+  final int FeederCode;
+  final String FeederName;
+  final String FeederCategory;
+  final DateTime ESDFrom;
+  final DateTime ESDTo;
+
+  final int ConsumersAffected;
+  final int TotalSMSSent;
+
+  ESDList({
+    //required this.esd_id,
+    required this.FeederCode,
+    required this.FeederName,
+    required this.FeederCategory,
+    required this.ESDFrom,
+    required this.ESDTo,
+    required this.ConsumersAffected,
+    required this.TotalSMSSent,
+  });
+
+  Map<String, dynamic> toJson() {
+    return ({
+      'FeederCode': FeederCode,
+      'FeederName': FeederName,
+      'FeederCategory': FeederCategory,
+      'ESDFrom': ESDFrom.toIso8601String(),
+      'ESDTo': ESDTo.toIso8601String(),
+      'ConsumersAffected': ConsumersAffected,
+      'TotalSMSSent': TotalSMSSent,
+    });
+  }
+
+  factory ESDList.fromJson(Map<String, dynamic> json) {
+    return ESDList(
+      //esd_id: json['_id'],
+      FeederCode: json['FeederCode'],
+      FeederName: json['FeederName'],
+      FeederCategory: json['FeederCategory'],
+      ESDFrom: DateFormat('yyyy-MM-dd').parse(json['ESDFrom']),
+      ESDTo: DateFormat('yyyy-MM-dd').parse(json['ESDTo']),
+      ConsumersAffected: json['ConsumersAffected'],
+      TotalSMSSent: json['TotalSMSSent'],
+    );
+  }
+}
 
 class ESD {
   //String esd_id = "";
+  final String API_KEY;
+  final String entry_type;
+  final String USRCODE;
+  final int FEEDERCD;
+  final String FEEDERCATEGORY;
+  final String FEEDERNM;
+  final DateTime ESDDATE;
+  final DateTime ESDENDDATE;
 
-  final int esd_fdr_code;
-  final DateTime esd_st_date;
-  final String esd_st_time;
-  final DateTime esd_end_date;
-  final String esd_end_time;
-  final int esd_duration;
-  final int esd_cons_affected;
-  final String esd_reason;
-  final String esd_action;
-  final String esd_lc_by;
-  final DateTime esd_cre_date;
-  final String created_by;
+  final String ESDFROMHH;
+  final String ESDFROMMM;
+  final String ESDTOHH;
+  final String ESDTOMM;
+
+  final int ESDDURATIONHH;
+  final int ESDDURATIONMM;
+  // final int esd_cons_affected;
+  // final int TotalSMSSent;
+  final String ESDREASON;
+  final String ESDCORRECTACTION;
+  final String ESDLCTAKENBY;
+  final DateTime ENTRYDATE;
+
+  final String IPIMEI;
 
   //  esd_id: req.body.esd_id,
   //   esd_fdr_code: req.body.esd_fdr_code,
@@ -30,18 +89,27 @@ class ESD {
 
   ESD({
     //required this.esd_id,
-    required this.esd_fdr_code,
-    required this.esd_st_date,
-    required this.esd_st_time,
-    required this.esd_end_date,
-    required this.esd_end_time,
-    required this.esd_duration,
-    required this.esd_cons_affected,
-    required this.esd_reason,
-    required this.esd_action,
-    required this.esd_lc_by,
-    required this.esd_cre_date,
-    required this.created_by,
+    required this.API_KEY,
+    required this.entry_type,
+    required this.USRCODE,
+    required this.FEEDERCD,
+    required this.FEEDERCATEGORY,
+    required this.FEEDERNM,
+    required this.ESDDATE,
+    required this.ESDENDDATE,
+    required this.ESDFROMHH,
+    required this.ESDFROMMM,
+    required this.ESDTOHH,
+    required this.ESDTOMM,
+    required this.ESDDURATIONHH,
+    required this.ESDDURATIONMM,
+    // required this.esd_cons_affected,
+    // required this.TotalSMSSent,
+    required this.ESDREASON,
+    required this.ESDCORRECTACTION,
+    required this.ESDLCTAKENBY,
+    required this.ENTRYDATE,
+    required this.IPIMEI,
   });
 
   // factory Feeder.initFeeder() {
@@ -55,36 +123,54 @@ class ESD {
   // }
   Map<String, dynamic> toJson() {
     return ({
-      'esd_fdr_code': esd_fdr_code,
-      'esd_st_date': esd_st_date.toIso8601String(),
-      'esd_st_time': esd_st_time,
-      'esd_end_date': esd_end_date.toIso8601String(),
-      'esd_end_time': esd_end_time,
-      'esd_duration': esd_duration,
-      'esd_cons_affected': esd_cons_affected,
-      'esd_reason': esd_reason,
-      'esd_action': esd_action,
-      'esd_lc_by': esd_lc_by,
-      'esd_cre_date': esd_cre_date.toIso8601String(),
-      'created_by': created_by,
+      '"API_KEY"': '"$saveESD_APIKEY"',
+      '"entry_type"': '"$entry_type"',
+      '"USRCODE"': USRCODE,
+      '"FEEDERCD"': '"$FEEDERCD"',
+      '"FEEDERCATEGORY"': '"$FEEDERCATEGORY"',
+      '"FEEDERNM"': '"$FEEDERNM"',
+      '"ESDDATE"': '"${ESDDATE.toIso8601String()}"',
+      '"ESDENDDATE"': '"${ESDENDDATE.toIso8601String()}"',
+      '"ESDFROMHH"': '"$ESDFROMHH"',
+      '"ESDFROMMM"': '"$ESDFROMMM"',
+      '"ESDTOMM"': '"$ESDTOMM"',
+      '"ESDTOHH"': '"$ESDTOHH"',
+      '"ESDDURATIONHH"': '"$ESDDURATIONHH"',
+      '"ESDDURATIONMM"': '"$ESDDURATIONMM"',
+      // 'esd_cons_affected': esd_cons_affected,
+      '"ESDCORRECTACTION"': '"$ESDCORRECTACTION"',
+      '"ESDREASON"': '"$ESDREASON"',
+      '"ESDLCTAKENBY"': '"$ESDLCTAKENBY"',
+      '"ENTRYDATE"': '"${ENTRYDATE.toIso8601String()}"',
+      '"IPIMEI"': '"$IPIMEI"',
     });
   }
 
   factory ESD.fromJson(Map<String, dynamic> json) {
     return ESD(
-        //esd_id: json['_id'],
-        esd_fdr_code: json['esd_fdr_code'],
-        esd_st_date: DateFormat('yyyy-MM-dd').parse(json['esd_st_date']),
-        esd_st_time: json['esd_st_time'],
-        esd_end_date: DateFormat('yyyy-MM-dd')
-            .parse(json['esd_end_date']), //DateTime(json['esd_end_date']),
-        esd_end_time: json['esd_end_time'],
-        esd_duration: json['esd_duration'],
-        esd_cons_affected: json['esd_cons_affected'],
-        esd_reason: json['esd_reason'],
-        esd_action: json['esd_action'],
-        esd_lc_by: json['esd_lc_by'],
-        esd_cre_date: DateFormat('yyyy-MM-dd').parse(json['esd_cre_date']),
-        created_by: json['created_by']);
+      API_KEY: "",
+      entry_type: json['entry_type'],
+      USRCODE: json['USRCODE'],
+      FEEDERCD: json['FEEDERCD'],
+      FEEDERCATEGORY: json['FEEDERCATEGORY'],
+      FEEDERNM: json['FEEDERNM'],
+      ESDDATE: DateFormat('yyyy-MM-dd').parse(json['ESDDATE']),
+      ESDENDDATE: DateFormat('yyyy-MM-dd').parse(json['ESDENDDATE']),
+      ESDFROMHH: json['ESDFROMHH'],
+      ESDFROMMM: json['ESDFROMMM'],
+      ESDTOMM: json['ESDTOMM'],
+      ESDTOHH: json['ESDTOHH'],
+      ESDDURATIONHH: json['ESDDURATIONHH'],
+      ESDDURATIONMM: json['ESDDURATIONMM'],
+      // esd_cons_affected: json['esd_cons_affected'],
+
+      ESDCORRECTACTION: json['ESDCORRECTACTION'],
+      ESDREASON: json['ESDREASON'],
+      ESDLCTAKENBY: json['ESDLCTAKENBY'],
+      ENTRYDATE: DateFormat('yyyy-MM-dd')
+          .parse(json['ENTRYDATE']), //DateTime(json['esd_end_date']),
+
+      IPIMEI: json['IPIMEI'],
+    );
   }
 }

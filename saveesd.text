@@ -1,0 +1,23 @@
+[
+    {
+        "API_KEY": "pgvclit002002apisaveESD-",
+        "entry_type": "ESD",
+        "USRCODE": "5420108",
+        "FEEDERCD": "76523",
+        "FEEDERCATEGORY": "URBN",
+        "FEEDERNM": "PARA BAZAR",
+        "ESDDATE": "2023-10-07",
+        "ESDENDDATE": "2023-10-07",
+        "ESDFROMHH": "18",
+        "ESDFROMMM": "07",
+        "ESDTOMM": "19",
+        "ESDTOHH": "07",
+        "ESDDURATIONHH": "60",
+        "ESDDURATIONMM": "60",
+        "ESDCORRECTACTION": "aaaaa",
+        "ESDREASON": "rrrrr",
+        "ESDLCTAKENBY": "llllll",
+        "ENTRYDATE": "2023-10-07",
+        "IPIMEI": "445fgfs45434sdfsd"
+    }
+]

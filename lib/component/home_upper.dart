@@ -34,7 +34,7 @@ class _HomeUpperState extends State<HomeUpper> {
   void initState() {
     super.initState();
 
-    if (widget.fdr?.fdr_code != null) {
+    if (widget.fdr?.FeederCode != null) {
       _selFdr = widget.fdr!;
     }
     _searchController = TextEditingController();
@@ -113,7 +113,7 @@ class _HomeUpperState extends State<HomeUpper> {
               const EdgeInsets.only(left: 15, top: 1, bottom: 1, right: 15),
           child: DropDownRLM(
             adm_sdn_code: widget.usr.usr_loccode,
-            feeder_name: _selFdr.fdr_name,
+            feeder_name: _selFdr.FeederName,
             // suggList: suggList, //suggList,
             OnSelect: ((fdr) {
               // selectedFeeder = fdrtxt;
