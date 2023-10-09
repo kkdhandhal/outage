@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:outage/model/feeder.dart';
 import 'package:outage/model/intruption/esd_model.dart';

@@ -1,17 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter/rendering.dart';
+
 import 'package:intl/intl.dart';
 import 'package:outage/api/intruptions/esdapi.dart';
 import 'package:outage/model/api_gen_res.dart';
-
+import 'package:outage/model/feeder.dart';
 import 'package:outage/model/intruption/esd_model.dart';
-import 'package:outage/pages/ESD/esdtabview.dart';
+import 'package:outage/model/login/logreqmod.dart';
+import 'package:outage/model/login/user.dart';
 import 'package:outage/pages/Home.dart';
-// import 'package:realm/realm.dart';
-
-import '../../model/feeder.dart';
-import '../../model/login/user.dart';
+import 'package:outage/utils/constants.dart';
 
 class EsdScreen extends StatefulWidget {
   final Users usr;
@@ -38,6 +36,25 @@ class _EsdscreenState extends State<EsdScreen> {
   TextEditingController _actiontknController = TextEditingController();
   TextEditingController _lcbyController = TextEditingController();
 
+  int getHrsMin(String date, int mode) {
+    int min = 0;
+    int hrs = 0;
+    if (mode == 1) //  1 - For Minute and 2- for  Hrs
+    {
+      var hrsList = date.split(":");
+      min = int.parse(hrsList[0]);
+
+      return min;
+    } else if (mode == 2) {
+      if (date.contains("PM")) {
+        var hrsList = date.split(":");
+        hrs = int.parse(hrsList[0]) + 12;
+        return hrs;
+      }
+    }
+    return hrs;
+  }
+
   //APIError? result;
   Future<void> _showDialog(
       BuildContext context, final String dbmsg, int dbcode) {
@@ -56,7 +73,7 @@ class _EsdscreenState extends State<EsdScreen> {
                 ),
                 child: const Text('OK'),
                 onPressed: () {
-                  if (dbcode == -1 || dbcode == -2 || dbcode == -3) {
+                  if (dbcode != 0) {
                     Navigator.of(context).pop();
                   } else {
                     Navigator.pushAndRemoveUntil(
@@ -572,7 +589,7 @@ class _EsdscreenState extends State<EsdScreen> {
                                 } else {
                                   ESD esd = ESD(
                                       //esd_id: 0,
-                                      API_KEY: "",
+                                      APIKEY: saveESD_APIKEY,
                                       USRCODE: widget.usr.usr_id,
                                       entry_type: 'ESD',
                                       FEEDERCD: widget.fdr.FeederCode,
@@ -582,26 +599,33 @@ class _EsdscreenState extends State<EsdScreen> {
                                           .parse(_startdate.text),
                                       ESDENDDATE: DateFormat("dd-MM-yyyy")
                                           .parse(_enddate.text),
-                                      ESDFROMHH: _starttime.text,
-                                      ESDFROMMM: _starttime.text,
-                                      ESDTOHH: _endtime.text,
-                                      ESDTOMM: _endtime.text,
-                                      ESDDURATIONHH: duration,
-                                      ESDDURATIONMM: duration,
+                                      ESDFROMHH: getHrsMin(_starttime.text, 2)
+                                          .toString(),
+                                      // ESDFROMHH: getHrsMin(_starttime.text, 2),
+                                      ESDFROMMM: getHrsMin(_starttime.text, 1)
+                                          .toString(),
+                                      ESDTOHH: getHrsMin(_endtime.text, 2)
+                                          .toString(),
+                                      ESDTOMM: getHrsMin(_endtime.text, 1)
+                                          .toString(),
+                                      ESDDURATIONHH: (duration / 60).floor(),
+                                      ESDDURATIONMM: (duration % 60),
                                       // esd_cons_affected: widget.fdr.fdr_cons,
                                       ESDREASON: _reasonController.text,
                                       ESDCORRECTACTION:
                                           _actiontknController.text,
                                       ESDLCTAKENBY: _lcbyController.text,
                                       ENTRYDATE: DateTime.now(),
-                                      IPIMEI: widget.usr.usr_name);
+                                      IPIMEI: widget.usr.IPIMEI);
 
                                   CircularProgressIndicator(
                                       backgroundColor: Colors.blue.shade800,
                                       color: Colors.white);
-                                  APIResult result = await ESDAPI.entryESD(esd);
-                                  _showDialog(context, result.db_msg,
-                                      result.db_code as int);
+                                  LoginResponse result =
+                                      await ESDAPI.entryESD(esd);
+                                  // ignore: use_build_context_synchronously
+                                  _showDialog(context, result.Status_message,
+                                      result.Status);
                                 }
                               },
                             ),

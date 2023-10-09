@@ -3,8 +3,9 @@ class Users {
   final String usr_name;
   final String usr_locname;
   final String usr_loccode;
-
+  final String IPIMEI;
   Users({
+    required this.IPIMEI,
     required this.usr_id,
     required this.usr_name,
     required this.usr_locname,

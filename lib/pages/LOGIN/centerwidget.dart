@@ -88,6 +88,7 @@ class _CenterWidgetState extends State<CenterWidget> {
           _msg = "";
         });
         Users usr = Users(
+          IPIMEI: _deviceData['id'],
           usr_id: lgnReq.usrCode,
           usr_name: log_resp.User_name,
           usr_locname: log_resp.Location_name,
