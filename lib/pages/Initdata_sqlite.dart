@@ -65,18 +65,19 @@ class _InitdataState extends State<InitdataSQLite> {
                       FeederCategory: e.FeederCategory,
                       fdr_cons: e.fdr_cons);
                   //RealmResults<rlmfeeder> fdrall = realm.all();
-                  OutageDbHelper.insertFeeder(fdr);
-                  count++;
-                  print("Row inserted: $count");
+                  OutageDbHelper.insertFeeder(fdr).then((value) {
+                    count++;
+                    print("Row inserted: $count");
+                  });
                 });
-                Future.delayed(Duration.zero, () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HomePage(
-                                usr: widget.usr,
-                              )));
-                });
+                // Future.delayed(Duration.zero, () {
+                //   Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //           builder: (context) => HomePage(
+                //                 usr: widget.usr,
+                //               )));
+                // });
               }
             }
             return Center(

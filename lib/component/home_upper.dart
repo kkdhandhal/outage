@@ -3,15 +3,14 @@ import 'package:outage/component/dropdown_rlm.dart';
 import 'package:outage/model/feeder.dart';
 import 'package:outage/model/login/user.dart';
 import 'package:outage/pages/LOGIN/login.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeUpper extends StatefulWidget {
   final Users usr;
   final Feeder? fdr;
-  Function(Feeder fdr) OnSelect;
+  final Function(Feeder fdr) OnSelect;
   //final List<Feeder> fdr_list;
 
-  HomeUpper({
+  const HomeUpper({
     super.key,
     required this.usr,
     this.fdr,
@@ -19,7 +18,7 @@ class HomeUpper extends StatefulWidget {
   });
 
   @override
-  _HomeUpperState createState() => _HomeUpperState();
+  State<HomeUpper> createState() => _HomeUpperState();
 }
 
 class _HomeUpperState extends State<HomeUpper> {
