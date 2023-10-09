@@ -14,12 +14,13 @@ class ESDAPI {
     // List<ESD> esdList = [esd]
     var url = Uri.parse(saveESD);
     print("URL: $url --- ${esd.toJson().toString()}");
+    String bodyString = esd.toJson().toString();
     final resp = await http.post(
       url,
-      // headers: <String, String>{
-      //   'content-type': 'application/json',
-      // },
-      body: jsonEncode(esd.toJson()),
+      headers: <String, String>{
+        'content-type': 'application/json',
+      },
+      body: bodyString, //jsonEncode(esd.toJson()),
       // body: jsonEncode(esd.toJson()),
     );
     //print("Request send: ${esd.toJson()}");
