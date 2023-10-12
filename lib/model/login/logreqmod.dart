@@ -9,18 +9,21 @@ class LoginBase {
 
 class OTPReq extends LoginBase {
   final String usrCode;
-  final int otp;
+  final String otp;
+  final String apiKey = loginOTP_APIKEY;
 
   OTPReq({required this.usrCode, required super.imei, required this.otp});
 
-  Map<String, dynamic> toJson() {
-    return ({
-      "APIKEY": apiKey,
-      "USRCODE": usrCode,
-      "APPNO": appNo,
-      "IMEI": imei,
-      "OTP": otp,
-    });
+  List<Map<String, dynamic>> toJson() {
+    return ([
+      {
+        '"APIKEY"': '"$loginOTP_APIKEY"',
+        '"USRCODE"': '"$usrCode"',
+        '"APPNO"': '"$application_no"',
+        '"IMEI"': '"$imei"',
+        '"OTP"': '"$otp"',
+      }
+    ]);
   }
 }
 

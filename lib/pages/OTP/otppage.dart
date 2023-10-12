@@ -1,9 +1,14 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:outage/api/user/userapi.dart';
+import 'package:outage/model/login/logreqmod.dart';
 import 'package:outage/model/login/user.dart';
-import 'package:outage/pages/Initdata_sqlite.dart';
+import 'package:outage/pages/initdata/Initdata_sqlite.dart';
 
 class OTPScreen extends StatefulWidget {
   const OTPScreen({
@@ -21,11 +26,133 @@ class OTPScreen extends StatefulWidget {
 }
 
 class _OTPScreenState extends State<OTPScreen> {
+  String _msg = "";
+  String _title = "";
+  String username = "";
+  String password = "";
+
+  int msgCode = 0;
+  bool showWaitScreen = false;
+  bool showWaitCircular = false;
   String otpVal = "";
   int initStart = 180;
   late int counter;
   late Timer timer;
   bool setResendBtnEnabled = false;
+  static final DeviceInfoPlugin _deviceInfoPlugin = DeviceInfoPlugin();
+  Map<String, dynamic> _deviceData = <String, dynamic>{};
+
+  Future<void> initPlatformState() async {
+    if (kDebugMode) {
+      print("initPlatformState Function Called");
+    }
+    var deviceData = <String, dynamic>{};
+    try {
+      if (Platform.isAndroid) {
+        deviceData = _readAndroidDevice(await _deviceInfoPlugin.androidInfo);
+      }
+    } catch (e) {
+      deviceData = <String, dynamic>{
+        'Error:': 'Failed to get platform version.'
+      };
+    }
+    setState(() {
+      _deviceData = deviceData;
+    });
+  }
+
+  Map<String, dynamic> _readAndroidDevice(AndroidDeviceInfo build) {
+    return <String, dynamic>{
+      'id': build.id,
+    };
+  }
+
+  Future<void> _showDialog(BuildContext context, final String msg, int code) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(code.toString()),
+            content: Text(msg),
+            actions: [
+              TextButton(
+                style: TextButton.styleFrom(
+                  textStyle: Theme.of(context).textTheme.labelLarge,
+                ),
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  void _onCheckOTP(String tmp_otp) async {
+    setState(() {
+      showWaitScreen = true;
+      showWaitCircular = true;
+      _title = "Checking";
+      _msg = "Please Wait...";
+    });
+    OTPReq otpReq = OTPReq(
+        usrCode: widget.usr.usr_id, //_username.text,
+        otp: tmp_otp,
+        imei: widget.usr.IPIMEI);
+
+    try {
+      LoginResponse otp_resp = await UserAPI.checkOTP(otpReq);
+      if (kDebugMode) {
+        print("Responce Username is ${otp_resp.Status}");
+      }
+      if (otp_resp.Status == 0) {
+        setState(() {
+          showWaitScreen = false;
+          showWaitCircular = false;
+          _title = "";
+          _msg = "";
+        });
+        Users usr = Users(
+          IPIMEI: _deviceData['id'],
+          usr_id: otpReq.usrCode,
+          usr_name: otp_resp.User_name,
+          usr_locname: otp_resp.Location_name,
+          usr_loccode: otp_resp.Location_code,
+        );
+        if (context.mounted) {
+          if (otp_resp.Status == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => InitdataSQLite(
+                  usr: usr,
+                ),
+              ),
+            );
+          } else {
+            _showDialog(context, otp_resp.Status_message, otp_resp.Status);
+          }
+        }
+      } else {
+        if (context.mounted) {
+          _showDialog(context, otp_resp.Status_message, otp_resp.Status);
+        }
+      }
+    } catch (e) {
+      setState(() {
+        _msg = e.toString();
+        showWaitCircular = false;
+        _title = "API Error";
+        msgCode = -2;
+        //showWaitScreen = false;
+      });
+      if (context.mounted) {
+        _showDialog(context, e.toString(), -2);
+      }
+      ;
+    }
+  }
 
   void startTimer() {
     const oneSec = Duration(seconds: 1);
@@ -35,9 +162,11 @@ class _OTPScreenState extends State<OTPScreen> {
           setResendBtnEnabled = true;
         });
       } else {
-        setState(() {
-          counter--;
-        });
+        if (mounted) {
+          setState(() {
+            counter--;
+          });
+        }
       }
     });
   }
@@ -88,8 +217,8 @@ class _OTPScreenState extends State<OTPScreen> {
                       padding: const EdgeInsets.all(18.0),
                       child: Center(
                         child: OtpTextField(
-                          numberOfFields: 4,
-                          fieldWidth: 55,
+                          numberOfFields: 6,
+                          fieldWidth: 45,
                           borderWidth: 2,
                           textStyle:
                               const TextStyle(color: Colors.blue, fontSize: 36),
@@ -146,14 +275,15 @@ class _OTPScreenState extends State<OTPScreen> {
                                 left: 80, right: 80, top: 15, bottom: 15),
                           ),
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => InitdataSQLite(
-                                  usr: widget.usr,
-                                ),
-                              ),
-                            );
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => InitdataSQLite(
+                            //       usr: widget.usr,
+                            //     ),
+                            //   ),
+                            // );
+                            _onCheckOTP(otpVal);
                           },
                           child: const Text(
                             "Submit",

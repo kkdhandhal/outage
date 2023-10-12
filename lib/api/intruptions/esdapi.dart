@@ -57,6 +57,8 @@ class ESDAPI {
       print(resp.statusCode);
       if (resp.statusCode == 200) {
         String jsonResponce = resp.body.replaceAll("\\", "");
+        print(
+            "\n URL is $url -----  \n Body is : $bodyStr   \n Responce Body is : ${resp.body}");
         jsonResponce = jsonResponce
             .replaceAll("null", '"*"')
             .replaceAll("\"{", "{")
@@ -65,10 +67,11 @@ class ESDAPI {
           List<LoginResponse> responce = [
             LoginResponse.fromJson(json.decode(jsonResponce))
           ];
+
           return responce;
         } else {
           List jsonRes = json.decode(jsonResponce);
-          print(jsonRes[0]);
+
           return jsonRes.map((esd) => ESDList.fromJson(esd)).toList();
         }
 

@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:outage/api/user/userapi.dart';
 import 'package:outage/model/login/user.dart';
-import 'package:outage/pages/Initdata_sqlite.dart';
+import 'package:outage/pages/initdata/Initdata_sqlite.dart';
 import 'package:outage/model/login/logreqmod.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:outage/pages/LOGIN/logintext.dart';

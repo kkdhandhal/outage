@@ -76,7 +76,7 @@ class _HomeUpperState extends State<HomeUpper> {
                       height: 4,
                     ),
                     Text(
-                      "JP, Surendranagar Circle ${widget.usr.usr_loccode}",
+                      "${widget.usr.usr_locname}, ${widget.usr.usr_loccode}",
                       style: const TextStyle(
                           color: Color.fromARGB(255, 119, 186, 241),
                           fontSize: 12,

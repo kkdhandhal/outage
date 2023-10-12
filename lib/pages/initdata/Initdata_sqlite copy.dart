@@ -5,19 +5,19 @@ import 'package:outage/pages/Home.dart';
 import 'package:outage/api/feeders/feederapi.dart';
 import 'package:outage/model/feeder.dart';
 
-class InitdataSQLite extends StatefulWidget {
+class InitdataSQLite1 extends StatefulWidget {
   final Users usr;
-  const InitdataSQLite({Key? key, required this.usr}) : super(key: key);
+  const InitdataSQLite1({Key? key, required this.usr}) : super(key: key);
 
   @override
-  State<InitdataSQLite> createState() => _InitdataState();
+  State<InitdataSQLite1> createState() => _InitdataState1();
 }
 
-class _InitdataState extends State<InitdataSQLite> {
+class _InitdataState1 extends State<InitdataSQLite1> {
   //int fdr_sdn_code = widget.usr.usr_sdnloc;
   int curInsert = 0;
   int lstlength = 0;
-
+  int dataLength = 0;
   @override
   void initState() {
     super.initState();
@@ -50,7 +50,9 @@ class _InitdataState extends State<InitdataSQLite> {
               } else {
                 errCode = 0;
                 stsMsg = "";
-
+                setState(() {
+                  dataLength = _suggList.length;
+                });
                 var count = 0;
                 _suggList.forEach((e) {
                   // final fdr = rlmfeeder(e.fdr_code, e.fdr_adm_sdn, e.fdr_loccode,
@@ -70,14 +72,14 @@ class _InitdataState extends State<InitdataSQLite> {
                     print("Row inserted: $count");
                   });
                 });
-                // Future.delayed(Duration.zero, () {
-                //   Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //           builder: (context) => HomePage(
-                //                 usr: widget.usr,
-                //               )));
-                // });
+                Future.delayed(Duration.zero, () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HomePage(
+                                usr: widget.usr,
+                              )));
+                });
               }
             }
             return Center(

@@ -15,7 +15,7 @@ const application_no = 6;
 String loginValidateurl =
     "http://117.205.3.45:8083/PGVCLITAPPAPI/PGVCLITAPPAPI/ValidateLogin/Login/";
 String otpValidateurl =
-    "http://$officeIP:$port/PGVCLITAPPAPI/PGVCLITAPPAPI/ValidateOTP/OTP/";
+    "http://117.205.3.45:8083/PGVCLITAPPAPI/PGVCLITAPPAPI/ValidateOTP/OTP/";
 String fetchESDurl =
     "http://117.205.3.45:8083/PGVCLITAPPAPI/ESD/fetchESD/FetchESD/";
 String getFeedersurl =
