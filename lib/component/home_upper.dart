@@ -55,34 +55,16 @@ class _HomeUpperState extends State<HomeUpper> {
       children: [
         Padding(
           padding:
-              const EdgeInsets.only(top: 50.0, left: 12, bottom: 12, right: 12),
+              const EdgeInsets.only(top: 35, left: 15, bottom: 0, right: 15),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Padding(
-                padding: EdgeInsets.only(top: 10, left: 8, bottom: 5, right: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "${widget.usr.usr_name} ",
-                      //"${widget.usr.usr_nameinit} ${widget.usr.usr_firstname} ${widget.usr.usr_lastname}",
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      "${widget.usr.usr_locname}, ${widget.usr.usr_loccode}",
-                      style: const TextStyle(
-                          color: Color.fromARGB(255, 119, 186, 241),
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal),
-                    ),
-                  ],
+              const Text(
+                "PGVCL OMS",
+                style: TextStyle(
+                  color: Color.fromARGB(255, 179, 189, 167),
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               Container(
@@ -103,28 +85,60 @@ class _HomeUpperState extends State<HomeUpper> {
                     color: Colors.white,
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
-        Padding(
-          padding:
-              const EdgeInsets.only(left: 15, top: 1, bottom: 1, right: 15),
-          child: DropDownSQLite(
-            adm_sdn_code: widget.usr.usr_loccode,
-            feeder_name: _selFdr.FeederName,
-            // suggList: suggList, //suggList,
-            OnSelect: ((fdr) {
-              // selectedFeeder = fdrtxt;
-              // selectedFeederCode = fdrcode;
-              widget.OnSelect(fdr);
-              setState(() {
-                _selFdr = fdr;
-              });
-              //print(Selected_value);
-            }),
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.only(top: 5, left: 18, bottom: 5, right: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${widget.usr.usr_name} ",
+                    //"${widget.usr.usr_nameinit} ${widget.usr.usr_firstname} ${widget.usr.usr_lastname}",
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Text(
+                    "${widget.usr.usr_locname}, ${widget.usr.usr_loccode}",
+                    style: const TextStyle(
+                        color: Color.fromARGB(255, 119, 186, 241),
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
+        // Padding(
+        //   padding:
+        //       const EdgeInsets.only(left: 15, top: 1, bottom: 1, right: 15),
+        //   child: DropDownSQLite(
+        //     adm_sdn_code: widget.usr.usr_loccode,
+        //     feeder_name: _selFdr.FeederName,
+        //     // suggList: suggList, //suggList,
+        //     OnSelect: ((fdr) {
+        //       // selectedFeeder = fdrtxt;
+        //       // selectedFeederCode = fdrcode;
+        //       widget.OnSelect(fdr);
+        //       setState(() {
+        //         _selFdr = fdr;
+        //       });
+        //       //print(Selected_value);
+        //     }),
+        //   ),
+        // ),
         const SizedBox(
           height: 10,
         ),

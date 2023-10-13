@@ -198,7 +198,7 @@ class _DropDownSQLiteState extends State<DropDownSQLite> {
           color: Colors.blue[600],
           borderRadius: BorderRadius.circular(12),
         ),
-        padding: const EdgeInsets.only(left: 10, top: 1, bottom: 1, right: 10),
+        padding: const EdgeInsets.only(left: 10, top: 0, bottom: 0, right: 10),
         child: TextFormField(
           controller: _txtcontroller,
           focusNode: _focusnode,
@@ -208,7 +208,18 @@ class _DropDownSQLiteState extends State<DropDownSQLite> {
               Icons.search,
               color: Colors.white,
             ),
+            label: const Text(
+              "Select Feeder ",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+              ),
+            ),
             border: InputBorder.none,
+            // labelStyle: const TextStyle(
+            //   color: Colors.white,
+            //   fontSize: 17,
+            // ),
             suffixIcon: IconButton(
               icon: const Icon(
                 Icons.clear,
@@ -229,44 +240,15 @@ class _DropDownSQLiteState extends State<DropDownSQLite> {
           ),
           cursorColor: Colors.white,
           onChanged: (value) {
-            // setState(() {
-            //   _suggList = _mastsuggList
-            //       .where((element) => element.fdr_name
-            //           .toLowerCase()
-            //           .contains(value.toLowerCase()))
-            //       .toList();
-            // });
-
-            // if (!_overlayEntry.mounted) {
-            //   _overlayEntry.remove();
-            // }
-
-            // suggList = API.fetchFeederData(_txtcontroller.text.toLowerCase());
             _debouncer.run(() {});
             if (_overlayEntry.mounted) {
               _overlayEntry.remove();
-              //_overlayEntry = _createOverlayEntry();
+
               Overlay.of(context).insert(_overlayEntry);
             }
-            // });
-
-            // onChange(value);
           },
         ),
       ),
     );
   }
 }
-
-// (value) {
-//             WsuggList = widget.suggList
-//                 .where((element) => element
-//                     .toLowerCase()
-//                     .contains(_txtcontroller.text.toLowerCase()))
-//                 .toList();
-
-//             if (!_overlayEntry.mounted) {
-//               _overlayEntry = _createOverlayEntry();
-//               Overlay.of(context)?.insert(_overlayEntry);
-//             }
-//           }

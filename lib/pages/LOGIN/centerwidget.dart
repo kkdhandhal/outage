@@ -122,10 +122,22 @@ class _CenterWidgetState extends State<CenterWidget> {
         setState(() {
           _msg = log_resp.Status_message;
           showWaitCircular = false;
-          _title = "API Response";
+          _title = "Information";
           msgCode = log_resp.Status;
           //showWaitScreen = false;
         });
+        if (mounted) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return CustDialog(
+                  Dlg_title: _title,
+                  msg: _msg,
+                  onClose: (val) {},
+                  res_code: msgCode);
+            },
+          );
+        }
       }
     } catch (e) {
       setState(() {
@@ -135,20 +147,20 @@ class _CenterWidgetState extends State<CenterWidget> {
         msgCode = -2;
         //showWaitScreen = false;
       });
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return CustDialog(
+                Dlg_title: _title,
+                msg: _msg,
+                onClose: (val) {},
+                res_code: msgCode);
+          },
+        );
+      }
     }
     //_showDialog(context, "Error", "Username and Password are Wrong", -1);
-    if (mounted) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return CustDialog(
-              Dlg_title: _title,
-              msg: _msg,
-              onClose: (val) {},
-              res_code: msgCode);
-        },
-      );
-    }
   }
 
   @override

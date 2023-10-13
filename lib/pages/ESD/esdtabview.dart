@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:outage/component/custdialog.dart';
 import 'package:outage/model/feeder.dart';
 import 'package:outage/model/intruption/esd_model.dart';
 import 'package:outage/model/login/logreqmod.dart';
@@ -9,28 +10,28 @@ import 'package:outage/pages/ESD/esdscreen.dart';
 import 'package:outage/api/intruptions/esdapi.dart';
 import 'package:outage/pages/ESD/tabitem.dart';
 
-Future<void> _showInfoDialog(
-    BuildContext context, final String dbmsg, int dbcode) {
-  return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Information - $dbcode"),
-          content: Text(dbmsg),
-          actions: [
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      });
-}
+// Future<void> _showInfoDialog(
+//     BuildContext context, final String dbmsg, int dbcode) {
+//   return showDialog(
+//       context: context,
+//       builder: (BuildContext context) {
+//         return AlertDialog(
+//           title: Text("Information - $dbcode"),
+//           content: Text(dbmsg),
+//           actions: [
+//             TextButton(
+//               style: TextButton.styleFrom(
+//                 textStyle: Theme.of(context).textTheme.labelLarge,
+//               ),
+//               child: const Text('OK'),
+//               onPressed: () {
+//                 Navigator.of(context).pop();
+//               },
+//             ),
+//           ],
+//         );
+//       });
+// }
 
 class EsdTabView extends StatefulWidget {
   final Users usr;
@@ -111,33 +112,52 @@ class _EsdtabviewState extends State<EsdTabView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(15),
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(32), topRight: Radius.circular(32))),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+      child: Stack(
         children: [
-          Expanded(
-            child: getData(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Expanded(
+                child: getData(),
+              ),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: FloatingActionButton.extended(
-              onPressed: () {
-                if (widget.feeder.FeederCode <= 0) {
-                  _showInfoDialog(context, "Please select Feeder First", 101);
-                } else {
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FloatingActionButton.extended(
+                onPressed: () {
+                  // if (widget.feeder.FeederCode <= 0) {
+                  //   showDialog(
+                  //     context: context,
+                  //     builder: (context) {
+                  //       return CustDialog(
+                  //           Dlg_title: "Information",
+                  //           msg: "Please select Feeder First",
+                  //           onClose: (val) {},
+                  //           res_code: 101);
+                  //     },
+                  //   );
+                  //   //_showInfoDialog(context, "Please select Feeder First", 101);
+                  // } else {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
                               EsdScreen(fdr: widget.feeder, usr: widget.usr)));
-                }
-              },
-              label: const Text("ADD Entry"),
-              icon: const Icon(Icons.add),
+                  // }
+                },
+                label: const Text("ADD ESD Entry"),
+                icon: const Icon(Icons.add),
+                backgroundColor: Colors.deepPurple,
+              ),
             ),
           ),
         ],

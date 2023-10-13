@@ -1,22 +1,8 @@
-//import 'dart:convert';
-//import 'package:http/http.dart' as http;
-
 import 'package:flutter/material.dart';
 import 'package:outage/component/home_upper.dart';
-
-//import 'package:outage/model/rlmfeeder.dart';
 import 'package:outage/pages/ESD/esdtabview.dart';
-//import 'package:realm/realm.dart';
 import 'package:outage/model/feeder.dart';
-
-//import 'package:outage/model/rlmfeeder.g.dart';
-
-//import '../api/api.dart';
-//import '../component/dropdown_rlm.dart';
 import '../model/login/user.dart';
-//import 'Tabview.dart';
-
-//import 'package:searchfield/searchfield.dart';
 
 class HomePage extends StatefulWidget {
   final Users usr;

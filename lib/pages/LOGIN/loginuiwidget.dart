@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:outage/model/login/user.dart';
+import 'package:outage/utils/constants.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({
@@ -82,7 +83,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(13.0),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
@@ -96,6 +97,28 @@ class _LoginWidgetState extends State<LoginWidget> {
             child: const Text("Login"),
           ),
         ),
+        const Padding(
+          padding: EdgeInsets.all(4),
+          child: Column(
+            children: [
+              Text(
+                "Version No . $appVersionNo",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+              ),
+              Text(
+                "Developed by I.T. Department , Corporate Office, PGVCL",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+              ),
+            ],
+          ),
+        )
       ],
     );
   }

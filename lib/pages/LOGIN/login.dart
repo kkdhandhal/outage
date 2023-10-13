@@ -102,7 +102,7 @@ class _LoginState extends State<LoginScreen> {
                       child: Column(
                         children: [
                           GradientText(
-                            text: "OMS",
+                            text: "PGVCL OMS",
                             gradient: LinearGradient(
                               colors: [
                                 Color.fromARGB(255, 164, 138, 226),

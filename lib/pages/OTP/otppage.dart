@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:outage/api/user/userapi.dart';
+import 'package:outage/component/custdialog.dart';
 import 'package:outage/model/login/logreqmod.dart';
 import 'package:outage/model/login/user.dart';
 import 'package:outage/pages/initdata/Initdata_sqlite.dart';
@@ -66,28 +67,28 @@ class _OTPScreenState extends State<OTPScreen> {
   //   };
   // }
 
-  Future<void> _showDialog(
-      BuildContext context, final String title, final String msg, int code) {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("${code.toString()} - $title"),
-            content: Text(msg),
-            actions: [
-              TextButton(
-                style: TextButton.styleFrom(
-                  textStyle: Theme.of(context).textTheme.labelLarge,
-                ),
-                child: const Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        });
-  }
+  // Future<void> _showDialog(
+  //     BuildContext context, final String title, final String msg, int code) {
+  //   return showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           title: Text("${code.toString()} - $title"),
+  //           content: Text(msg),
+  //           actions: [
+  //             TextButton(
+  //               style: TextButton.styleFrom(
+  //                 textStyle: Theme.of(context).textTheme.labelLarge,
+  //               ),
+  //               child: const Text('OK'),
+  //               onPressed: () {
+  //                 Navigator.of(context).pop();
+  //               },
+  //             ),
+  //           ],
+  //         );
+  //       });
+  // }
 
   void _onCheckOTP(String tmp_otp) async {
     setState(() {
@@ -132,7 +133,19 @@ class _OTPScreenState extends State<OTPScreen> {
       }
     } else {
       if (context.mounted) {
-        _showDialog(context, "Error", otp_resp.Status_message, otp_resp.Status);
+        // _showDialog(context, "Error", otp_resp.Status_message, otp_resp.Status);
+        // if (mounted) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return CustDialog(
+                Dlg_title: "Error",
+                msg: otp_resp.Status_message,
+                onClose: (val) {},
+                res_code: otp_resp.Status);
+          },
+        );
+        // }
       }
     }
     // } catch (e) {
