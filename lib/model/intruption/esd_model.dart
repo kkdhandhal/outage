@@ -40,8 +40,8 @@ class ESDList {
       FeederCode: json['FeederCode'],
       FeederName: json['FeederName'],
       FeederCategory: json['FeederCategory'],
-      ESDFrom: DateFormat('yyyy-MM-dd').parse(json['ESDFrom']),
-      ESDTo: DateFormat('yyyy-MM-dd').parse(json['ESDTo']),
+      ESDFrom: DateFormat('yyyy-MM-dd hh:mm').parse(json['ESDFrom']),
+      ESDTo: DateFormat('yyyy-MM-dd hh:mm').parse(json['ESDTo']),
       ConsumersAffected: json['ConsumersAffected'],
       TotalSMSSent: json['TotalSMSSent'],
     );

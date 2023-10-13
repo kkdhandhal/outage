@@ -94,6 +94,7 @@ class _LoginState extends State<LoginScreen> {
                 color: const Color.fromARGB(255, 74, 52, 153),
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const Center(

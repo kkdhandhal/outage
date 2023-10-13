@@ -139,6 +139,7 @@ class _OTPScreenState extends State<OTPScreen> {
           context: context,
           builder: (context) {
             return CustDialog(
+                isConfirmDialog: false,
                 Dlg_title: "Error",
                 msg: otp_resp.Status_message,
                 onClose: (val) {},

@@ -22,6 +22,7 @@ class EsdScreen extends StatefulWidget {
 }
 
 class _EsdscreenState extends State<EsdScreen> {
+  int getConfirm = 0;
   Feeder _selFdr = Feeder.initFeeder();
   DateTime _selectedStartDate = DateTime.now();
   TimeOfDay _selectedStartTime = TimeOfDay.now();
@@ -42,14 +43,25 @@ class _EsdscreenState extends State<EsdScreen> {
     int hrs = 0;
     if (mode == 1) //  1 - For Minute and 2- for  Hrs
     {
+      date = date.replaceAll("AM", "").replaceAll("PM", "");
       var hrsList = date.split(":");
-      min = int.parse(hrsList[0]);
+      min = int.parse(hrsList[1]);
 
       return min;
     } else if (mode == 2) {
       if (date.contains("PM")) {
         var hrsList = date.split(":");
         hrs = int.parse(hrsList[0]) + 12;
+        if (hrs == 24) {
+          hrs = 12;
+        }
+        return hrs;
+      } else {
+        var hrsList = date.split(":");
+        hrs = int.parse(hrsList[0]);
+        if (hrs == 12) {
+          hrs = 0;
+        }
         return hrs;
       }
     }
@@ -539,6 +551,7 @@ class _EsdscreenState extends State<EsdScreen> {
                                             msg: "Select Feeder First",
                                             fdr: _selFdr,
                                             usr: widget.usr,
+                                            isConfirmDialog: false,
                                             onClose: (val) {},
                                             res_code: 101);
                                       });
@@ -555,6 +568,7 @@ class _EsdscreenState extends State<EsdScreen> {
                                       context: context,
                                       builder: (context) {
                                         return CustDialog(
+                                            isConfirmDialog: false,
                                             Dlg_title: "Information",
                                             msg: "All data are required",
                                             onClose: (val) {},
@@ -566,6 +580,7 @@ class _EsdscreenState extends State<EsdScreen> {
                                       builder: (context) {
                                         return CustDialog(
                                             Dlg_title: "Information",
+                                            isConfirmDialog: false,
                                             msg:
                                                 "End date and End Time must grater than Start date and Start time",
                                             onClose: (val) {},
@@ -606,20 +621,41 @@ class _EsdscreenState extends State<EsdScreen> {
                                   CircularProgressIndicator(
                                       backgroundColor: Colors.blue.shade800,
                                       color: Colors.white);
-                                  LoginResponse result =
-                                      await ESDAPI.entryESD(esd);
-                                  // ignore: use_build_context_synchronously
-                                  showDialog(
+
+                                  await showDialog(
                                       context: context,
                                       builder: (context) {
                                         return CustDialog(
-                                            Dlg_title: "Information",
-                                            msg: result.Status_message,
+                                            Dlg_title: "Confirmation",
+                                            isConfirmDialog: true,
+                                            msg:
+                                                "Are you sure you want to Save ESD entry, After confirmation you cannot delete Entry",
                                             fdr: _selFdr,
                                             usr: widget.usr,
-                                            onClose: (val) {},
-                                            res_code: result.Status);
+                                            onClose: (val) {
+                                              setState(() {
+                                                getConfirm = val;
+                                              });
+                                            },
+                                            res_code: 102);
                                       });
+                                  if (getConfirm == 1) {
+                                    LoginResponse result =
+                                        await ESDAPI.entryESD(esd);
+                                    // ignore: use_build_context_synchronously
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return CustDialog(
+                                              Dlg_title: "Information",
+                                              isConfirmDialog: false,
+                                              msg: result.Status_message,
+                                              fdr: _selFdr,
+                                              usr: widget.usr,
+                                              onClose: (val) {},
+                                              res_code: result.Status);
+                                        });
+                                  }
 
                                   // _showDialog(context, result.Status_message,
                                   //     result.Status);

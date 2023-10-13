@@ -131,6 +131,7 @@ class _CenterWidgetState extends State<CenterWidget> {
             context: context,
             builder: (context) {
               return CustDialog(
+                  isConfirmDialog: false,
                   Dlg_title: _title,
                   msg: _msg,
                   onClose: (val) {},
@@ -152,6 +153,7 @@ class _CenterWidgetState extends State<CenterWidget> {
           context: context,
           builder: (context) {
             return CustDialog(
+                isConfirmDialog: false,
                 Dlg_title: _title,
                 msg: _msg,
                 onClose: (val) {},
@@ -170,6 +172,7 @@ class _CenterWidgetState extends State<CenterWidget> {
     } else {
       // if (msgCode == 0) {
       return (LoginWidget(
+        imei: _deviceData['id'].toString(),
         OnSubmit: (_username, _password) {
           setState(() {
             username = _username;

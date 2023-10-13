@@ -10,9 +10,11 @@ class CustDialog extends StatelessWidget {
     required this.res_code,
     required this.Dlg_title,
     required this.msg,
+    required this.isConfirmDialog,
     this.usr,
     this.fdr,
   });
+  final bool isConfirmDialog;
   final Users? usr;
   final Feeder? fdr;
   final Function(int rtnCode) onClose;
@@ -34,6 +36,10 @@ class CustDialog extends StatelessWidget {
             msg: msg,
             usr: usr,
             fdr: fdr,
+            isConfirmDialog: isConfirmDialog,
+            onClose: (rtnCode) {
+              onClose(rtnCode);
+            },
             res_code: res_code,
           ),
           Positioned(
@@ -73,9 +79,13 @@ class CardDialog extends StatelessWidget {
     required this.Dlg_title,
     required this.msg,
     required this.res_code,
+    required this.isConfirmDialog,
+    required this.onClose,
     this.usr,
     this.fdr,
   });
+  final Function(int rtnCode) onClose;
+  final bool isConfirmDialog;
   final Users? usr;
   final Feeder? fdr;
   final int res_code;
@@ -134,29 +144,59 @@ class CardDialog extends StatelessWidget {
           const SizedBox(
             height: 25,
           ),
-          ElevatedButton(
-            onPressed: () {
-              if (res_code != 0) {
-                Navigator.of(context).pop();
-              } else {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HomePage(fdr: fdr, usr: usr!)),
-                    (route) => false);
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromRGBO(106, 192, 184, 1),
-            ),
-            child: const Text(
-              "OK",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  if (isConfirmDialog) {
+                    onClose(1);
+                    Navigator.of(context).pop();
+                  } else {
+                    onClose(0);
+                    if (res_code != 0) {
+                      Navigator.of(context).pop();
+                    } else {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  HomePage(fdr: fdr, usr: usr!)),
+                          (route) => false);
+                    }
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromRGBO(106, 192, 184, 1),
+                ),
+                child: const Text(
+                  "OK",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
               ),
-            ),
-          )
+              if (isConfirmDialog) ...[
+                ElevatedButton(
+                  onPressed: () {
+                    onClose(0);
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 221, 117, 99),
+                  ),
+                  child: const Text(
+                    "Cancel",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
+                  ),
+                )
+              ]
+            ],
+          ),
         ],
       ),
     );

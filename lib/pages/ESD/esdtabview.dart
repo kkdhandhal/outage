@@ -90,6 +90,11 @@ class _EsdtabviewState extends State<EsdTabView> {
             if (snapshot.hasData) {
               try {
                 List<ESDList> tmpEsd = snapshot.data! as List<ESDList>;
+                tmpEsd.sort(
+                  (a, b) {
+                    return b.ESDFrom.compareTo(a.ESDFrom);
+                  },
+                );
                 return TabItem(feeder: widget.feeder, tmpEsd: tmpEsd);
               } catch (e) {
                 List<LoginResponse> apiResponse =
@@ -121,6 +126,7 @@ class _EsdtabviewState extends State<EsdTabView> {
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Expanded(
                 child: getData(),

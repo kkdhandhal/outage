@@ -7,8 +7,10 @@ class LoginWidget extends StatefulWidget {
   const LoginWidget({
     super.key,
     required this.OnSubmit,
+    required this.imei,
   });
   final Function(String username, String password) OnSubmit;
+  final String imei;
 
   @override
   State<LoginWidget> createState() => _LoginWidgetState();
@@ -97,21 +99,30 @@ class _LoginWidgetState extends State<LoginWidget> {
             child: const Text("Login"),
           ),
         ),
-        const Padding(
+        Padding(
           padding: EdgeInsets.all(4),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 "Version No . $appVersionNo",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 10,
                 ),
               ),
-              Text(
+              const Text(
                 "Developed by I.T. Department , Corporate Office, PGVCL",
                 textAlign: TextAlign.center,
                 style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+              ),
+              Text(
+                "Your device unique ID is :${widget.imei}",
+                textAlign: TextAlign.center,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 10,
                 ),

@@ -68,6 +68,9 @@ class _HomeUpperState extends State<HomeUpper> {
                 ),
               ),
               Container(
+                margin: const EdgeInsets.only(
+                  top: 10,
+                ),
                 decoration: BoxDecoration(
                     color: Colors.blue[600],
                     borderRadius: BorderRadius.circular(10)),

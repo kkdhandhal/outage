@@ -39,6 +39,7 @@ class OutageDbHelper {
     final db = await OutageDbHelper.getDB();
 
     //final data = {'title': title, 'description': descrption};
+    await db.execute("delete from feeders");
     final id = await db.insert('feeders', feeder.toJson(),
         conflictAlgorithm: sqlite.ConflictAlgorithm.replace);
     return id;
