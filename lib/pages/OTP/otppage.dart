@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -39,40 +38,41 @@ class _OTPScreenState extends State<OTPScreen> {
   late int counter;
   late Timer timer;
   bool setResendBtnEnabled = false;
-  static final DeviceInfoPlugin _deviceInfoPlugin = DeviceInfoPlugin();
-  Map<String, dynamic> _deviceData = <String, dynamic>{};
+  // static final DeviceInfoPlugin _deviceInfoPlugin = DeviceInfoPlugin();
+  // Map<String, dynamic> _deviceData = <String, dynamic>{};
 
-  Future<void> initPlatformState() async {
-    if (kDebugMode) {
-      print("initPlatformState Function Called");
-    }
-    var deviceData = <String, dynamic>{};
-    try {
-      if (Platform.isAndroid) {
-        deviceData = _readAndroidDevice(await _deviceInfoPlugin.androidInfo);
-      }
-    } catch (e) {
-      deviceData = <String, dynamic>{
-        'Error:': 'Failed to get platform version.'
-      };
-    }
-    setState(() {
-      _deviceData = deviceData;
-    });
-  }
+  // Future<void> initPlatformState() async {
+  //   if (kDebugMode) {
+  //     print("initPlatformState Function Called");
+  //   }
+  //   var deviceData = <String, dynamic>{};
+  //   try {
+  //     if (Platform.isAndroid) {
+  //       deviceData = _readAndroidDevice(await _deviceInfoPlugin.androidInfo);
+  //     }
+  //   } catch (e) {
+  //     deviceData = <String, dynamic>{
+  //       'Error:': 'Failed to get platform version.'
+  //     };
+  //   }
+  //   setState(() {
+  //     _deviceData = deviceData;
+  //   });
+  // }
 
-  Map<String, dynamic> _readAndroidDevice(AndroidDeviceInfo build) {
-    return <String, dynamic>{
-      'id': build.id,
-    };
-  }
+  // Map<String, dynamic> _readAndroidDevice(AndroidDeviceInfo build) {
+  //   return <String, dynamic>{
+  //     'id': build.id,
+  //   };
+  // }
 
-  Future<void> _showDialog(BuildContext context, final String msg, int code) {
+  Future<void> _showDialog(
+      BuildContext context, final String title, final String msg, int code) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(code.toString()),
+            title: Text("${code.toString()} - $title"),
             content: Text(msg),
             actions: [
               TextButton(
@@ -101,57 +101,46 @@ class _OTPScreenState extends State<OTPScreen> {
         otp: tmp_otp,
         imei: widget.usr.IPIMEI);
 
-    try {
-      LoginResponse otp_resp = await UserAPI.checkOTP(otpReq);
-      if (kDebugMode) {
-        print("Responce Username is ${otp_resp.Status}");
-      }
-      if (otp_resp.Status == 0) {
-        setState(() {
-          showWaitScreen = false;
-          showWaitCircular = false;
-          _title = "";
-          _msg = "";
-        });
-        Users usr = Users(
-          IPIMEI: _deviceData['id'],
-          usr_id: otpReq.usrCode,
-          usr_name: otp_resp.User_name,
-          usr_locname: otp_resp.Location_name,
-          usr_loccode: otp_resp.Location_code,
-        );
-        if (context.mounted) {
-          if (otp_resp.Status == 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => InitdataSQLite(
-                  usr: usr,
-                ),
-              ),
-            );
-          } else {
-            _showDialog(context, otp_resp.Status_message, otp_resp.Status);
-          }
-        }
-      } else {
-        if (context.mounted) {
-          _showDialog(context, otp_resp.Status_message, otp_resp.Status);
-        }
-      }
-    } catch (e) {
-      setState(() {
-        _msg = e.toString();
-        showWaitCircular = false;
-        _title = "API Error";
-        msgCode = -2;
-        //showWaitScreen = false;
-      });
-      if (context.mounted) {
-        _showDialog(context, e.toString(), -2);
-      }
-      ;
+    // try {
+    LoginResponse otp_resp = await UserAPI.checkOTP(otpReq);
+    if (kDebugMode) {
+      print("Responce Username is ${otp_resp.Status}");
     }
+    if (otp_resp.Status == 0) {
+      // setState(() {
+      //   showWaitScreen = false;
+      //   showWaitCircular = false;
+      //   _title = "";
+      //   _msg = "";
+      // });
+      Users usr = Users(
+        IPIMEI: widget.imei,
+        usr_id: otpReq.usrCode,
+        usr_name: otp_resp.User_name,
+        usr_locname: otp_resp.Location_name,
+        usr_loccode: otp_resp.Location_code,
+      );
+      if (context.mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => InitdataSQLite(
+              usr: usr,
+            ),
+          ),
+        );
+      }
+    } else {
+      if (context.mounted) {
+        _showDialog(context, "Error", otp_resp.Status_message, otp_resp.Status);
+      }
+    }
+    // } catch (e) {
+    //   if (context.mounted) {
+    //     _showDialog(context, "API Error", e.toString(), -2);
+    //   }
+    //   ;
+    // }
   }
 
   void startTimer() {

@@ -109,7 +109,7 @@ class _EsdtabviewState extends State<EsdTabView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(12),
+      padding: const EdgeInsets.all(12),
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -118,9 +118,7 @@ class _EsdtabviewState extends State<EsdTabView> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Expanded(
-            child: widget.feeder.FeederCode > 0
-                ? getData()
-                : const Center(child: Text("Please select Feeder First")),
+            child: getData(),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -136,8 +134,8 @@ class _EsdtabviewState extends State<EsdTabView> {
                               EsdScreen(fdr: widget.feeder, usr: widget.usr)));
                 }
               },
-              label: Text("ADD Entry"),
-              icon: Icon(Icons.add),
+              label: const Text("ADD Entry"),
+              icon: const Icon(Icons.add),
             ),
           ),
         ],

@@ -61,41 +61,42 @@ class UserAPI {
     String bodyStr = otpReq.toJson().toString();
     print("JsonObject is : $bodyStr");
 
-    // try {
-    Map<String, String> userHeader = {
-      "Content-Type": "application/json",
-    };
-    final resp = await http.post(
-      url,
-      headers: userHeader,
-      body: bodyStr,
-    );
-    print("OTP validation Send");
-    print("Response Code is : $resp.statusCode");
-    if (resp.statusCode == 200) {
-      String json_string = resp.body.replaceAll("null", '"*"');
-      print(json_string);
-      LoginResponse log_resp = LoginResponse.fromJson(jsonDecode(json_string));
-      print(log_resp);
-      return log_resp; //Users.fromJson(user);
-    } else {
+    try {
+      Map<String, String> userHeader = {
+        "Content-Type": "application/json",
+      };
+      final resp = await http.post(
+        url,
+        headers: userHeader,
+        body: bodyStr,
+      );
+      print("OTP validation Send");
+      print("Response Code is : ${resp.statusCode}");
+      if (resp.statusCode == 200) {
+        String json_string = resp.body.replaceAll("null", '"*"');
+        print("Response String  is :$json_string");
+        LoginResponse log_resp =
+            LoginResponse.fromJson(jsonDecode(json_string));
+        print(log_resp);
+        return log_resp; //Users.fromJson(user);
+      } else {
+        return LoginResponse(
+            Status: resp.statusCode,
+            Status_message: resp.statusCode.toString(),
+            User_name: "",
+            Location_name: "",
+            Location_code: "");
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
       return LoginResponse(
-          Status: resp.statusCode,
-          Status_message: resp.statusCode.toString(),
+          Status: -1,
+          Status_message: e.toString(),
           User_name: "",
-          Location_name: "",
-          Location_code: "");
+          Location_code: "",
+          Location_name: "");
     }
-    // } catch (e) {
-    //   if (kDebugMode) {
-    //     print(e.toString());
-    //   }
-    //   return LoginResponse(
-    //       Status: -1,
-    //       Status_message: e.toString(),
-    //       User_name: "",
-    //       Location_code: "",
-    //       Location_name: "");
-    // }
   }
 }

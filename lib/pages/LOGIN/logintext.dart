@@ -16,7 +16,7 @@ class LoginWidget extends StatefulWidget {
 class _LoginWidgetState extends State<LoginWidget> {
   final TextEditingController _username = TextEditingController();
   final TextEditingController _password = TextEditingController();
-  bool isPassVisible = false;
+  bool isPassVisible = true;
 
   @override
   void initState() {
