@@ -3,7 +3,7 @@ import 'package:outage/model/feeder.dart';
 import 'package:outage/model/intruption/esd_model.dart';
 
 class TabItem extends StatelessWidget {
-  TabItem({super.key, required this.tmpEsd, required this.feeder});
+  const TabItem({super.key, required this.tmpEsd, required this.feeder});
   final List<ESDList> tmpEsd;
   final Feeder feeder;
   @override

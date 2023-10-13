@@ -9,19 +9,6 @@ import 'package:outage/pages/ESD/esdscreen.dart';
 import 'package:outage/api/intruptions/esdapi.dart';
 import 'package:outage/pages/ESD/tabitem.dart';
 
-class EsdTabView extends StatefulWidget {
-  final Users usr;
-  final Feeder feeder;
-  const EsdTabView({
-    Key? key,
-    required this.usr,
-    required this.feeder,
-  }) : super(key: key);
-
-  @override
-  _EsdtabviewState createState() => _EsdtabviewState();
-}
-
 Future<void> _showInfoDialog(
     BuildContext context, final String dbmsg, int dbcode) {
   return showDialog(
@@ -43,6 +30,19 @@ Future<void> _showInfoDialog(
           ],
         );
       });
+}
+
+class EsdTabView extends StatefulWidget {
+  final Users usr;
+  final Feeder feeder;
+  const EsdTabView({
+    Key? key,
+    required this.usr,
+    required this.feeder,
+  }) : super(key: key);
+
+  @override
+  State<EsdTabView> createState() => _EsdtabviewState();
 }
 
 class _EsdtabviewState extends State<EsdTabView> {
@@ -91,15 +91,17 @@ class _EsdtabviewState extends State<EsdTabView> {
                 List<ESDList> tmpEsd = snapshot.data! as List<ESDList>;
                 return TabItem(feeder: widget.feeder, tmpEsd: tmpEsd);
               } catch (e) {
-                List<LoginResponse> APIResponse =
+                List<LoginResponse> apiResponse =
                     snapshot.data! as List<LoginResponse>;
                 return Center(
                   child: Text(
-                      "${APIResponse[0].Status.toString()} -- ${APIResponse[0].Status_message}"),
+                      "${apiResponse[0].Status.toString()} -- ${apiResponse[0].Status_message}"),
                 );
               }
             } else {
-              print(snapshot.error.toString());
+              if (kDebugMode) {
+                print(snapshot.error.toString());
+              }
               return Expanded(child: Text(snapshot.error.toString()));
             }
           }

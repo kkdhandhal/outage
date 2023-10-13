@@ -1,14 +1,7 @@
 import 'dart:async';
 import 'package:outage/api/sqlitedb.dart';
 import 'package:outage/model/feeder.dart';
-//import 'package:outage/model/rlmfeeder.dart';
-//import 'package:realm/realm.dart';
 import 'package:flutter/material.dart';
-//import 'package:outage/api/api.dart';
-//import 'package:outage/utils/constants.dart';
-// import 'package:realm/realm.dart';
-//import 'package:shared_preferences/shared_preferences.dart';
-//import 'package:outage/model/feeder.dart';
 
 class Deboucer {
   final int miliseconds;
@@ -22,12 +15,12 @@ class Deboucer {
   }
 }
 
-class DropDownRLM extends StatefulWidget {
+class DropDownSQLite extends StatefulWidget {
   final String adm_sdn_code;
   final String? feeder_name;
 
   final Function(Feeder fdr) OnSelect;
-  const DropDownRLM({
+  const DropDownSQLite({
     super.key,
     // required this.suggList,
     required this.adm_sdn_code,
@@ -36,10 +29,10 @@ class DropDownRLM extends StatefulWidget {
   });
 
   @override
-  State<DropDownRLM> createState() => _dropdownrlmState();
+  State<DropDownSQLite> createState() => _DropDownSQLiteState();
 }
 
-class _dropdownrlmState extends State<DropDownRLM> {
+class _DropDownSQLiteState extends State<DropDownSQLite> {
   final FocusNode _focusnode = FocusNode();
   // late List<rlmfeeder> _mastsuggList;
   //late RealmResults<rlmfeeder> _suggList;

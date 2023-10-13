@@ -2,11 +2,12 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:outage/api/user/userapi.dart';
+import 'package:outage/component/custdialog.dart';
 import 'package:outage/model/login/user.dart';
 import 'package:outage/pages/initdata/Initdata_sqlite.dart';
 import 'package:outage/model/login/logreqmod.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:outage/pages/LOGIN/logintext.dart';
+import 'package:outage/pages/LOGIN/loginuiwidget.dart';
 import 'package:outage/pages/LOGIN/showdialog.dart';
 import 'package:outage/pages/LOGIN/waitScreen.dart';
 import 'package:outage/pages/OTP/otppage.dart';
@@ -136,6 +137,18 @@ class _CenterWidgetState extends State<CenterWidget> {
       });
     }
     //_showDialog(context, "Error", "Username and Password are Wrong", -1);
+    if (mounted) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return CustDialog(
+              Dlg_title: _title,
+              msg: _msg,
+              onClose: (val) {},
+              res_code: msgCode);
+        },
+      );
+    }
   }
 
   @override
@@ -143,27 +156,27 @@ class _CenterWidgetState extends State<CenterWidget> {
     if (showWaitCircular) {
       return const WaitCircularWidget();
     } else {
-      if (msgCode == 0) {
-        return (LoginWidget(
-          OnSubmit: (_username, _password) {
-            setState(() {
-              username = _username;
-              password = _password;
-            });
-            _onCheckLogin();
-          },
-        ));
-      } else {
-        return (ShowLgnDialog(
-            Dlg_title: _title,
-            msg: _msg,
-            res_code: msgCode,
-            onClose: (rspcode) {
-              setState(() {
-                msgCode = rspcode;
-              });
-            }));
-      }
+      // if (msgCode == 0) {
+      return (LoginWidget(
+        OnSubmit: (_username, _password) {
+          setState(() {
+            username = _username;
+            password = _password;
+          });
+          _onCheckLogin();
+        },
+      ));
+      // } else {
+      //   return (CustDialog(
+      //       Dlg_title: _title,
+      //       msg: _msg,
+      //       res_code: msgCode,
+      //       onClose: (rspcode) {
+      //         setState(() {
+      //           msgCode = rspcode;
+      //         });
+      //       }));
+      // }
     }
   }
 }
