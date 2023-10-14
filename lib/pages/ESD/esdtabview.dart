@@ -9,6 +9,7 @@ import 'package:outage/pages/ESD/esdscreen.dart';
 //import 'package:outage/pages/esdscreen.dart';
 import 'package:outage/api/intruptions/esdapi.dart';
 import 'package:outage/pages/ESD/tabitem.dart';
+import 'package:outage/utils/constants.dart';
 
 // Future<void> _showInfoDialog(
 //     BuildContext context, final String dbmsg, int dbcode) {
@@ -70,15 +71,41 @@ class _EsdtabviewState extends State<EsdTabView> {
                   height: 200,
                   width: 500,
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: appPrimaryColor,
                       borderRadius: BorderRadius.circular(12)),
-                  child: const Center(
+                  child: Center(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CircularProgressIndicator(),
+                        const SizedBox(
+                          width: 46,
+                          height: 46,
+                          child: CircularProgressIndicator(
+                            backgroundColor: Colors.white,
+                            color: Colors.red,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const Text(
+                          "Please wait ..",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: appPrimaryTextColor,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         Text(
-                          "Preparing to fetch ESD data for current month",
+                          "Fetching ESD details for ${widget.usr.usr_locname}",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: appPrimaryTextColor,
+                          ),
                         ),
                       ],
                     ),
@@ -119,7 +146,7 @@ class _EsdtabviewState extends State<EsdTabView> {
     return Container(
       padding: const EdgeInsets.all(15),
       decoration: const BoxDecoration(
-          color: Colors.white,
+          color: appPrimaryColorLowShade,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(32), topRight: Radius.circular(32))),
       child: Stack(
@@ -140,29 +167,15 @@ class _EsdtabviewState extends State<EsdTabView> {
               padding: const EdgeInsets.all(8.0),
               child: FloatingActionButton.extended(
                 onPressed: () {
-                  // if (widget.feeder.FeederCode <= 0) {
-                  //   showDialog(
-                  //     context: context,
-                  //     builder: (context) {
-                  //       return CustDialog(
-                  //           Dlg_title: "Information",
-                  //           msg: "Please select Feeder First",
-                  //           onClose: (val) {},
-                  //           res_code: 101);
-                  //     },
-                  //   );
-                  //   //_showInfoDialog(context, "Please select Feeder First", 101);
-                  // } else {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
                               EsdScreen(fdr: widget.feeder, usr: widget.usr)));
-                  // }
                 },
                 label: const Text("ADD ESD Entry"),
                 icon: const Icon(Icons.add),
-                backgroundColor: Colors.deepPurple,
+                backgroundColor: appSecondaryBtnColor,
               ),
             ),
           ),

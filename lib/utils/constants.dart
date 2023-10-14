@@ -28,3 +28,19 @@ const loginOTP_APIKEY = "pgvclit001002apiloginotp-";
 const loginVAL_APIKEY = "pgvclit001001apiloginval-";
 const saveESD_APIKEY = "pgvclit002002apisaveESD--";
 const appVersionNo = "Beta (1.0.0) ";
+
+const Color appPrimaryColor = Color.fromARGB(255, 69, 48, 145);
+const Color appSecondaryColor = Colors.blue;
+const Color appThirdColor = Colors.white;
+const Color appPrimaryColorLowShade = Color.fromARGB(255, 218, 211, 247);
+
+const Color appAlertColor = Color.fromARGB(251, 253, 114, 72);
+const Color appSucessColor = Color.fromARGB(250, 154, 226, 140);
+
+const Color appPrimaryTextColor = Colors.white;
+const Color appPrimaryWhiteText = Colors.white;
+const Color appPrimaryBlackText = Color.fromARGB(255, 52, 56, 59);
+const Color appSecondaryTextColor = Color.fromARGB(255, 169, 156, 218);
+
+const Color appPrimaryBtnColor = Color.fromARGB(255, 121, 99, 199);
+const Color appSecondaryBtnColor = Color.fromARGB(255, 8, 135, 238);

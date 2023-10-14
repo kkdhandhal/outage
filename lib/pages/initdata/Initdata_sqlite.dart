@@ -4,6 +4,7 @@ import 'package:outage/model/login/user.dart';
 import 'package:outage/pages/Home.dart';
 import 'package:outage/api/feeders/feederapi.dart';
 import 'package:outage/model/feeder.dart';
+import 'package:outage/utils/constants.dart';
 
 class InitdataSQLite extends StatefulWidget {
   final Users usr;
@@ -34,7 +35,7 @@ class _InitdataState1 extends State<InitdataSQLite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[800],
+      backgroundColor: appPrimaryColorLowShade,
       body: Center(
         child: FutureBuilder(
           future: FeederAPI.getSDNFeeders(widget.usr.usr_id),
@@ -85,23 +86,35 @@ class _InitdataState1 extends State<InitdataSQLite> {
                   height: 200,
                   width: 500,
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: appPrimaryColor,
                       borderRadius: BorderRadius.circular(12)),
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         if (errCode == 0) ...[
-                          const CircularProgressIndicator(),
+                          const CircularProgressIndicator(
+                            backgroundColor: Colors.white,
+                            color: Colors.red,
+                          ),
                           Text(
                             "Preparing data for Subdivision ${widget.usr.usr_locname}",
+                            style: const TextStyle(
+                              color: appPrimaryTextColor,
+                            ),
                           ),
                         ] else ...[
                           Text(
                             "Error Code is : $errCode",
+                            style: const TextStyle(
+                              color: appPrimaryTextColor,
+                            ),
                           ),
                           Text(
                             "Message is : $stsMsg",
+                            style: const TextStyle(
+                              color: appPrimaryTextColor,
+                            ),
                           ),
                         ]
                       ],

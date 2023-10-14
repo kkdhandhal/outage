@@ -107,11 +107,26 @@ class _EsdscreenState extends State<EsdScreen> {
   double textboxHeight = 55;
   void _showDatetimePicker() {
     showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2023),
-            lastDate: DateTime(2024))
-        .then((pickedDate) {
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2023),
+      lastDate: DateTime(2024),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+              colorScheme: const ColorScheme.light(
+                primary: appPrimaryColor,
+                onPrimary: appPrimaryBtnColor,
+                onSurface: appPrimaryColorLowShade,
+              ),
+              textButtonTheme: TextButtonThemeData(
+                  style: TextButton.styleFrom(
+                backgroundColor: appPrimaryBtnColor,
+              ))),
+          child: child!,
+        );
+      },
+    ).then((pickedDate) {
       if (pickedDate == null) {
         return;
       }
@@ -136,7 +151,7 @@ class _EsdscreenState extends State<EsdScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[800],
+      backgroundColor: appPrimaryColor,
       // appBar: AppBar(
       //   title: const Text("IT Application"),
       //   backgroundColor: Colors.deepPurple,
@@ -154,7 +169,7 @@ class _EsdscreenState extends State<EsdScreen> {
                   child: Text(
                     "ESD Entry",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: appSecondaryTextColor,
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
@@ -165,7 +180,7 @@ class _EsdscreenState extends State<EsdScreen> {
                       top: 15, left: 15, bottom: 5, right: 15),
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.blue[600],
+                        color: appPrimaryBtnColor,
                         borderRadius: BorderRadius.circular(10)),
                     child: IconButton(
                       iconSize: 25,
@@ -194,7 +209,7 @@ class _EsdscreenState extends State<EsdScreen> {
                         "${widget.usr.usr_name} ",
                         //"${widget.usr.usr_nameinit} ${widget.usr.usr_firstname} ${widget.usr.usr_lastname}",
                         style: const TextStyle(
-                            color: Colors.white,
+                            color: appSecondaryTextColor,
                             fontSize: 16,
                             fontWeight: FontWeight.bold),
                       ),
@@ -204,7 +219,7 @@ class _EsdscreenState extends State<EsdScreen> {
                       Text(
                         "${widget.usr.usr_locname}, ${widget.usr.usr_loccode}",
                         style: const TextStyle(
-                            color: Color.fromARGB(255, 119, 186, 241),
+                            color: appSecondaryTextColor,
                             fontSize: 12,
                             fontWeight: FontWeight.normal),
                       ),
@@ -239,7 +254,7 @@ class _EsdscreenState extends State<EsdScreen> {
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.all(12),
                 decoration: const BoxDecoration(
-                    color: Colors.white,
+                    color: appPrimaryColorLowShade,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(32),
                         topRight: Radius.circular(32))),
@@ -312,12 +327,33 @@ class _EsdscreenState extends State<EsdScreen> {
                                       //when click we have to show the datepicker
                                       DateTime? pickedDate =
                                           await showDatePicker(
-                                              context: context,
-                                              initialDate: DateTime
-                                                  .now(), //get today's date
-                                              firstDate: DateTime(
-                                                  2000), //DateTime.now() - not to allow to choose before today.
-                                              lastDate: DateTime(2101));
+                                        context: context,
+                                        initialDate:
+                                            DateTime.now(), //get today's date
+                                        firstDate: DateTime(
+                                            2000), //DateTime.now() - not to allow to choose before today.
+                                        lastDate: DateTime(2101),
+                                        builder: (context, child) {
+                                          return Theme(
+                                            data: Theme.of(context).copyWith(
+                                                colorScheme:
+                                                    const ColorScheme.light(
+                                                  primary: appPrimaryColor,
+                                                  onPrimary:
+                                                      appPrimaryColorLowShade,
+                                                  onSurface: appPrimaryBtnColor,
+                                                ),
+                                                textButtonTheme:
+                                                    TextButtonThemeData(
+                                                        style: TextButton
+                                                            .styleFrom(
+                                                  foregroundColor:
+                                                      appPrimaryBtnColor,
+                                                ))),
+                                            child: child!,
+                                          );
+                                        },
+                                      );
                                       if (pickedDate != null) {
                                         print(
                                             pickedDate); //get the picked date in the format => 2022-07-04 00:00:00.000
@@ -362,10 +398,27 @@ class _EsdscreenState extends State<EsdScreen> {
                                           await showTimePicker(
                                         context: context,
                                         initialTime: TimeOfDay.fromDateTime(
-                                            DateTime.now()), //get today's date
-                                        // firstDate: DateTime(
-                                        //     2000), //DateTime.now() - not to allow to choose before today.
-                                        // lastDate: DateTime(2101)
+                                            DateTime.now()),
+                                        builder: (context, child) {
+                                          return Theme(
+                                            data: Theme.of(context).copyWith(
+                                                colorScheme:
+                                                    const ColorScheme.light(
+                                                  primary: appPrimaryColor,
+                                                  onPrimary:
+                                                      appPrimaryColorLowShade,
+                                                  onSurface: appPrimaryBtnColor,
+                                                ),
+                                                textButtonTheme:
+                                                    TextButtonThemeData(
+                                                        style: TextButton
+                                                            .styleFrom(
+                                                  foregroundColor:
+                                                      appPrimaryBtnColor,
+                                                ))),
+                                            child: child!,
+                                          );
+                                        },
                                       );
                                       if (pickedTime != null) {
                                         print(
@@ -413,14 +466,35 @@ class _EsdscreenState extends State<EsdScreen> {
                                       //when click we have to show the datepicker
                                       DateTime? pickedDate =
                                           await showDatePicker(
-                                              context: context,
-                                              initialDate:
-                                                  _selectedStartDate, //get today's date
-                                              firstDate:
-                                                  _selectedStartDate, //DateTime(
-                                              //d2000), //DateTime.now() - not to allow to choose before today.
-                                              lastDate: DateTime(
-                                                  _selectedStartDate.year + 1));
+                                        context: context,
+                                        initialDate:
+                                            _selectedStartDate, //get today's date
+                                        firstDate:
+                                            _selectedStartDate, //DateTime(
+                                        //d2000), //DateTime.now() - not to allow to choose before today.
+                                        lastDate: DateTime(
+                                            _selectedStartDate.year + 1),
+                                        builder: (context, child) {
+                                          return Theme(
+                                            data: Theme.of(context).copyWith(
+                                                colorScheme:
+                                                    const ColorScheme.light(
+                                                  primary: appPrimaryColor,
+                                                  onPrimary:
+                                                      appPrimaryColorLowShade,
+                                                  onSurface: appPrimaryBtnColor,
+                                                ),
+                                                textButtonTheme:
+                                                    TextButtonThemeData(
+                                                        style: TextButton
+                                                            .styleFrom(
+                                                  foregroundColor:
+                                                      appPrimaryBtnColor,
+                                                ))),
+                                            child: child!,
+                                          );
+                                        },
+                                      );
                                       if (pickedDate != null) {
                                         print(
                                             pickedDate); //get the picked date in the format => 2022-07-04 00:00:00.000
@@ -464,11 +538,26 @@ class _EsdscreenState extends State<EsdScreen> {
                                         context: context,
                                         initialTime:
                                             _selectedStartTime, //TimeOfDay.fromDateTime(
-
-                                        //DateTime.now()), //get today's date
-                                        // firstDate: DateTime(
-                                        //     2000), //DateTime.now() - not to allow to choose before today.
-                                        // lastDate: DateTime(2101)
+                                        builder: (context, child) {
+                                          return Theme(
+                                            data: Theme.of(context).copyWith(
+                                                colorScheme:
+                                                    const ColorScheme.light(
+                                                  primary: appPrimaryColor,
+                                                  onPrimary:
+                                                      appPrimaryColorLowShade,
+                                                  onSurface: appPrimaryBtnColor,
+                                                ),
+                                                textButtonTheme:
+                                                    TextButtonThemeData(
+                                                        style: TextButton
+                                                            .styleFrom(
+                                                  foregroundColor:
+                                                      appPrimaryBtnColor,
+                                                ))),
+                                            child: child!,
+                                          );
+                                        },
                                       );
                                       if (pickedTime != null) {
                                         print(
@@ -540,7 +629,23 @@ class _EsdscreenState extends State<EsdScreen> {
                             width: MediaQuery.of(context).size.width * 0.90,
                             padding: const EdgeInsets.only(left: 20, top: 30),
                             child: ElevatedButton(
-                              child: const Text("Submit"),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: appPrimaryColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                minimumSize: const Size(double.infinity, 40),
+                              ),
+                              child: const Padding(
+                                padding: EdgeInsets.all(10.0),
+                                child: Text(
+                                  "Submit",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 22,
+                                  ),
+                                ),
+                              ),
                               onPressed: () async {
                                 if (_selFdr.FeederCode <= 0) {
                                   showDialog(
@@ -618,19 +723,19 @@ class _EsdscreenState extends State<EsdScreen> {
                                       ENTRYDATE: DateTime.now(),
                                       IPIMEI: widget.usr.IPIMEI);
 
-                                  CircularProgressIndicator(
-                                      backgroundColor: Colors.blue.shade800,
+                                  const CircularProgressIndicator(
+                                      backgroundColor: appSecondaryColor,
                                       color: Colors.white);
 
                                   await showDialog(
                                       context: context,
                                       builder: (context) {
                                         return CustDialog(
-                                            Dlg_title: "Confirmation",
+                                            Dlg_title: "Please Confirm ",
                                             isConfirmDialog: true,
-                                            msg:
-                                                "Are you sure you want to Save ESD entry, After confirmation you cannot delete Entry",
+                                            msg: "Please Confirm Details",
                                             fdr: _selFdr,
+                                            esd: esd,
                                             usr: widget.usr,
                                             onClose: (val) {
                                               setState(() {

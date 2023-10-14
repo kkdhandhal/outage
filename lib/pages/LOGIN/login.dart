@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:outage/component/gradienttext.dart';
 import 'package:outage/pages/LOGIN/centerwidget.dart';
+import 'package:outage/utils/constants.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -91,7 +92,7 @@ class _LoginState extends State<LoginScreen> {
               height: screensize.height * 0.52,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30.0),
-                color: const Color.fromARGB(255, 74, 52, 153),
+                color: appPrimaryColor,
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

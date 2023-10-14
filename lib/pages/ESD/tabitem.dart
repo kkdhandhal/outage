@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:outage/model/feeder.dart';
 import 'package:outage/model/intruption/esd_model.dart';
+import 'package:outage/utils/constants.dart';
 
 class TabItem extends StatelessWidget {
   const TabItem({super.key, required this.tmpEsd, required this.feeder});
@@ -22,7 +23,7 @@ class TabItem extends StatelessWidget {
               itemCount: tmpEsd.length,
               separatorBuilder: ((context, index) {
                 return const Divider(
-                  height: 3.0,
+                  height: 7.0,
                 );
               }),
               itemBuilder: (BuildContext context, index) {
@@ -31,19 +32,21 @@ class TabItem extends StatelessWidget {
                     // color: Colors.blue.shade400,
                     gradient: const LinearGradient(
                       colors: [
-                        Color.fromARGB(188, 30, 145, 240),
-                        Color.fromARGB(255, 11, 140, 204)
+                        appPrimaryBtnColor,
+                        appPrimaryColorLowShade,
+                        appPrimaryColorLowShade,
+                        appPrimaryColorLowShade,
+                        appPrimaryColorLowShade,
+                        appPrimaryColorLowShade,
                       ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
                     ),
 
                     // color: Color.fromARGB(255, 14, 96, 151),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: ListTile(
-                    leading:
-                        const Icon(Icons.receipt_long, color: Colors.white),
+                    leading: const Icon(Icons.receipt_long,
+                        color: appPrimaryBlackText),
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -51,11 +54,11 @@ class TabItem extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              "${tmpEsd[index].FeederCode}  -- ${tmpEsd[index].FeederName.characters.take(15).toString()}",
+                              "${tmpEsd[index].FeederName.characters.take(15).toString()} (${tmpEsd[index].FeederCode})",
                               textAlign: TextAlign.left,
                               style: const TextStyle(
-                                color: Color.fromARGB(255, 94, 9, 173),
-                                fontSize: 14,
+                                color: appPrimaryBlackText,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -71,15 +74,15 @@ class TabItem extends StatelessWidget {
                                   .format(tmpEsd[index].ESDFrom),
                               textAlign: TextAlign.left,
                               style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 13,
+                                color: appPrimaryBlackText,
+                                fontSize: 14,
                               ),
                             ),
                             const Text(
                               " To ",
                               textAlign: TextAlign.left,
                               style: TextStyle(
-                                color: Colors.white,
+                                color: appPrimaryBlackText,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 13,
                               ),
@@ -89,7 +92,7 @@ class TabItem extends StatelessWidget {
                                   .format(tmpEsd[index].ESDTo),
                               textAlign: TextAlign.left,
                               style: const TextStyle(
-                                color: Colors.white,
+                                color: appPrimaryBlackText,
                                 fontSize: 13,
                               ),
                             ),
@@ -104,7 +107,7 @@ class TabItem extends StatelessWidget {
                             const Icon(
                               Icons.people_alt,
                               size: 20,
-                              color: Colors.white,
+                              color: appPrimaryBlackText,
                             ),
                             const SizedBox(
                               width: 10,
@@ -112,7 +115,7 @@ class TabItem extends StatelessWidget {
                             Text(
                               tmpEsd[index].ConsumersAffected.toString(),
                               style: const TextStyle(
-                                color: Colors.white,
+                                color: appPrimaryBlackText,
                                 fontSize: 14,
                               ),
                             ),
@@ -122,7 +125,7 @@ class TabItem extends StatelessWidget {
                             const Icon(
                               Icons.mail_rounded,
                               size: 20,
-                              color: Colors.white,
+                              color: appPrimaryBlackText,
                             ),
                             const SizedBox(
                               width: 10,
@@ -130,7 +133,7 @@ class TabItem extends StatelessWidget {
                             Text(
                               tmpEsd[index].TotalSMSSent.toString(),
                               style: const TextStyle(
-                                color: Colors.white,
+                                color: appPrimaryBlackText,
                                 fontSize: 13,
                               ),
                             ),
@@ -140,7 +143,7 @@ class TabItem extends StatelessWidget {
                             const Icon(
                               Icons.timer,
                               size: 20,
-                              color: Colors.white,
+                              color: appPrimaryBlackText,
                             ),
                             const SizedBox(
                               width: 10,
@@ -151,7 +154,7 @@ class TabItem extends StatelessWidget {
                               // ESDDURATIONMM: (duration % 60),
                               textAlign: TextAlign.left,
                               style: const TextStyle(
-                                color: Colors.white,
+                                color: appPrimaryBlackText,
                                 fontSize: 13,
                               ),
                             ),

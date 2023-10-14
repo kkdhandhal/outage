@@ -3,6 +3,7 @@ import 'package:outage/component/dropdown_sqlite.dart';
 import 'package:outage/model/feeder.dart';
 import 'package:outage/model/login/user.dart';
 import 'package:outage/pages/LOGIN/login.dart';
+import 'package:outage/utils/constants.dart';
 
 class HomeUpper extends StatefulWidget {
   final Users usr;
@@ -62,7 +63,7 @@ class _HomeUpperState extends State<HomeUpper> {
               const Text(
                 "PGVCL OMS",
                 style: TextStyle(
-                  color: Color.fromARGB(255, 179, 189, 167),
+                  color: appSecondaryTextColor,
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
@@ -72,7 +73,7 @@ class _HomeUpperState extends State<HomeUpper> {
                   top: 10,
                 ),
                 decoration: BoxDecoration(
-                    color: Colors.blue[600],
+                    color: appPrimaryBtnColor,
                     borderRadius: BorderRadius.circular(10)),
                 child: IconButton(
                   iconSize: 24,
@@ -105,7 +106,7 @@ class _HomeUpperState extends State<HomeUpper> {
                     "${widget.usr.usr_name} ",
                     //"${widget.usr.usr_nameinit} ${widget.usr.usr_firstname} ${widget.usr.usr_lastname}",
                     style: const TextStyle(
-                        color: Colors.white,
+                        color: appPrimaryTextColor,
                         fontSize: 16,
                         fontWeight: FontWeight.bold),
                   ),
@@ -115,7 +116,7 @@ class _HomeUpperState extends State<HomeUpper> {
                   Text(
                     "${widget.usr.usr_locname}, ${widget.usr.usr_loccode}",
                     style: const TextStyle(
-                        color: Color.fromARGB(255, 119, 186, 241),
+                        color: appSecondaryTextColor,
                         fontSize: 12,
                         fontWeight: FontWeight.normal),
                   ),
@@ -124,24 +125,6 @@ class _HomeUpperState extends State<HomeUpper> {
             ),
           ],
         ),
-        // Padding(
-        //   padding:
-        //       const EdgeInsets.only(left: 15, top: 1, bottom: 1, right: 15),
-        //   child: DropDownSQLite(
-        //     adm_sdn_code: widget.usr.usr_loccode,
-        //     feeder_name: _selFdr.FeederName,
-        //     // suggList: suggList, //suggList,
-        //     OnSelect: ((fdr) {
-        //       // selectedFeeder = fdrtxt;
-        //       // selectedFeederCode = fdrcode;
-        //       widget.OnSelect(fdr);
-        //       setState(() {
-        //         _selFdr = fdr;
-        //       });
-        //       //print(Selected_value);
-        //     }),
-        //   ),
-        // ),
         const SizedBox(
           height: 10,
         ),

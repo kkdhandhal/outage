@@ -29,17 +29,18 @@ class _LoginWidgetState extends State<LoginWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(14.0),
           child: TextField(
             controller: _username,
             decoration: InputDecoration(
               contentPadding:
                   const EdgeInsets.only(left: 2, top: 2, bottom: 2, right: 20),
-              prefixIcon: Icon(
+              prefixIcon: const Icon(
                 Icons.person_2,
-                color: Colors.blue.shade800,
+                color: appSecondaryColor,
               ),
               hintText: "Enter UserName",
               filled: true,
@@ -52,7 +53,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(14.0),
           child: TextField(
             controller: _password,
             obscureText: isPassVisible,
@@ -91,12 +92,19 @@ class _LoginWidgetState extends State<LoginWidget> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(40),
               ),
+              backgroundColor: appSecondaryBtnColor,
               minimumSize: const Size(double.infinity, 40),
             ),
             onPressed: () {
               widget.OnSubmit(_username.text, _password.text);
             },
-            child: const Text("Login"),
+            child: const Text(
+              "Login",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
         Padding(

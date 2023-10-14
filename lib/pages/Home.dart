@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:outage/component/home_upper.dart';
 import 'package:outage/pages/ESD/esdtabview.dart';
 import 'package:outage/model/feeder.dart';
+import 'package:outage/utils/constants.dart';
 import '../model/login/user.dart';
 
 class HomePage extends StatefulWidget {
@@ -42,7 +43,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[800],
+      backgroundColor: appPrimaryColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

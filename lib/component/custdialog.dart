@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:outage/model/feeder.dart';
+import 'package:outage/model/intruption/esd_model.dart';
 import 'package:outage/model/login/user.dart';
 import 'package:outage/pages/Home.dart';
+import 'package:outage/utils/constants.dart';
 
 class CustDialog extends StatelessWidget {
   const CustDialog({
@@ -13,10 +16,12 @@ class CustDialog extends StatelessWidget {
     required this.isConfirmDialog,
     this.usr,
     this.fdr,
+    this.esd,
   });
   final bool isConfirmDialog;
   final Users? usr;
   final Feeder? fdr;
+  final ESD? esd;
   final Function(int rtnCode) onClose;
   final int res_code;
   final String msg;
@@ -24,8 +29,8 @@ class CustDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color _mainColor = const Color.fromARGB(251, 253, 114, 72);
-    Color _secColor = const Color.fromARGB(250, 154, 226, 140);
+    // Color _mainColor = const Color.fromARGB(251, 253, 114, 72);
+    // Color _secColor = const Color.fromARGB(250, 154, 226, 140);
 
     return Dialog(
       backgroundColor: Colors.transparent,
@@ -36,6 +41,7 @@ class CustDialog extends StatelessWidget {
             msg: msg,
             usr: usr,
             fdr: fdr,
+            esd: esd,
             isConfirmDialog: isConfirmDialog,
             onClose: (rtnCode) {
               onClose(rtnCode);
@@ -52,7 +58,7 @@ class CustDialog extends StatelessWidget {
                 padding: const EdgeInsets.all(5),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18)),
-                backgroundColor: res_code != 0 ? _mainColor : _secColor,
+                backgroundColor: res_code != 0 ? appAlertColor : appSucessColor,
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -62,7 +68,7 @@ class CustDialog extends StatelessWidget {
                     ? Icons.warning_amber_rounded
                     : Icons.done_all_outlined,
                 size: 42,
-                color: Colors.black,
+                color: appPrimaryBlackText,
               ),
               // child: _icon,
             ),
@@ -83,7 +89,9 @@ class CardDialog extends StatelessWidget {
     required this.onClose,
     this.usr,
     this.fdr,
+    this.esd,
   });
+  final ESD? esd;
   final Function(int rtnCode) onClose;
   final bool isConfirmDialog;
   final Users? usr;
@@ -94,27 +102,26 @@ class CardDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color _maincolor = Color.fromARGB(251, 253, 114, 72);
-    Color _backcolor = const Color.fromARGB(255, 62, 43, 107);
-    Color _secColor = Color.fromARGB(255, 156, 245, 56);
-    Widget _icon = Icon(
-      // Icons.warning_amber_rounded,
-      Icons.done_all_outlined,
-      color: _maincolor,
-      size: 36,
-    );
-    if (res_code == 0) {
-      _maincolor = _secColor;
-    }
+    // Color _maincolor = const Color.fromARGB(251, 253, 114, 72);
+    // Color _backcolor = const Color.fromARGB(255, 62, 43, 107);
+    // Color _secColor = Color.fromARGB(255, 156, 245, 56);
 
     return Container(
       margin: const EdgeInsets.all(15),
       padding: const EdgeInsets.symmetric(
-        horizontal: 32,
+        horizontal: 28,
         vertical: 10,
       ),
       decoration: BoxDecoration(
-        color: _backcolor,
+        //color: _backcolor,
+        gradient: const LinearGradient(
+          colors: [
+            appPrimaryColor,
+            appPrimaryColor,
+            appPrimaryColor,
+            appPrimaryColor,
+          ],
+        ),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -123,8 +130,8 @@ class CardDialog extends StatelessWidget {
           Text(
             Dlg_title,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              color: _maincolor,
+            style: const TextStyle(
+              color: appAlertColor,
               fontSize: 22,
               fontWeight: FontWeight.bold,
             ),
@@ -133,16 +140,157 @@ class CardDialog extends StatelessWidget {
             height: 30,
             width: double.maxFinite,
           ),
-          Text(
-            msg,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.white,
+          if (isConfirmDialog) ...[
+            // Text(
+            //   msg,
+            //   textAlign: TextAlign.center,
+            //   style: const TextStyle(
+            //     fontSize: 18,
+            //     color: Colors.white,
+            //     fontWeight: FontWeight.bold,
+            //   ),
+            // ),
+            SizedBox(
+              child: Row(
+                children: [
+                  const Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        "Feeder Name :",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: appPrimaryWhiteText,
+                        ),
+                      ),
+                      Text(
+                        "From :",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: appPrimaryWhiteText,
+                        ),
+                      ),
+                      Text(
+                        "To :",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: appPrimaryWhiteText,
+                        ),
+                      ),
+                      Text(
+                        "Duration :",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: appPrimaryWhiteText,
+                        ),
+                      ),
+                      Text(
+                        "LC Taken By :",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: appPrimaryWhiteText,
+                        ),
+                      ),
+                      Text(
+                        "Reason :",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: appPrimaryWhiteText,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        esd!.FEEDERNM,
+                        textAlign: TextAlign.left,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: appPrimaryWhiteText,
+                        ),
+                      ),
+                      Text(
+                        "${DateFormat("dd-MM-yyyy").format(esd!.ESDDATE)} ${esd!.ESDFROMHH}:${esd!.ESDFROMMM}",
+                        textAlign: TextAlign.left,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: appPrimaryWhiteText,
+                        ),
+                      ),
+                      Text(
+                        "${DateFormat("dd-MM-yyyy").format(esd!.ESDENDDATE)} ${esd!.ESDTOHH}:${esd!.ESDTOMM}",
+                        textAlign: TextAlign.left,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: appPrimaryWhiteText,
+                        ),
+                      ),
+                      Text(
+                        "${esd!.ESDDURATIONHH.toString().padLeft(2, "0")}:${esd!.ESDDURATIONMM.toString().padLeft(2, "0")}",
+                        textAlign: TextAlign.left,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: appPrimaryWhiteText,
+                        ),
+                      ),
+                      Text(
+                        esd!.ESDLCTAKENBY,
+                        textAlign: TextAlign.left,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: appPrimaryWhiteText,
+                        ),
+                      ),
+                      Text(
+                        esd!.ESDREASON,
+                        textAlign: TextAlign.left,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: appPrimaryWhiteText,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Text(
+              "Are you sure want to Save?",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.orangeAccent,
+              ),
+            ),
+          ] else ...[
+            Text(
+              msg,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                  fontSize: 18,
+                  color: appPrimaryWhiteText,
+                  fontWeight: FontWeight.bold),
+            ),
+          ],
           const SizedBox(
-            height: 25,
+            height: 15,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -167,12 +315,12 @@ class CardDialog extends StatelessWidget {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(106, 192, 184, 1),
+                  backgroundColor: appSecondaryColor,
                 ),
                 child: const Text(
                   "OK",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: appPrimaryWhiteText,
                     fontSize: 18,
                   ),
                 ),
@@ -184,12 +332,12 @@ class CardDialog extends StatelessWidget {
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 221, 117, 99),
+                    backgroundColor: appAlertColor,
                   ),
                   child: const Text(
                     "Cancel",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: appPrimaryWhiteText,
                       fontSize: 18,
                     ),
                   ),

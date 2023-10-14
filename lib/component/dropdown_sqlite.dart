@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:outage/api/sqlitedb.dart';
 import 'package:outage/model/feeder.dart';
 import 'package:flutter/material.dart';
+import 'package:outage/utils/constants.dart';
 
 class Deboucer {
   final int miliseconds;
@@ -95,7 +96,7 @@ class _DropDownSQLiteState extends State<DropDownSQLite> {
             elevation: 5.5,
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.blue[600],
+                color: appPrimaryBtnColor,
                 borderRadius: BorderRadius.circular(12),
               ),
               padding:
@@ -123,7 +124,7 @@ class _DropDownSQLiteState extends State<DropDownSQLite> {
                             title: Text(
                               "${_suggList[index].FeederName} - ${_suggList[index].FeederCode}",
                               style: const TextStyle(
-                                color: Colors.white,
+                                color: appPrimaryWhiteText,
                               ),
                             ),
                             onTap: () {
@@ -154,7 +155,7 @@ class _DropDownSQLiteState extends State<DropDownSQLite> {
                           width: 150,
                           height: 150,
                           child: CircularProgressIndicator(
-                            color: Colors.white,
+                            color: appPrimaryWhiteText,
                           ),
                         ),
                       );
@@ -195,23 +196,23 @@ class _DropDownSQLiteState extends State<DropDownSQLite> {
       link: _ddLayerLink,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.blue[600],
+          color: appPrimaryBtnColor,
           borderRadius: BorderRadius.circular(12),
         ),
         padding: const EdgeInsets.only(left: 10, top: 0, bottom: 0, right: 10),
         child: TextFormField(
           controller: _txtcontroller,
           focusNode: _focusnode,
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(color: appPrimaryWhiteText),
           decoration: InputDecoration(
             icon: const Icon(
               Icons.search,
-              color: Colors.white,
+              color: appPrimaryWhiteText,
             ),
             label: const Text(
               "Select Feeder ",
               style: TextStyle(
-                color: Colors.white,
+                color: appPrimaryWhiteText,
                 fontSize: 18,
               ),
             ),
@@ -223,7 +224,7 @@ class _DropDownSQLiteState extends State<DropDownSQLite> {
             suffixIcon: IconButton(
               icon: const Icon(
                 Icons.clear,
-                color: Colors.white,
+                color: appPrimaryWhiteText,
               ),
               onPressed: () {
                 setState(() {
@@ -238,7 +239,7 @@ class _DropDownSQLiteState extends State<DropDownSQLite> {
               },
             ),
           ),
-          cursorColor: Colors.white,
+          cursorColor: appPrimaryWhiteText,
           onChanged: (value) {
             _debouncer.run(() {});
             if (_overlayEntry.mounted) {
