@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:outage/api/sqlitedb.dart';
+import 'package:outage/component/custdialog.dart';
+import 'package:outage/model/login/logreqmod.dart';
 import 'package:outage/model/login/user.dart';
 import 'package:outage/pages/Home.dart';
 import 'package:outage/api/feeders/feederapi.dart';
 import 'package:outage/model/feeder.dart';
+import 'package:outage/pages/LOGIN/login.dart';
 import 'package:outage/utils/constants.dart';
 
 class InitdataSQLite extends StatefulWidget {
@@ -45,38 +48,65 @@ class _InitdataState1 extends State<InitdataSQLite> {
             int errCode = 0;
             String stsMsg = "";
             if (snapshot.hasData) {
-              List<Feeder> _suggList = snapshot.data!;
-              if (_suggList[0].FeederCode < 10) {
-                errCode = _suggList[0].FeederCode;
-                stsMsg = _suggList[0].FeederName;
-              } else {
-                errCode = 0;
-                stsMsg = "";
-                dataLength = _suggList.length;
+              try {
+                List<Feeder> _suggList = snapshot.data! as List<Feeder>;
+                if (_suggList[0].FeederCode < 10) {
+                  errCode = _suggList[0].FeederCode;
+                  stsMsg = _suggList[0].FeederName;
+                } else {
+                  errCode = 0;
+                  stsMsg = "";
+                  dataLength = _suggList.length;
 
-                _suggList.forEach((e) async {
-                  final fdr = Feeder(
-                      // fdr_loccode: e.fdr_loccode,
-                      // fdr_adm_sdn: e.fdr_adm_sdn,
-                      FeederCode: e.FeederCode,
-                      // fdr_type: e.fdr_type,
-                      FeederName: e.FeederName,
-                      FeederCategory: e.FeederCategory,
-                      fdr_cons: e.fdr_cons);
-                  //RealmResults<rlmfeeder> fdrall = realm.all();
-                  await OutageDbHelper.insertFeeder(fdr);
-                  count++;
-                });
-                Future.delayed(Duration.zero, () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HomePage(
-                              usr: widget.usr,
-                            )),
-                    ModalRoute.withName('/'),
-                  );
-                });
+                  _suggList.forEach((e) async {
+                    final fdr = Feeder(
+                        // fdr_loccode: e.fdr_loccode,
+                        // fdr_adm_sdn: e.fdr_adm_sdn,
+                        FeederCode: e.FeederCode,
+                        // fdr_type: e.fdr_type,
+                        FeederName: e.FeederName,
+                        FeederCategory: e.FeederCategory,
+                        fdr_cons: e.fdr_cons);
+                    //RealmResults<rlmfeeder> fdrall = realm.all();
+                    await OutageDbHelper.insertFeeder(fdr);
+                    count++;
+                  });
+                  Future.delayed(Duration.zero, () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HomePage(
+                                usr: widget.usr,
+                              )),
+                      ModalRoute.withName('/'),
+                    );
+                  });
+                }
+              } catch (e) {
+                List<LoginResponse> apiResponse =
+                    snapshot.data! as List<LoginResponse>;
+                if (mounted) {
+                  // showDialog(
+                  //   context: context,
+                  //   builder: (context) {
+                  return CustDialog(
+                      isConfirmDialog: false,
+                      Dlg_title: "Information",
+                      msg:
+                          "${apiResponse[0].Status_message} \n OR \n You don't have access to Application",
+                      onClose: (val) {
+                        // if (mounted) {
+                        //   Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => const LoginScreen()),
+                        //   );
+                        // }
+                      },
+                      res_code: apiResponse[0].Status);
+                  // },
+                  // );
+                }
               }
             }
             return Center(
@@ -98,7 +128,7 @@ class _InitdataState1 extends State<InitdataSQLite> {
                             color: Colors.red,
                           ),
                           Text(
-                            "Preparing data for Subdivision ${widget.usr.usr_locname}",
+                            "Preparing data for ${widget.usr.usr_locname}",
                             style: const TextStyle(
                               color: appPrimaryTextColor,
                             ),
