@@ -9,6 +9,7 @@ import 'package:outage/component/custdialog.dart';
 import 'package:outage/model/login/logreqmod.dart';
 import 'package:outage/model/login/user.dart';
 import 'package:outage/pages/initdata/Initdata_sqlite.dart';
+import 'package:outage/utils/constants.dart';
 
 class OTPScreen extends StatefulWidget {
   const OTPScreen({
@@ -39,56 +40,6 @@ class _OTPScreenState extends State<OTPScreen> {
   late int counter;
   late Timer timer;
   bool setResendBtnEnabled = false;
-  // static final DeviceInfoPlugin _deviceInfoPlugin = DeviceInfoPlugin();
-  // Map<String, dynamic> _deviceData = <String, dynamic>{};
-
-  // Future<void> initPlatformState() async {
-  //   if (kDebugMode) {
-  //     print("initPlatformState Function Called");
-  //   }
-  //   var deviceData = <String, dynamic>{};
-  //   try {
-  //     if (Platform.isAndroid) {
-  //       deviceData = _readAndroidDevice(await _deviceInfoPlugin.androidInfo);
-  //     }
-  //   } catch (e) {
-  //     deviceData = <String, dynamic>{
-  //       'Error:': 'Failed to get platform version.'
-  //     };
-  //   }
-  //   setState(() {
-  //     _deviceData = deviceData;
-  //   });
-  // }
-
-  // Map<String, dynamic> _readAndroidDevice(AndroidDeviceInfo build) {
-  //   return <String, dynamic>{
-  //     'id': build.id,
-  //   };
-  // }
-
-  // Future<void> _showDialog(
-  //     BuildContext context, final String title, final String msg, int code) {
-  //   return showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           title: Text("${code.toString()} - $title"),
-  //           content: Text(msg),
-  //           actions: [
-  //             TextButton(
-  //               style: TextButton.styleFrom(
-  //                 textStyle: Theme.of(context).textTheme.labelLarge,
-  //               ),
-  //               child: const Text('OK'),
-  //               onPressed: () {
-  //                 Navigator.of(context).pop();
-  //               },
-  //             ),
-  //           ],
-  //         );
-  //       });
-  // }
 
   void _onCheckOTP(String tmp_otp) async {
     setState(() {
@@ -184,7 +135,7 @@ class _OTPScreenState extends State<OTPScreen> {
   @override
   Widget build(BuildContext context) {
     return (Scaffold(
-      backgroundColor: Colors.blue[800],
+      backgroundColor: appPrimaryColor,
       body: Center(
         child: Column(
           children: [
@@ -195,14 +146,20 @@ class _OTPScreenState extends State<OTPScreen> {
               ),
               child: Text(
                 "OTP Varification",
-                style: TextStyle(color: Colors.white, fontSize: 26),
+                style: TextStyle(
+                  color: appPrimaryColorLowShade,
+                  fontSize: 26,
+                ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(30),
               child: Text(
                 'Enter OTP code,  ${widget.stsMsg}',
-                style: const TextStyle(color: Colors.white, fontSize: 16),
+                style: const TextStyle(
+                  color: appPrimaryColorLowShade,
+                  fontSize: 16,
+                ),
               ),
             ),
             Expanded(
@@ -223,10 +180,11 @@ class _OTPScreenState extends State<OTPScreen> {
                           numberOfFields: 6,
                           fieldWidth: 45,
                           borderWidth: 2,
-                          textStyle:
-                              const TextStyle(color: Colors.blue, fontSize: 36),
-                          borderColor: Colors.blue,
-                          enabledBorderColor: Colors.blue,
+                          textStyle: const TextStyle(
+                              color: appPrimaryColor, fontSize: 36),
+                          borderColor: appPrimaryColorLowShade,
+                          cursorColor: appPrimaryColor,
+                          enabledBorderColor: appPrimaryColor,
                           showFieldAsBox: false,
                           onSubmit: (String verificationCode) {
                             setState(() {
@@ -245,7 +203,10 @@ class _OTPScreenState extends State<OTPScreen> {
                         ),
                         if (setResendBtnEnabled) ...[
                           TextButton(
-                            child: const Text("Resend OTP"),
+                            child: const Text(
+                              "Resend OTP",
+                              style: TextStyle(color: appPrimaryColor),
+                            ),
                             onPressed: () {
                               setState(() {
                                 startTimer();
@@ -258,7 +219,7 @@ class _OTPScreenState extends State<OTPScreen> {
                           TextButton(
                             child: const Text(
                               "Resend OTP",
-                              style: TextStyle(color: Colors.grey),
+                              style: TextStyle(color: appPrimaryColor),
                             ),
                             onPressed: () {},
                           )
@@ -273,7 +234,7 @@ class _OTPScreenState extends State<OTPScreen> {
                             shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20))),
-                            backgroundColor: Colors.blue,
+                            backgroundColor: appPrimaryColor,
                             padding: const EdgeInsets.only(
                                 left: 80, right: 80, top: 15, bottom: 15),
                           ),
