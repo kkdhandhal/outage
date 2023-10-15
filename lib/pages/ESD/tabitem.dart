@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:outage/model/feeder.dart';
 import 'package:outage/model/intruption/esd_model.dart';
 import 'package:outage/utils/constants.dart';
+import 'package:outage/utils/ui.dart';
 
 class TabItem extends StatelessWidget {
   const TabItem({super.key, required this.tmpEsd, required this.feeder});

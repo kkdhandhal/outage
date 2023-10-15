@@ -4,7 +4,9 @@ import 'package:outage/model/feeder.dart';
 import 'package:outage/model/intruption/esd_model.dart';
 import 'package:outage/model/login/user.dart';
 import 'package:outage/pages/Home.dart';
+import 'package:outage/pages/LOGIN/login.dart';
 import 'package:outage/utils/constants.dart';
+import 'package:outage/utils/ui.dart';
 
 class CustDialog extends StatelessWidget {
   const CustDialog({
@@ -17,7 +19,9 @@ class CustDialog extends StatelessWidget {
     this.usr,
     this.fdr,
     this.esd,
+    this.exitApp,
   });
+  final bool? exitApp;
   final bool isConfirmDialog;
   final Users? usr;
   final Feeder? fdr;
@@ -42,6 +46,7 @@ class CustDialog extends StatelessWidget {
             usr: usr,
             fdr: fdr,
             esd: esd,
+            exitApp: exitApp ?? false,
             isConfirmDialog: isConfirmDialog,
             onClose: (rtnCode) {
               onClose(rtnCode);
@@ -90,7 +95,9 @@ class CardDialog extends StatelessWidget {
     this.usr,
     this.fdr,
     this.esd,
+    required this.exitApp,
   });
+  final bool? exitApp;
   final ESD? esd;
   final Function(int rtnCode) onClose;
   final bool isConfirmDialog;
@@ -130,11 +137,7 @@ class CardDialog extends StatelessWidget {
           Text(
             Dlg_title,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: appAlertColor,
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
+            style: dlgTitle(appAlertColor),
           ),
           const SizedBox(
             height: 30,
@@ -153,57 +156,39 @@ class CardDialog extends StatelessWidget {
             SizedBox(
               child: Row(
                 children: [
-                  const Column(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
                         "Feeder Name :",
                         textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: appPrimaryWhiteText,
-                        ),
+                        style: dlgText(),
                       ),
                       Text(
                         "From :",
                         textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: appPrimaryWhiteText,
-                        ),
+                        style: dlgText(),
                       ),
                       Text(
                         "To :",
                         textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: appPrimaryWhiteText,
-                        ),
+                        style: dlgText(),
                       ),
                       Text(
                         "Duration :",
                         textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: appPrimaryWhiteText,
-                        ),
+                        style: dlgText(),
                       ),
                       Text(
                         "LC Taken By :",
                         textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: appPrimaryWhiteText,
-                        ),
+                        style: dlgText(),
                       ),
                       Text(
                         "Reason :",
                         textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: appPrimaryWhiteText,
-                        ),
+                        style: dlgText(),
                       ),
                     ],
                   ),
@@ -217,50 +202,32 @@ class CardDialog extends StatelessWidget {
                       Text(
                         esd!.FEEDERNM,
                         textAlign: TextAlign.left,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: appPrimaryWhiteText,
-                        ),
+                        style: dlgText(),
                       ),
                       Text(
                         "${DateFormat("dd-MM-yyyy").format(esd!.ESDDATE)} ${esd!.ESDFROMHH}:${esd!.ESDFROMMM}",
                         textAlign: TextAlign.left,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: appPrimaryWhiteText,
-                        ),
+                        style: dlgText(),
                       ),
                       Text(
                         "${DateFormat("dd-MM-yyyy").format(esd!.ESDENDDATE)} ${esd!.ESDTOHH}:${esd!.ESDTOMM}",
                         textAlign: TextAlign.left,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: appPrimaryWhiteText,
-                        ),
+                        style: dlgText(),
                       ),
                       Text(
                         "${esd!.ESDDURATIONHH.toString().padLeft(2, "0")}:${esd!.ESDDURATIONMM.toString().padLeft(2, "0")}",
                         textAlign: TextAlign.left,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: appPrimaryWhiteText,
-                        ),
+                        style: dlgText(),
                       ),
                       Text(
                         esd!.ESDLCTAKENBY,
                         textAlign: TextAlign.left,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: appPrimaryWhiteText,
-                        ),
+                        style: dlgText(),
                       ),
                       Text(
                         esd!.ESDREASON,
                         textAlign: TextAlign.left,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: appPrimaryWhiteText,
-                        ),
+                        style: dlgText(),
                       ),
                     ],
                   ),
@@ -270,23 +237,16 @@ class CardDialog extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const Text(
+            Text(
               "Are you sure want to Save?",
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.orangeAccent,
-              ),
+              style: dlgTitle(appAlertColor),
             ),
           ] else ...[
             Text(
               msg,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                  fontSize: 18,
-                  color: appPrimaryWhiteText,
-                  fontWeight: FontWeight.bold),
+              style: dlgText(),
             ),
           ],
           const SizedBox(
@@ -299,11 +259,27 @@ class CardDialog extends StatelessWidget {
                 onPressed: () {
                   if (isConfirmDialog) {
                     onClose(1);
-                    Navigator.of(context).pop();
+                    if (exitApp!) {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginScreen()),
+                          (route) => false);
+                    } else {
+                      Navigator.of(context).pop();
+                    }
                   } else {
                     onClose(0);
                     if (res_code != 0) {
-                      Navigator.of(context).pop();
+                      if (exitApp!) {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginScreen()),
+                            (route) => false);
+                      } else {
+                        Navigator.of(context).pop();
+                      }
                     } else {
                       Navigator.pushAndRemoveUntil(
                           context,
@@ -317,12 +293,9 @@ class CardDialog extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: appSecondaryColor,
                 ),
-                child: const Text(
+                child: Text(
                   "OK",
-                  style: TextStyle(
-                    color: appPrimaryWhiteText,
-                    fontSize: 18,
-                  ),
+                  style: dlgBtnText(),
                 ),
               ),
               if (isConfirmDialog) ...[
@@ -334,12 +307,9 @@ class CardDialog extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: appAlertColor,
                   ),
-                  child: const Text(
+                  child: Text(
                     "Cancel",
-                    style: TextStyle(
-                      color: appPrimaryWhiteText,
-                      fontSize: 18,
-                    ),
+                    style: dlgBtnText(),
                   ),
                 )
               ]

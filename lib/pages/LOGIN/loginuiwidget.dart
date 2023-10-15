@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:outage/model/login/user.dart';
 import 'package:outage/utils/constants.dart';
+import 'package:outage/utils/ui.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({
@@ -20,10 +22,23 @@ class _LoginWidgetState extends State<LoginWidget> {
   final TextEditingController _username = TextEditingController();
   final TextEditingController _password = TextEditingController();
   bool isPassVisible = true;
+  String appName = "";
+  String packageName = "";
+  String version = "";
+  String buildNumber = "";
 
   @override
   void initState() {
     super.initState();
+
+    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+      setState(() {
+        appName = packageInfo.appName;
+        packageName = packageInfo.packageName;
+        version = packageInfo.version;
+        buildNumber = packageInfo.buildNumber;
+      });
+    });
   }
 
   @override
@@ -108,13 +123,13 @@ class _LoginWidgetState extends State<LoginWidget> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.all(4),
+          padding: const EdgeInsets.all(4),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                "Version No . $appVersionNo",
-                style: TextStyle(
+              Text(
+                "Version No . ${version.toString()}(Build No. ${buildNumber.toString()})",
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 10,
                 ),

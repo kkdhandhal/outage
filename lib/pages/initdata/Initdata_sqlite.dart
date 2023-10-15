@@ -8,6 +8,7 @@ import 'package:outage/api/feeders/feederapi.dart';
 import 'package:outage/model/feeder.dart';
 import 'package:outage/pages/LOGIN/login.dart';
 import 'package:outage/utils/constants.dart';
+import 'package:outage/utils/ui.dart';
 
 class InitdataSQLite extends StatefulWidget {
   final Users usr;
@@ -92,17 +93,10 @@ class _InitdataState1 extends State<InitdataSQLite> {
                   return CustDialog(
                       isConfirmDialog: false,
                       Dlg_title: "Information",
+                      exitApp: true,
                       msg:
                           "${apiResponse[0].Status_message} \n OR \n You don't have access to Application",
-                      onClose: (val) {
-                        // if (mounted) {
-                        //   Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => const LoginScreen()),
-                        //   );
-                        // }
-                      },
+                      onClose: (val) {},
                       res_code: apiResponse[0].Status);
                   // },
                   // );

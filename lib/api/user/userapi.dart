@@ -18,8 +18,6 @@ class UserAPI {
       };
       final resp = await http.post(
         url,
-        // Uri.parse(
-        //     "http://117.205.3.45:8083/PGVCLITAPPAPI/PGVCLITAPPAPI/ValidateLogin/Login/"),
         headers: userHeader,
         body: bodyStr,
       );

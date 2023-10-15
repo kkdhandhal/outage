@@ -10,6 +10,7 @@ import 'package:outage/model/intruption/esd_model.dart';
 import 'package:outage/model/login/logreqmod.dart';
 import 'package:outage/model/login/user.dart';
 import 'package:outage/utils/constants.dart';
+import 'package:outage/utils/ui.dart';
 
 class EsdScreen extends StatefulWidget {
   final Users usr;

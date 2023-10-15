@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:io';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
@@ -9,7 +7,7 @@ import 'package:outage/component/custdialog.dart';
 import 'package:outage/model/login/logreqmod.dart';
 import 'package:outage/model/login/user.dart';
 import 'package:outage/pages/initdata/Initdata_sqlite.dart';
-import 'package:outage/utils/constants.dart';
+import 'package:outage/utils/ui.dart';
 
 class OTPScreen extends StatefulWidget {
   const OTPScreen({
@@ -84,12 +82,11 @@ class _OTPScreenState extends State<OTPScreen> {
       }
     } else {
       if (context.mounted) {
-        // _showDialog(context, "Error", otp_resp.Status_message, otp_resp.Status);
-        // if (mounted) {
         showDialog(
           context: context,
           builder: (context) {
             return CustDialog(
+                //exitApp: false,
                 isConfirmDialog: false,
                 Dlg_title: "Error",
                 msg: otp_resp.Status_message,
@@ -97,15 +94,8 @@ class _OTPScreenState extends State<OTPScreen> {
                 res_code: otp_resp.Status);
           },
         );
-        // }
       }
     }
-    // } catch (e) {
-    //   if (context.mounted) {
-    //     _showDialog(context, "API Error", e.toString(), -2);
-    //   }
-    //   ;
-    // }
   }
 
   void startTimer() {
@@ -125,6 +115,7 @@ class _OTPScreenState extends State<OTPScreen> {
     });
   }
 
+  @override
   void initState() {
     super.initState();
     counter = initStart;
@@ -239,15 +230,23 @@ class _OTPScreenState extends State<OTPScreen> {
                                 left: 80, right: 80, top: 15, bottom: 15),
                           ),
                           onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => InitdataSQLite(
-                            //       usr: widget.usr,
-                            //     ),
-                            //   ),
-                            // );
-                            _onCheckOTP(otpVal);
+                            if (otpVal.isEmpty) {
+                              if (context.mounted) {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return CustDialog(
+                                        isConfirmDialog: false,
+                                        Dlg_title: "Information",
+                                        msg: "Please Enter OTP",
+                                        onClose: (val) {},
+                                        res_code: 101);
+                                  },
+                                );
+                              }
+                            } else {
+                              _onCheckOTP(otpVal);
+                            }
                           },
                           child: const Text(
                             "Submit",

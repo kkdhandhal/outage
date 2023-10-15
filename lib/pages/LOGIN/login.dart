@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:outage/component/gradienttext.dart';
 import 'package:outage/pages/LOGIN/centerwidget.dart';
-import 'package:outage/utils/constants.dart';
+
+import 'package:outage/utils/ui.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

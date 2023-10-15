@@ -3,6 +3,7 @@ import 'package:outage/api/sqlitedb.dart';
 import 'package:outage/model/feeder.dart';
 import 'package:flutter/material.dart';
 import 'package:outage/utils/constants.dart';
+import 'package:outage/utils/ui.dart';
 
 class Deboucer {
   final int miliseconds;

@@ -4,6 +4,7 @@ import 'package:outage/model/feeder.dart';
 import 'package:outage/model/login/user.dart';
 import 'package:outage/pages/LOGIN/login.dart';
 import 'package:outage/utils/constants.dart';
+import 'package:outage/utils/ui.dart';
 
 class HomeUpper extends StatefulWidget {
   final Users usr;
